@@ -1,0 +1,93 @@
+@font-face {
+  font-family: Montserrat-Regular;
+  src: url(../fonts/Montserrat-Regular.ttf);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto 10%;
+  margin: 0;
+  color: #fff;
+  font-family: "Montserrat-Regular";
+}
+
+#row1 {
+  display: grid;
+  grid-template-columns: 50% auto;
+  background: #20232d;
+  height: 100%;
+}
+
+#library {
+}
+
+#player {
+  display: flex;
+  flex-direction: column;
+  padding: 5%;
+}
+
+#player-wrapper {
+  margin: auto;
+}
+
+#title {
+  font-weight: bold;
+}
+
+#author {
+  color: #b3b3b3;
+}
+
+#book-cover {
+  height: auto;
+  margin: auto;
+  width: 100%;
+  box-shadow: 4px 4px 8px 4px rgba(0, 0, 0, 0.8);
+}
+
+#row2 {
+  background: #1e212a;
+  box-shadow: 0 -0.125rem 0.5rem rgba(0, 0, 0, 0.3);
+  height: 100%;
+}
+
+#controll-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+#controlls {
+  text-align: center;
+}
+
+#progress-bar {
+  flex-direction: row;
+  display: flex;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: ew-resize;
+}
+
+#progress-bar-fill {
+  background: #ffc600;
+  flex: 0;
+  flex-basis: 30%;
+  height: 5px;
+}
+
+.btn {
+  border: 0;
+  background-color: rgba(255, 198, 0, 1);
+}
