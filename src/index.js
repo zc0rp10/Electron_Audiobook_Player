@@ -5,15 +5,27 @@
 // selectively enable features needed in the rendering
 // process.
 
+const { ipcRenderer } = require("electron");
+
 $ = document.getElementById.bind(document);
-let audio = new Audio("../audiobooks/audiobook.m4b");
+let currentBook;
+let audioPlayer = $("audio-player");
 const playBtn = $("play-audio-btn");
 const pauseBtn = $("pause-audio-btn");
 const scrubFwdBtn = $("skip-forward-btn");
 const scrubBwdBtn = $("skip-backward-btn");
+const addBookBtn = $("add-bolder-btn");
 const progressBar = $("progress-bar-fill");
 const barCurrentTime = $("bar-current-time");
 const barTotalTime = $("bar-total-time");
+
+const switchBook = newSrc => {
+  currentBook = newSrc;
+  audioPlayer.src = currentBook;
+  playBtn.style.display = "inline-block";
+  pauseBtn.style.display = "none";
+  audioPlayer.addEventListener("timeupdate", handleProgress);
+};
 
 function secondsToHms(d) {
   d = Number(d);
@@ -29,33 +41,42 @@ function secondsToHms(d) {
 
 // Player Btn Events
 playBtn.addEventListener("click", () => {
-  audio.play();
-  playBtn.style.display = "none";
-  pauseBtn.style.display = "inline-block";
-  console.log("Play Btn Pressed");
+  if (currentBook) {
+    audioPlayer.play();
+    playBtn.style.display = "none";
+    pauseBtn.style.display = "inline-block";
+    console.log("Play Btn Pressed");
+  }
 });
 
 pauseBtn.addEventListener("click", () => {
-  audio.pause();
+  audioPlayer.pause();
   pauseBtn.style.display = "none";
   playBtn.style.display = "inline-block";
   console.log("Pause Button Pressed");
 });
 
 scrubFwdBtn.addEventListener("click", () => {
-  audio.currentTime = audio.currentTime + 30;
+  audioPlayer.currentTime = audioPlayer.currentTime + 30;
 });
 
 scrubBwdBtn.addEventListener("click", () => {
-  audio.currentTime = audio.currentTime - 30;
+  audioPlayer.currentTime = audioPlayer.currentTime - 30;
+});
+
+//Library Button Events
+addBookBtn.addEventListener("click", () => {
+  ipcRenderer.send("add-book-dialog");
+});
+
+ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
+  switchBook(arg);
 });
 
 // Progressbar & Timestamp Updates
 const handleProgress = () => {
-  const percent = (audio.currentTime / audio.duration) * 100;
+  const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
   progressBar.style.flexBasis = `${percent}%`;
-  barCurrentTime.innerHTML = secondsToHms(audio.currentTime);
-  barTotalTime.innerHTML = secondsToHms(audio.duration);
+  barCurrentTime.innerHTML = secondsToHms(audioPlayer.currentTime);
+  barTotalTime.innerHTML = secondsToHms(audioPlayer.duration);
 };
-
-audio.addEventListener("timeupdate", handleProgress);

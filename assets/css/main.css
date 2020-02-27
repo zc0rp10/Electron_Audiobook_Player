@@ -30,6 +30,10 @@ body {
 #library {
 }
 
+#lib-header {
+  text-align: center;
+}
+
 #player {
   display: flex;
   flex-direction: column;
@@ -70,6 +74,7 @@ body {
 
 #controlls {
   text-align: center;
+  padding-top: 5px;
 }
 
 #times-row {
@@ -133,5 +138,10 @@ body {
 
 #skip-backward-btn {
   background-image: url(../icons/replay_30-24px.svg);
+  background-size: cover;
+}
+
+#add-bolder-btn {
+  background-image: url(../icons/create_new_folder-24px.svg);
   background-size: cover;
 }

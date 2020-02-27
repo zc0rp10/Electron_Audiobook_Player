@@ -1,29 +1,43 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const path = require("path");
+
+let mainWindow = null;
 
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1366,
     height: 768,
     webPreferences: {
-      preload: path.join(__dirname, "./src/preload.js")
+      nodeIntegration: true
     }
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "./src/index.html"));
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 }
+
+//Add Folder Dialog
+ipcMain.on("add-book-dialog", event => {
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openFile"]
+    })
+    .then(result => {
+      console.log(result.canceled);
+      console.log(result.filePaths);
+      event.reply("add-book-dialog-reply", result.filePaths);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", createWindow);
-
 // Quit when all windows are closed.
 app.on("window-all-closed", function() {
   // On macOS it is common for applications and their menu bar
