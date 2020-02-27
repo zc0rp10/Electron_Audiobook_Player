@@ -20,7 +20,7 @@
       <div id="player">
         <div id="player-wrapper">
           <img id="book-cover" src="../audiobooks/placeholder.jpg" alt="" />
-          <p id="title">Black Wing</p>
+          <p id="title">Black Wing: The Ravens Mark</p>
           <p id="author">Ed McDonald</p>
         </div>
       </div>
@@ -29,11 +29,17 @@
     <div id="row2">
       <div id="controll-bar">
         <div id="controlls">
-          <button class="btn" id="play-audio-btn">Play Audio</button>
-          <button class="btn" id="pause-audio-btn">Pause Audio</button>
+          <button class="btn" id="skip-backward-btn"></button>
+          <button class="btn" id="play-audio-btn"></button>
+          <button class="btn" id="pause-audio-btn"></button>
+          <button class="btn" id="skip-forward-btn"></button>
         </div>
-        <div id="progress-bar">
-          <div id="progress-bar-fill"></div>
+        <div id="times-row">
+          <span id="bar-current-time" id="current-time">00:00:00</span>
+          <div id="progress-bar">
+            <div id="progress-bar-fill"></div>
+          </div>
+          <span id="bar-total-time" id="total-time">00:00:00</span>
         </div>
       </div>
     </div>

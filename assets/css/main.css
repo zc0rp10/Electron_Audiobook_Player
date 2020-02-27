@@ -72,22 +72,66 @@ body {
   text-align: center;
 }
 
+#times-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#bar-current-time,
+#bar-total-time {
+  padding: 0 1%;
+  width: 130px;
+}
+
 #progress-bar {
   flex-direction: row;
   display: flex;
   height: 5px;
   background: rgba(0, 0, 0, 0.5);
   cursor: ew-resize;
+  width: 90%;
+  margin: auto;
 }
 
 #progress-bar-fill {
   background: #ffc600;
   flex: 0;
-  flex-basis: 30%;
+  flex-basis: 0%;
   height: 5px;
+  width: 100%;
 }
+
+/* Buttons */
 
 .btn {
   border: 0;
-  background-color: rgba(255, 198, 0, 1);
+  background-color: transparent;
+  height: 42px;
+  width: 42px;
+}
+
+#play-audio-btn {
+  background-image: url(../icons/play_circle_outline-24px.svg);
+  background-size: cover;
+  height: 48px;
+  width: 48px;
+}
+
+#pause-audio-btn {
+  background-image: url(../icons/pause_circle_outline-24px.svg);
+  background-size: cover;
+  display: none;
+  height: 48px;
+  width: 48px;
+}
+
+#skip-forward-btn {
+  background-image: url(../icons/forward_30-24px.svg);
+  background-size: cover;
+}
+
+#skip-backward-btn {
+  background-image: url(../icons/replay_30-24px.svg);
+  background-size: cover;
 }
