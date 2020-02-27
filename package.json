@@ -26,5 +26,8 @@
   "homepage": "https://github.com/zc0rp10/electron_audiobook_player#readme",
   "devDependencies": {
     "electron": "^8.0.2"
+  },
+  "dependencies": {
+    "music-metadata": "^6.3.4"
   }
 }

@@ -20,6 +20,14 @@ body {
   font-family: "Montserrat-Regular";
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.right {
+  float: right;
+}
+
 #row1 {
   display: grid;
   grid-template-columns: 50% auto;
@@ -31,7 +39,12 @@ body {
 }
 
 #lib-header {
-  text-align: center;
+  text-align: left;
+}
+
+#lib-content {
+  display: flex;
+  padding: 0 5%;
 }
 
 #player {
@@ -44,12 +57,18 @@ body {
   margin: auto;
 }
 
-#title {
+#player-title {
   font-weight: bold;
 }
 
-#author {
+#player-author {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+#player-narrator {
   color: #b3b3b3;
+  font-size: 0.8rem;
 }
 
 #book-cover {
@@ -63,6 +82,7 @@ body {
   background: #1e212a;
   box-shadow: 0 -0.125rem 0.5rem rgba(0, 0, 0, 0.3);
   height: 100%;
+  padding: 10px 0;
 }
 
 #controll-bar {
@@ -74,7 +94,6 @@ body {
 
 #controlls {
   text-align: center;
-  padding-top: 5px;
 }
 
 #times-row {
@@ -144,4 +163,43 @@ body {
 #add-bolder-btn {
   background-image: url(../icons/create_new_folder-24px.svg);
   background-size: cover;
+}
+
+/* Library Book Styling */
+
+.book {
+  width: 200px;
+  margin: 1%;
+}
+
+.book-image img {
+  max-width: 100%;
+  width: auto;
+}
+
+.book-content {
+}
+
+.book-title {
+  font-weight: bold;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+.book-author {
+  color: #fff;
+  font-size: 0.7rem;
+  display: inline-block;
+}
+
+.book-narrator {
+  color: #b3b3b3;
+  font-size: 0.7rem;
+  display: inline-block;
+}
+
+.book-stats {
+  color: #fff;
+  font-size: 0.7rem;
+  display: inline-block;
 }

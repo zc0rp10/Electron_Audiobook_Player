@@ -4,12 +4,14 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
-
+const mm = require("music-metadata");
 const { ipcRenderer } = require("electron");
+const Store = require("../modules/store.js");
 
 $ = document.getElementById.bind(document);
-let currentBook;
+let currentlyPlaying;
 let audioPlayer = $("audio-player");
+
 const playBtn = $("play-audio-btn");
 const pauseBtn = $("pause-audio-btn");
 const scrubFwdBtn = $("skip-forward-btn");
@@ -19,12 +21,92 @@ const progressBar = $("progress-bar-fill");
 const barCurrentTime = $("bar-current-time");
 const barTotalTime = $("bar-total-time");
 
+const libraryView = $("lib-content");
+
+const playerCover = $("player-cover");
+const playerTitle = $("player-title");
+const playerAuthor = $("player-author");
+const playerNarrator = $("player-narrator");
+
+//Create store object with library
+const store = new Store({
+  configName: "user-library",
+  defaults: {
+    currentlyPlaying: {
+      filePath: ""
+    }
+  }
+});
+
+const booksArray = [];
+
+const renderLibrary = books => {
+  libraryView.innerHTML = "";
+  books.forEach(book => {
+    console.log(books);
+    libraryView.insertAdjacentHTML(
+      "beforeend",
+      `<div class="book" id="${book.bookId}">
+      <div class="book-image">
+        <img class="pointer" src="data:${
+          book.imageFormat
+        };base64,${book.imageData.toString("base64")} " />
+      </div>
+      <div class="book-content">
+        <span class="book-title pointer"
+          >${book.title}</span
+        >
+        <span class="book-author pointer">By ${book.author}</span>
+        <span class="book-narrator pointer">Narrated by ${book.narrator}</span>
+        <span class="book-stats pointer">54h 23m left</span>
+      </div>
+    </div>`
+    );
+  });
+};
+
+const addBook = arg => {
+  mm.parseFile(arg)
+    .then(metadata => {
+      console.log(metadata);
+      booksArray.push({
+        bookId: metadata.common.title,
+        filePath: arg,
+        imageFormat: metadata.common.picture[0].format,
+        imageData: metadata.common.picture[0].data,
+        title: metadata.common.title,
+        author: metadata.common.artist,
+        narrator: metadata.common.composer
+      });
+      renderLibrary(booksArray);
+    })
+    .catch(err => {
+      console.error(err.message);
+    });
+};
+
 const switchBook = newSrc => {
-  currentBook = newSrc;
-  audioPlayer.src = currentBook;
+  currentlyPlaying = newSrc;
+  audioPlayer.src = currentlyPlaying;
   playBtn.style.display = "inline-block";
   pauseBtn.style.display = "none";
   audioPlayer.addEventListener("timeupdate", handleProgress);
+
+  // mm.parseFile(newSrc)
+  //   .then(metadata => {
+  //     console.log(metadata);
+  //     playerTitle.innerHTML = metadata.common.title;
+  //     playerAuthor.innerHTML = `By ${metadata.common.artist}`;
+  //     playerNarrator.innerHTML = `Narrated by ${metadata.common.composer}`;
+
+  //     let picture = metadata.common.picture[0];
+  //     playerCover.src = `data:${picture.format};base64,${picture.data.toString(
+  //       "base64"
+  //     )}`;
+  //   })
+  //   .catch(err => {
+  //     console.error(err.message);
+  //   });
 };
 
 function secondsToHms(d) {
@@ -41,7 +123,7 @@ function secondsToHms(d) {
 
 // Player Btn Events
 playBtn.addEventListener("click", () => {
-  if (currentBook) {
+  if (currentlyPlaying) {
     audioPlayer.play();
     playBtn.style.display = "none";
     pauseBtn.style.display = "inline-block";
@@ -70,7 +152,8 @@ addBookBtn.addEventListener("click", () => {
 });
 
 ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
-  switchBook(arg);
+  //switchBook(arg);
+  addBook(arg);
 });
 
 // Progressbar & Timestamp Updates

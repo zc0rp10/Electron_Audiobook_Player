@@ -1,16 +1,6 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const path = require("path");
-const Store = require("./modules/store.js");
-
-const store = new Store({
-  configName: "user-preferences",
-  defaults: {
-    currentlyPlaying: {
-      filePath: ""
-    }
-  }
-});
 
 let mainWindow = null;
 
@@ -35,9 +25,7 @@ ipcMain.on("add-book-dialog", event => {
       properties: ["openFile"]
     })
     .then(result => {
-      console.log(result.canceled);
-      console.log(result.filePaths);
-      event.reply("add-book-dialog-reply", result.filePaths);
+      event.reply("add-book-dialog-reply", result.filePaths.toString());
     })
     .catch(err => {
       console.log(err);
