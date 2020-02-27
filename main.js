@@ -1,6 +1,16 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const path = require("path");
+const Store = require("./modules/store.js");
+
+const store = new Store({
+  configName: "user-preferences",
+  defaults: {
+    currentlyPlaying: {
+      filePath: ""
+    }
+  }
+});
 
 let mainWindow = null;
 
