@@ -32,25 +32,24 @@ const playerNarrator = $("player-narrator");
 const store = new Store({
   configName: "user-library",
   defaults: {
-    currentlyPlaying: {
-      filePath: ""
-    }
+    books: []
   }
 });
 
-const booksArray = [];
+const booksArray = store.get("books");
+
+const updateUserLibrary = updatedLibrary => {
+  store.set("books", updatedLibrary);
+};
 
 const renderLibrary = books => {
   libraryView.innerHTML = "";
   books.forEach(book => {
-    console.log(books);
     libraryView.insertAdjacentHTML(
       "beforeend",
-      `<div class="book" id="${book.bookId}">
+      `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
       <div class="book-image">
-        <img class="pointer" src="data:${
-          book.imageFormat
-        };base64,${book.imageData.toString("base64")} " />
+        <img class="pointer" src="data:${book.imageSrc}" />
       </div>
       <div class="book-content">
         <span class="book-title pointer"
@@ -63,6 +62,15 @@ const renderLibrary = books => {
     </div>`
     );
   });
+
+  const libraryBooks = Array.from(document.querySelectorAll(".book"));
+
+  libraryBooks.forEach(libraryBook =>
+    libraryBook.addEventListener("click", () => {
+      switchBook(libraryBook.dataset.src.toString());
+      console.log("Test 1");
+    })
+  );
 };
 
 const addBook = arg => {
@@ -72,13 +80,15 @@ const addBook = arg => {
       booksArray.push({
         bookId: metadata.common.title,
         filePath: arg,
-        imageFormat: metadata.common.picture[0].format,
-        imageData: metadata.common.picture[0].data,
+        imageSrc: `data:${
+          metadata.common.picture[0].format
+        };base64,${metadata.common.picture[0].data.toString("base64")}`,
         title: metadata.common.title,
         author: metadata.common.artist,
         narrator: metadata.common.composer
       });
       renderLibrary(booksArray);
+      updateUserLibrary(booksArray);
     })
     .catch(err => {
       console.error(err.message);
@@ -87,26 +97,26 @@ const addBook = arg => {
 
 const switchBook = newSrc => {
   currentlyPlaying = newSrc;
-  audioPlayer.src = currentlyPlaying;
+  audioPlayer.src = newSrc;
   playBtn.style.display = "inline-block";
   pauseBtn.style.display = "none";
   audioPlayer.addEventListener("timeupdate", handleProgress);
 
-  // mm.parseFile(newSrc)
-  //   .then(metadata => {
-  //     console.log(metadata);
-  //     playerTitle.innerHTML = metadata.common.title;
-  //     playerAuthor.innerHTML = `By ${metadata.common.artist}`;
-  //     playerNarrator.innerHTML = `Narrated by ${metadata.common.composer}`;
+  mm.parseFile(newSrc)
+    .then(metadata => {
+      console.log(metadata);
+      playerTitle.innerHTML = metadata.common.title;
+      playerAuthor.innerHTML = `By ${metadata.common.artist}`;
+      playerNarrator.innerHTML = `Narrated by ${metadata.common.composer}`;
 
-  //     let picture = metadata.common.picture[0];
-  //     playerCover.src = `data:${picture.format};base64,${picture.data.toString(
-  //       "base64"
-  //     )}`;
-  //   })
-  //   .catch(err => {
-  //     console.error(err.message);
-  //   });
+      let picture = metadata.common.picture[0];
+      playerCover.src = `data:${picture.format};base64,${picture.data.toString(
+        "base64"
+      )}`;
+    })
+    .catch(err => {
+      console.error(err.message);
+    });
 };
 
 function secondsToHms(d) {
@@ -152,7 +162,6 @@ addBookBtn.addEventListener("click", () => {
 });
 
 ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
-  //switchBook(arg);
   addBook(arg);
 });
 
@@ -163,3 +172,6 @@ const handleProgress = () => {
   barCurrentTime.innerHTML = secondsToHms(audioPlayer.currentTime);
   barTotalTime.innerHTML = secondsToHms(audioPlayer.duration);
 };
+
+//Load Books and Settings on start
+renderLibrary(booksArray);
