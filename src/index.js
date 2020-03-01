@@ -66,10 +66,9 @@ const renderLibrary = books => {
   });
 
   const libraryBooks = Array.from(document.querySelectorAll(".book"));
-
   libraryBooks.forEach(libraryBook =>
     libraryBook.addEventListener("click", () => {
-      switchBook(libraryBook.dataset.src.toString());
+      selectBook(libraryBook.dataset.src.toString());
     })
   );
 };
@@ -96,7 +95,7 @@ const addBook = arg => {
     });
 };
 
-const switchBook = newSrc => {
+const selectBook = newSrc => {
   bookSelected = true;
   isCurrentlyPlaying = false;
   audioPlayer.src = newSrc;
@@ -104,6 +103,12 @@ const switchBook = newSrc => {
   playBtn.style.display = "inline-block";
   pauseBtn.style.display = "none";
   audioPlayer.addEventListener("timeupdate", handleProgress);
+
+  booksArray.map(book =>
+    book.filePath === newSrc
+      ? (audioPlayer.currentTime = book.bookmark)
+      : audioPlayer.currentTime
+  );
 
   mm.parseFile(newSrc)
     .then(metadata => {
@@ -171,10 +176,10 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
 
 // Progressbar & Timestamp Updates
 const handleProgress = () => {
-  const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-  progressBar.style.flexBasis = `${percent}%`;
   barCurrentTime.innerHTML = secondsToHms(audioPlayer.currentTime);
   barTotalTime.innerHTML = secondsToHms(audioPlayer.duration);
+  const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+  progressBar.style.flexBasis = `${percent}%`;
 };
 
 //Autobookmark the users listening process every 10 secs if playing
@@ -185,8 +190,16 @@ setInterval(function nameoffucntion() {
         ? { ...book, bookmark: audioPlayer.currentTime }
         : book
     );
+    console.log("Autosave Complete!");
   }
 }, 10000);
+
+//Listens for app close event from main.js process
+ipcRenderer.on("app-close", _ => {
+  updateUserLibrary(booksArray);
+
+  ipcRenderer.send("closed");
+});
 
 //Load Books and Settings on start
 renderLibrary(booksArray);

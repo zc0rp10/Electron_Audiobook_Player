@@ -16,21 +16,37 @@ function createWindow() {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "./src/index.html"));
-}
 
-//Add Folder Dialog
-ipcMain.on("add-book-dialog", event => {
-  dialog
-    .showOpenDialog(mainWindow, {
-      properties: ["openFile"]
-    })
-    .then(result => {
-      event.reply("add-book-dialog-reply", result.filePaths.toString());
-    })
-    .catch(err => {
-      console.log(err);
-    });
-});
+  //Sends a msg to render process when user closes app, to tell it to save current state of library
+  mainWindow.on("close", e => {
+    if (mainWindow) {
+      e.preventDefault();
+      mainWindow.webContents.send("app-close");
+    }
+  });
+
+  //Closes app when the response comes back from render process after current state of library has been saved
+  ipcMain.on("closed", _ => {
+    mainWindow = null;
+    if (process.platform !== "darwin") {
+      app.quit();
+    }
+  });
+
+  //Add Folder Dialog
+  ipcMain.on("add-book-dialog", event => {
+    dialog
+      .showOpenDialog(mainWindow, {
+        properties: ["openFile"]
+      })
+      .then(result => {
+        event.reply("add-book-dialog-reply", result.filePaths.toString());
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
