@@ -62,16 +62,24 @@ const renderLibrary = books => {
         <span class="book-author pointer">By ${book.author}</span>
         <span class="book-narrator pointer">Narrated by ${book.narrator}</span>
         <span class="book-stats pointer">${timeLeft} left</span>
+        <button class="btn delete-btn right"></button>
       </div>
     </div>`
     );
     console.log(book);
   });
 
+  //Selects book to player on click in library
   const libraryBooks = Array.from(document.querySelectorAll(".book"));
   libraryBooks.forEach(libraryBook =>
     libraryBook.addEventListener("click", () => {
       selectBook(libraryBook.dataset.src.toString());
+    })
+  );
+  const deleteBtns = Array.from(document.querySelectorAll(".delete-btn"));
+  deleteBtns.forEach(dltBtn =>
+    dltBtn.addEventListener("click", () => {
+      removeBook(event.path[2].dataset.src.toString());
     })
   );
 };
@@ -93,11 +101,24 @@ const addBook = arg => {
         bookmark: 0
       });
       renderLibrary(booksArray);
-      updateUserLibrary(booksArray);
     })
     .catch(err => {
       console.error(err.message);
     });
+};
+
+let testArray = [
+  { name: "smultron", value: 12 },
+  { name: "ägg", value: 12 },
+  { name: "kaviar", value: 12 }
+];
+function testFunction() {
+  testArray = testArray.filter(word => word.name != "smultron");
+}
+
+const removeBook = arg => {
+  booksArray = booksArray.filter(book => book.filePath != arg);
+  renderLibrary(booksArray);
 };
 
 const selectBook = newSrc => {
