@@ -15,10 +15,12 @@ let audioPlayer = $("audio-player");
 
 const playBtn = $("play-audio-btn");
 const pauseBtn = $("pause-audio-btn");
+const seekBar = $("seek-bar");
 const scrubFwdBtn = $("skip-forward-btn");
 const scrubBwdBtn = $("skip-backward-btn");
 const addBookBtn = $("add-bolder-btn");
-const progressBar = $("progress-bar-fill");
+const progressBar = $("progress-bar");
+const progressBarFill = $("progress-bar-fill");
 const barCurrentTime = $("bar-current-time");
 const barTotalTime = $("bar-total-time");
 
@@ -46,6 +48,7 @@ const updateUserLibrary = updatedLibrary => {
 const renderLibrary = books => {
   libraryView.innerHTML = "";
   books.forEach(book => {
+    let timeLeft = secondsToHms(book.duration - book.bookmark, "x");
     libraryView.insertAdjacentHTML(
       "beforeend",
       `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
@@ -58,7 +61,7 @@ const renderLibrary = books => {
         >
         <span class="book-author pointer">By ${book.author}</span>
         <span class="book-narrator pointer">Narrated by ${book.narrator}</span>
-        <span class="book-stats pointer">54h 23m left</span>
+        <span class="book-stats pointer">${timeLeft} left</span>
       </div>
     </div>`
     );
@@ -76,6 +79,7 @@ const renderLibrary = books => {
 const addBook = arg => {
   mm.parseFile(arg)
     .then(metadata => {
+      console.log(metadata);
       booksArray.push({
         bookId: metadata.common.title,
         filePath: arg,
@@ -85,6 +89,7 @@ const addBook = arg => {
         title: metadata.common.title,
         author: metadata.common.artist,
         narrator: metadata.common.composer,
+        duration: Math.round(metadata.format.duration),
         bookmark: 0
       });
       renderLibrary(booksArray);
@@ -104,12 +109,14 @@ const selectBook = newSrc => {
   pauseBtn.style.display = "none";
   audioPlayer.addEventListener("timeupdate", handleProgress);
 
+  //Checks if there's a bookmark for the book
   booksArray.map(book =>
     book.filePath === newSrc
       ? (audioPlayer.currentTime = book.bookmark)
       : audioPlayer.currentTime
   );
 
+  //Updates the player on the right side with all the metadata
   mm.parseFile(newSrc)
     .then(metadata => {
       playerTitle.innerHTML = metadata.common.title;
@@ -126,7 +133,7 @@ const selectBook = newSrc => {
     });
 };
 
-function secondsToHms(d) {
+function secondsToHms(d, x) {
   d = Number(d);
   let h = Math.floor(d / 3600);
   let m = Math.floor((d % 3600) / 60);
@@ -135,7 +142,10 @@ function secondsToHms(d) {
   let hDisplay = h > 0 ? (h < 10 ? "0" + h : h) : "00";
   let mDisplay = m > 0 ? (m < 10 ? "0" + m : m) : "00";
   let sDisplay = s > 0 ? (s < 10 ? "0" + s : s) : "00";
-  return `${hDisplay}:${mDisplay}:${sDisplay}`;
+  if (!x) {
+    return `${hDisplay}:${mDisplay}:${sDisplay}`;
+  }
+  return `${hDisplay}h ${mDisplay}m`;
 }
 
 // Player Btn Events
@@ -157,6 +167,8 @@ pauseBtn.addEventListener("click", () => {
   console.log("Pause Button Pressed");
 });
 
+//Event Listners for Skipping & Scrubbing
+
 scrubFwdBtn.addEventListener("click", () => {
   audioPlayer.currentTime = audioPlayer.currentTime + 30;
 });
@@ -164,6 +176,18 @@ scrubFwdBtn.addEventListener("click", () => {
 scrubBwdBtn.addEventListener("click", () => {
   audioPlayer.currentTime = audioPlayer.currentTime - 30;
 });
+
+const scrub = e => {
+  scrubTime = (e.offsetX / progressBar.offsetWidth) * audioPlayer.duration;
+  audioPlayer.currentTime = scrubTime;
+  console.log(e);
+};
+
+seekBar.oninput = function() {
+  progressBarFill.setAttribute("value", Math.round(seekBar.value));
+};
+
+seekBar.addEventListener("mouseup", scrub);
 
 //Library Button Events
 addBookBtn.addEventListener("click", () => {
@@ -174,20 +198,24 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
   addBook(arg);
 });
 
-// Progressbar & Timestamp Updates
+// Progress Bar Fill & Timestamp Updates
 const handleProgress = () => {
   barCurrentTime.innerHTML = secondsToHms(audioPlayer.currentTime);
   barTotalTime.innerHTML = secondsToHms(audioPlayer.duration);
-  const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-  progressBar.style.flexBasis = `${percent}%`;
+
+  progressBarFill.setAttribute("max", audioPlayer.duration);
+  seekBar.setAttribute("max", audioPlayer.duration);
+
+  progressBarFill.setAttribute("value", audioPlayer.currentTime);
+  seekBar.setAttribute("value", audioPlayer.currentTime);
 };
 
 //Autobookmark the users listening process every 10 secs if playing
-setInterval(function nameoffucntion() {
+setInterval(function() {
   if (isCurrentlyPlaying) {
     booksArray = booksArray.map(book =>
       book.filePath === audioPlayer.dataset.bookid
-        ? { ...book, bookmark: audioPlayer.currentTime }
+        ? { ...book, bookmark: Math.round(audioPlayer.currentTime) }
         : book
     );
     console.log("Autosave Complete!");
