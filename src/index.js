@@ -9,7 +9,8 @@ const { ipcRenderer } = require("electron");
 const Store = require("../modules/store.js");
 
 $ = document.getElementById.bind(document);
-let currentlyPlaying;
+let bookSelected;
+let isCurrentlyPlaying;
 let audioPlayer = $("audio-player");
 
 const playBtn = $("play-audio-btn");
@@ -36,7 +37,7 @@ const store = new Store({
   }
 });
 
-const booksArray = store.get("books");
+let booksArray = store.get("books");
 
 const updateUserLibrary = updatedLibrary => {
   store.set("books", updatedLibrary);
@@ -61,6 +62,7 @@ const renderLibrary = books => {
       </div>
     </div>`
     );
+    console.log(book);
   });
 
   const libraryBooks = Array.from(document.querySelectorAll(".book"));
@@ -68,7 +70,6 @@ const renderLibrary = books => {
   libraryBooks.forEach(libraryBook =>
     libraryBook.addEventListener("click", () => {
       switchBook(libraryBook.dataset.src.toString());
-      console.log("Test 1");
     })
   );
 };
@@ -76,7 +77,6 @@ const renderLibrary = books => {
 const addBook = arg => {
   mm.parseFile(arg)
     .then(metadata => {
-      console.log(metadata);
       booksArray.push({
         bookId: metadata.common.title,
         filePath: arg,
@@ -85,7 +85,8 @@ const addBook = arg => {
         };base64,${metadata.common.picture[0].data.toString("base64")}`,
         title: metadata.common.title,
         author: metadata.common.artist,
-        narrator: metadata.common.composer
+        narrator: metadata.common.composer,
+        bookmark: 0
       });
       renderLibrary(booksArray);
       updateUserLibrary(booksArray);
@@ -96,15 +97,16 @@ const addBook = arg => {
 };
 
 const switchBook = newSrc => {
-  currentlyPlaying = newSrc;
+  bookSelected = true;
+  isCurrentlyPlaying = false;
   audioPlayer.src = newSrc;
+  audioPlayer.dataset.bookid = newSrc;
   playBtn.style.display = "inline-block";
   pauseBtn.style.display = "none";
   audioPlayer.addEventListener("timeupdate", handleProgress);
 
   mm.parseFile(newSrc)
     .then(metadata => {
-      console.log(metadata);
       playerTitle.innerHTML = metadata.common.title;
       playerAuthor.innerHTML = `By ${metadata.common.artist}`;
       playerNarrator.innerHTML = `Narrated by ${metadata.common.composer}`;
@@ -133,7 +135,8 @@ function secondsToHms(d) {
 
 // Player Btn Events
 playBtn.addEventListener("click", () => {
-  if (currentlyPlaying) {
+  if (bookSelected) {
+    isCurrentlyPlaying = true;
     audioPlayer.play();
     playBtn.style.display = "none";
     pauseBtn.style.display = "inline-block";
@@ -142,6 +145,7 @@ playBtn.addEventListener("click", () => {
 });
 
 pauseBtn.addEventListener("click", () => {
+  isCurrentlyPlaying = false;
   audioPlayer.pause();
   pauseBtn.style.display = "none";
   playBtn.style.display = "inline-block";
@@ -172,6 +176,17 @@ const handleProgress = () => {
   barCurrentTime.innerHTML = secondsToHms(audioPlayer.currentTime);
   barTotalTime.innerHTML = secondsToHms(audioPlayer.duration);
 };
+
+//Autobookmark the users listening process every 10 secs if playing
+setInterval(function nameoffucntion() {
+  if (isCurrentlyPlaying) {
+    booksArray = booksArray.map(book =>
+      book.filePath === audioPlayer.dataset.bookid
+        ? { ...book, bookmark: audioPlayer.currentTime }
+        : book
+    );
+  }
+}, 10000);
 
 //Load Books and Settings on start
 renderLibrary(booksArray);
