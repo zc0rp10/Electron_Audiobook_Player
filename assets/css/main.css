@@ -59,6 +59,11 @@ body {
   margin: auto;
 }
 
+#player-cover {
+  width: 100%;
+  height: auto;
+}
+
 #player-title {
   font-weight: bold;
 }
@@ -107,8 +112,8 @@ body {
 }
 
 #controlls {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
 }
 
@@ -185,6 +190,12 @@ input[type="range"]::-webkit-slider-thumb {
   margin-left: -1px;
 }
 
+#sort-select {
+  max-height: 20px;
+  margin: auto 0;
+  padding: 1px 6px;
+}
+
 /* Buttons */
 
 .btn {
@@ -224,7 +235,7 @@ input[type="range"]::-webkit-slider-thumb {
 #skip-backward-btn {
   background-image: url(../icons/replay_30-24px.svg);
   background-size: cover;
-  margin: auto 0 ;
+  margin: auto 0;
 }
 
 #increase-speed-btn {

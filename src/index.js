@@ -28,6 +28,7 @@ const barCurrentTime = $("bar-current-time");
 const barTotalTime = $("bar-total-time");
 
 const libraryView = $("lib-content");
+const sortLibrarySelect = $("sort-select");
 
 const playerCover = $("player-cover");
 const playerTitle = $("player-title");
@@ -69,8 +70,38 @@ const renderLibrary = books => {
       </div>
     </div>`
     );
-    console.log(book);
+
   });
+
+  //Sort Library
+  const sortLibrary = e => {
+    let sortBy = e.target.value;
+ 
+    
+
+    if (sortBy != "length") {
+
+      booksArray.sort(function(a, b) {
+        var nameA = a[sortBy].toUpperCase();
+        var nameB = b[sortBy].toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+    } else {
+      
+      booksArray.sort(function(a, b) {
+        return a.duration - b.duration;
+      });
+    }
+    renderLibrary(booksArray);
+  };
+
+  sortLibrarySelect.addEventListener("change", sortLibrary);
 
   //Selects book to player on click in library
   const libraryBooks = Array.from(document.querySelectorAll(".book"));
@@ -90,7 +121,7 @@ const renderLibrary = books => {
 const addBook = arg => {
   mm.parseFile(arg)
     .then(metadata => {
-      console.log(metadata);
+     
       booksArray.push({
         bookId: metadata.common.title,
         filePath: arg,
@@ -109,15 +140,6 @@ const addBook = arg => {
       console.error(err.message);
     });
 };
-
-let testArray = [
-  { name: "smultron", value: 12 },
-  { name: "ägg", value: 12 },
-  { name: "kaviar", value: 12 }
-];
-function testFunction() {
-  testArray = testArray.filter(word => word.name != "smultron");
-}
 
 const removeBook = arg => {
   booksArray = booksArray.filter(book => book.filePath != arg);
@@ -179,7 +201,7 @@ playBtn.addEventListener("click", () => {
     audioPlayer.play();
     playBtn.style.display = "none";
     pauseBtn.style.display = "inline-block";
-    console.log("Play Btn Pressed");
+  
   }
 });
 
@@ -188,7 +210,7 @@ pauseBtn.addEventListener("click", () => {
   audioPlayer.pause();
   pauseBtn.style.display = "none";
   playBtn.style.display = "inline-block";
-  console.log("Pause Button Pressed");
+  
 });
 
 //Event Listners for Skipping & Scrubbing
@@ -204,7 +226,7 @@ scrubBwdBtn.addEventListener("click", () => {
 const scrub = e => {
   scrubTime = (e.offsetX / progressBar.offsetWidth) * audioPlayer.duration;
   audioPlayer.currentTime = scrubTime;
-  console.log(e);
+  
 };
 
 seekBar.oninput = function() {
