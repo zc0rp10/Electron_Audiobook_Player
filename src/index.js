@@ -18,6 +18,9 @@ const pauseBtn = $("pause-audio-btn");
 const seekBar = $("seek-bar");
 const scrubFwdBtn = $("skip-forward-btn");
 const scrubBwdBtn = $("skip-backward-btn");
+const playbackIncreaseBtn = $("increase-speed-btn");
+const playbackDecreaseBtn = $("decrease-speed-btn");
+const playbackLabel = $("playback-rate");
 const addBookBtn = $("add-bolder-btn");
 const progressBar = $("progress-bar");
 const progressBarFill = $("progress-bar-fill");
@@ -209,6 +212,23 @@ seekBar.oninput = function() {
 };
 
 seekBar.addEventListener("mouseup", scrub);
+
+//Playback Rate
+
+const changePlaybackRate = e => {
+  let step = parseFloat(e.target.dataset.rate);
+
+  audioPlayer.playbackRate = audioPlayer.playbackRate + step;
+  if (audioPlayer.playbackRate < 0.5) {
+    audioPlayer.playbackRate = 0.5;
+  } else if (audioPlayer.playbackRate > 2.5) {
+    audioPlayer.playbackRate = 2.5;
+  }
+  playbackLabel.innerHTML = audioPlayer.playbackRate.toString() + "X";
+};
+
+playbackIncreaseBtn.addEventListener("click", changePlaybackRate);
+playbackDecreaseBtn.addEventListener("click", changePlaybackRate);
 
 //Library Button Events
 addBookBtn.addEventListener("click", () => {

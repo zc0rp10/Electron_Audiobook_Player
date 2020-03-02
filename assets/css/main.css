@@ -72,6 +72,17 @@ body {
   font-size: 0.8rem;
 }
 
+#playback-controlls {
+  display: flex;
+  flex-direction: row;
+  max-width: 100px;
+  justify-content: space-between;
+}
+
+#playback-rate {
+  margin: 3px auto;
+}
+
 #book-cover {
   height: auto;
   margin: auto;
@@ -202,6 +213,18 @@ input[type="range"]::-webkit-slider-thumb {
 #skip-backward-btn {
   background-image: url(../icons/replay_30-24px.svg);
   background-size: cover;
+}
+
+#increase-speed-btn {
+  background-image: url(../icons/chevron_right-24px.svg);
+  height: 28px;
+  width: 28px;
+}
+
+#decrease-speed-btn {
+  background-image: url(../icons/chevron_left-24px.svg);
+  height: 28px;
+  width: 28px;
 }
 
 #add-bolder-btn {
