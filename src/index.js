@@ -78,32 +78,6 @@ const renderLibrary = books => {
     );
   });
 
-  //Sort Library
-  const sortLibrary = e => {
-    let sortBy = e.target.value;
-
-    if (sortBy != "length") {
-      booksArray.sort(function(a, b) {
-        var nameA = a[sortBy].toUpperCase();
-        var nameB = b[sortBy].toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-        return 0;
-      });
-    } else {
-      booksArray.sort(function(a, b) {
-        return a.duration - b.duration;
-      });
-    }
-    renderLibrary(booksArray);
-  };
-
-  sortLibrarySelect.addEventListener("change", sortLibrary);
-
   //Selects book to player on click in library
   const libraryBooks = Array.from(document.querySelectorAll(".book"));
   libraryBooks.forEach(libraryBook =>
@@ -147,6 +121,37 @@ const renderLibrary = books => {
     })
   );
 };
+
+//Sort Library
+const sortLibrary = e => {
+  console.log("Sort Started");
+  let sortBy = e.target.value;
+
+  if (sortBy != "length") {
+    booksArray.sort(function(a, b) {
+      var nameA = a[sortBy].toUpperCase();
+      var nameB = b[sortBy].toUpperCase();
+      if (nameA < nameB) {
+        console.log("Sort Finished");
+        return -1;
+      }
+      if (nameA > nameB) {
+        console.log("Sort Finished");
+        return 1;
+      }
+      return 0;
+    });
+  } else {
+    booksArray.sort(function(a, b) {
+      console.log("Sort Finished");
+      return a.duration - b.duration;
+    });
+  }
+  renderLibrary(booksArray);
+  console.log("Render Finished");
+};
+
+sortLibrarySelect.addEventListener("change", sortLibrary);
 
 const addBook = arg => {
   mm.parseFile(arg)
