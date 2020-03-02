@@ -1,10 +1,14 @@
 {
   "name": "electron-audiobook-player",
-  "version": "0.1.0",
+  "productName": "Bear Audiobook Player",
+  "version": "0.2.0",
   "description": "An audiobook player for the desktop written for Electron.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
+    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Bear Audiobook Player\"",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar --platform=linux --arch=x64 --prune=true --out=release-builds"
   },
   "repository": {
     "type": "git",
