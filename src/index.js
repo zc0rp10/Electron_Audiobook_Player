@@ -21,7 +21,7 @@ const scrubBwdBtn = $("skip-backward-btn");
 const playbackIncreaseBtn = $("increase-speed-btn");
 const playbackDecreaseBtn = $("decrease-speed-btn");
 const playbackLabel = $("playback-rate");
-const addBookBtn = $("add-bolder-btn");
+const addBookBtn = $("add-folder-btn");
 const progressBar = $("progress-bar");
 const progressBarFill = $("progress-bar-fill");
 const barCurrentTime = $("bar-current-time");
@@ -213,8 +213,7 @@ seekBar.oninput = function() {
 
 seekBar.addEventListener("mouseup", scrub);
 
-//Playback Rate
-
+//Adjust Playback Rate
 const changePlaybackRate = e => {
   let step = parseFloat(e.target.dataset.rate);
 
@@ -224,7 +223,8 @@ const changePlaybackRate = e => {
   } else if (audioPlayer.playbackRate > 2.5) {
     audioPlayer.playbackRate = 2.5;
   }
-  playbackLabel.innerHTML = audioPlayer.playbackRate.toString() + "X";
+  playbackLabel.innerHTML =
+    audioPlayer.playbackRate.toFixed(2).toString() + "X";
 };
 
 playbackIncreaseBtn.addEventListener("click", changePlaybackRate);

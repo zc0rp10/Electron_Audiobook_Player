@@ -18,8 +18,7 @@
     <div id="row1">
       <div id="library">
         <div id="lib-header">
-          <button class="btn" id="add-bolder-btn"></button>
-          <p id="selected-book"></p>
+          <h2>Your Library</h2>
         </div>
         <div id="lib-content">
           <!-- JS RENDERED -->
@@ -32,19 +31,7 @@
           <p id="player-title"></p>
           <p id="player-author"></p>
           <p id="player-narrator"></p>
-          <div id="playback-controlls">
-            <button
-              class="btn"
-              id="decrease-speed-btn"
-              data-rate="-0.25"
-            ></button>
-            <p id="playback-rate">1.0X</p>
-            <button
-              class="btn"
-              id="increase-speed-btn"
-              data-rate="0.25"
-            ></button>
-          </div>
+          
         </div>
       </div>
     </div>
@@ -52,10 +39,24 @@
     <div id="row2">
       <div id="controll-bar">
         <div id="controlls">
+          <div id="playback-controlls">
+            <button
+              class="btn"
+              id="decrease-speed-btn"
+              data-rate="-0.25"
+            ></button>
+            <p id="playback-rate">1.00X</p>
+            <button
+              class="btn"
+              id="increase-speed-btn"
+              data-rate="0.25"
+            ></button>
+          </div>
           <button class="btn" id="skip-backward-btn"></button>
           <button class="btn" id="play-audio-btn"></button>
           <button class="btn" id="pause-audio-btn"></button>
           <button class="btn" id="skip-forward-btn"></button>
+          <button class="btn" id="add-folder-btn"></button>
         </div>
         <div id="times-row">
           <span id="bar-current-time" id="current-time">00:00:00</span>

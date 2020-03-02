@@ -40,6 +40,7 @@ body {
 
 #lib-header {
   text-align: left;
+  padding-left: 6%;
 }
 
 #lib-content {
@@ -75,8 +76,9 @@ body {
 #playback-controlls {
   display: flex;
   flex-direction: row;
-  max-width: 100px;
+  width: 100px;
   justify-content: space-between;
+  margin: auto 0;
 }
 
 #playback-rate {
@@ -105,7 +107,9 @@ body {
 }
 
 #controlls {
-  text-align: center;
+    display: flex;
+    flex-direction: row;
+  justify-content: center;
 }
 
 #times-row {
@@ -190,11 +194,16 @@ input[type="range"]::-webkit-slider-thumb {
   width: 42px;
 }
 
+.btn:focus {
+  outline: none;
+}
+
 #play-audio-btn {
   background-image: url(../icons/play_circle_outline-24px.svg);
   background-size: cover;
   height: 48px;
   width: 48px;
+  margin: auto 0;
 }
 
 #pause-audio-btn {
@@ -203,16 +212,19 @@ input[type="range"]::-webkit-slider-thumb {
   display: none;
   height: 48px;
   width: 48px;
+  margin: auto 0;
 }
 
 #skip-forward-btn {
   background-image: url(../icons/forward_30-24px.svg);
   background-size: cover;
+  margin: auto 0;
 }
 
 #skip-backward-btn {
   background-image: url(../icons/replay_30-24px.svg);
   background-size: cover;
+  margin: auto 0 ;
 }
 
 #increase-speed-btn {
@@ -227,7 +239,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 28px;
 }
 
-#add-bolder-btn {
+#add-folder-btn {
   background-image: url(../icons/create_new_folder-24px.svg);
   background-size: cover;
 }
