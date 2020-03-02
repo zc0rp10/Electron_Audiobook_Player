@@ -18,14 +18,27 @@ body {
   margin: 0;
   color: #fff;
   font-family: "Montserrat-Regular";
+  background: #1e212a;
 }
 
 .pointer {
   cursor: pointer;
 }
 
+.yellow {
+  color: #ffc600;
+}
+
 .right {
   float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.card-reveal {
+  display: block;
 }
 
 #row1 {
@@ -47,6 +60,14 @@ body {
   display: flex;
   flex-wrap: wrap;
   padding: 0 5%;
+}
+
+.menu-title {
+  font-weight: bold;
+}
+
+.book-menu-list p {
+  margin: 10px 0;
 }
 
 #player {
@@ -191,9 +212,23 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #sort-select {
-  max-height: 20px;
+  height: 28px;
   margin: auto 0;
   padding: 1px 6px;
+  background-color: #1e212a;
+  color: #fff;
+  border: 0px solid #1e212a;
+  font-size: 1rem;
+  font-family: "Montserrat-Regular";
+  padding-bottom: 3px;
+}
+
+#sort-select option {
+  border-color: red;
+}
+
+#sort-select:focus {
+  outline: none;
 }
 
 /* Buttons */
@@ -203,6 +238,7 @@ input[type="range"]::-webkit-slider-thumb {
   background-color: transparent;
   height: 42px;
   width: 42px;
+  cursor: pointer;
 }
 
 .btn:focus {
@@ -257,6 +293,24 @@ input[type="range"]::-webkit-slider-thumb {
 
 .delete-btn {
   background-image: url(../icons/delete-24px.svg);
+  background-size: cover;
+  border: 0;
+  background-color: transparent;
+  height: 22px;
+  width: 22px;
+}
+
+.more-vert-btn {
+  background-image: url(../icons/more_vert-24px.svg);
+  background-size: cover;
+  border: 0;
+  background-color: transparent;
+  height: 22px;
+  width: 22px;
+}
+
+.book-menu-close-btn {
+  background-image: url(../icons/close-24px.svg);
   background-size: cover;
   border: 0;
   background-color: transparent;

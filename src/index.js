@@ -66,21 +66,23 @@ const renderLibrary = books => {
         <span class="book-author pointer">By ${book.author}</span>
         <span class="book-narrator pointer">Narrated by ${book.narrator}</span>
         <span class="book-stats pointer">${timeLeft} left</span>
-        <button class="btn delete-btn right"></button>
+        <button class="btn more-vert-btn right"></button>
       </div>
+      <div class="hidden book-menu-list">
+      <span class="menu-title">Menu</span><button class="btn book-menu-close-btn right"></button>
+      <p>Read Summary</p>
+      <p class="yellow pointer delete-btn-text">Remove Book</p>
+      
+    </div>
     </div>`
     );
-
   });
 
   //Sort Library
   const sortLibrary = e => {
     let sortBy = e.target.value;
- 
-    
 
     if (sortBy != "length") {
-
       booksArray.sort(function(a, b) {
         var nameA = a[sortBy].toUpperCase();
         var nameB = b[sortBy].toUpperCase();
@@ -93,7 +95,6 @@ const renderLibrary = books => {
         return 0;
       });
     } else {
-      
       booksArray.sort(function(a, b) {
         return a.duration - b.duration;
       });
@@ -110,10 +111,39 @@ const renderLibrary = books => {
       selectBook(libraryBook.dataset.src.toString());
     })
   );
-  const deleteBtns = Array.from(document.querySelectorAll(".delete-btn"));
+
+  //Deletes book from library on click
+  const deleteBtns = Array.from(document.querySelectorAll(".delete-btn-text"));
   deleteBtns.forEach(dltBtn =>
-    dltBtn.addEventListener("click", () => {
+    dltBtn.addEventListener("click", e => {
+      e.stopPropagation();
       removeBook(event.path[2].dataset.src.toString());
+    })
+  );
+
+  //Listen for click on more vert and expands hidden div
+  const moreVertBtns = Array.from(document.querySelectorAll(".more-vert-btn"));
+  moreVertBtns.forEach(moreBtn =>
+    moreBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      let children = Array.from(e.path[2].children);
+      children.forEach(child => child.classList.add("hidden"));
+      e.path[2].lastElementChild.classList.remove("hidden");
+    })
+  );
+
+  //Listen for close button on book menu
+  const bookMenuCloseBtn = Array.from(
+    document.querySelectorAll(".book-menu-close-btn")
+  );
+  bookMenuCloseBtn.forEach(menuCloseBtn =>
+    menuCloseBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      console.log(e);
+      e.target.parentElement.classList.add("hidden");
+      let children = Array.from(e.path[2].children);
+      children.forEach(child => child.classList.remove("hidden"));
+      e.target.parentElement.classList.add("hidden");
     })
   );
 };
@@ -121,7 +151,6 @@ const renderLibrary = books => {
 const addBook = arg => {
   mm.parseFile(arg)
     .then(metadata => {
-     
       booksArray.push({
         bookId: metadata.common.title,
         filePath: arg,
@@ -201,7 +230,6 @@ playBtn.addEventListener("click", () => {
     audioPlayer.play();
     playBtn.style.display = "none";
     pauseBtn.style.display = "inline-block";
-  
   }
 });
 
@@ -210,7 +238,6 @@ pauseBtn.addEventListener("click", () => {
   audioPlayer.pause();
   pauseBtn.style.display = "none";
   playBtn.style.display = "inline-block";
-  
 });
 
 //Event Listners for Skipping & Scrubbing
@@ -226,7 +253,6 @@ scrubBwdBtn.addEventListener("click", () => {
 const scrub = e => {
   scrubTime = (e.offsetX / progressBar.offsetWidth) * audioPlayer.duration;
   audioPlayer.currentTime = scrubTime;
-  
 };
 
 seekBar.oninput = function() {
