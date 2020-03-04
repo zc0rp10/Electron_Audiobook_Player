@@ -39,7 +39,7 @@ body {
 }
 
 #lib-header label {
-  margin: auto 1.5% auto  ;
+  margin: auto 1.5% auto auto;
   color: #ffc600;
   font-size: 1.2rem;
 }
@@ -226,18 +226,9 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-mask-image: url(../icons/menu-24px.svg);
 }
 
-#play-audio-btn {
+.play-pause-audio-btn {
   -webkit-mask-image: url(../icons/play_circle_outline-24px.svg);
   -webkit-mask-size: cover;
-  height: 48px;
-  width: 48px;
-  margin: auto 0;
-}
-
-#pause-audio-btn {
-  -webkit-mask-image: url(../icons/pause_circle_outline-24px.svg);
-  -webkit-mask-size: cover;
-  display: none;
   height: 48px;
   width: 48px;
   margin: auto 0;

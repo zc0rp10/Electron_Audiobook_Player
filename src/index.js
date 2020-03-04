@@ -5,13 +5,15 @@ const mm = require("music-metadata");
 
 const Store = require("../modules/store.js");
 const Library = require("../modules/library.js");
+const Player = require("../modules/player.js");
 
 $ = document.getElementById.bind(document);
 const userDataPath = electron.remote.app.getPath("userData");
 
 //All DOM Elements
-const libraryView = $("lib-content");
+const playPauseBtn = $("play-pause-audio-btn");
 const addBookBtn = $("add-book-btn");
+const libraryView = $("lib-content");
 
 //Helper function to format seconds to Hours and Minutes
 function secondsToHms(d, x) {
@@ -41,9 +43,16 @@ const store = new Store({
 const library = new Library();
 library.render();
 
+//Initiates the Player class module that enable us to play books
+const player = new Player();
+
 //Eventlisteners for clicks on DOM Elements
 addBookBtn.addEventListener("click", () => {
   library.addBook();
+});
+
+playPauseBtn.addEventListener("click", () => {
+  player.playPause();
 });
 
 //Listens for app close event from main.js process and saves users library and settings before quiting app
