@@ -1,9 +1,14 @@
-const mm = require("music-metadata");
+const electron = require("electron");
 const { ipcRenderer } = require("electron");
+
+const mm = require("music-metadata");
+
 const Store = require("../modules/store.js");
 const Library = require("../modules/library.js");
 
+
 $ = document.getElementById.bind(document);
+const userDataPath = electron.remote.app.getPath("userData");
 
 //All DOM Elements
 const libraryView = $("lib-content");

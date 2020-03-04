@@ -1,4 +1,6 @@
 const { ipcRenderer } = require("electron");
+const fsExtra = require("fs-extra");
+const path = require("path");
 
 class Library {
   constructor(args) {
@@ -31,34 +33,59 @@ class Library {
       );
     });
   }
+
   addBook() {
     ipcRenderer.send("add-book-dialog");
-    ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
-      mm.parseFile(arg)
-        .then(metadata => {
-          this.books.push({
-            bookId: metadata.common.title,
-            filePath: arg,
-            imageSrc: `data:${
-              metadata.common.picture[0].format
-            };base64,${metadata.common.picture[0].data.toString("base64")}`,
-            title: metadata.common.title,
-            author: metadata.common.artist,
-            narrator: metadata.common.composer,
-            duration: Math.round(metadata.format.duration),
-            bookmark: 0
-          });
-          this.render();
-        })
-        .catch(err => {
-          console.error(err.message);
-        });
-    });
   }
   removeBook(arg) {
     this.books = this.books.filter(book => book.filePath != arg);
     this.render();
   }
 }
+
+//Turns the base64 data from audiofile metadata intp a png and saves it to user folder
+async function baseDataToImageFile(coverMetaString, imgFilePath) {
+  try {
+    // strip off the data: url prefix to get just the base64-encoded bytes
+    let data = coverMetaString.replace(/^data:image\/\w+;base64,/, "");
+    let buf = new Buffer(data, "base64");
+    await fsExtra.outputFile(imgFilePath, buf);
+    library.render();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+//Awaits the response to add book dialog, TODO: Find out why I can't add it inside class. When i had it together with the sending function it adde multiple eventlistners
+ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
+  mm.parseFile(arg)
+    .then(metadata => {
+      console.log(metadata);
+      let book = metadata.common;
+      let imgFilePath = path.join(
+        `${userDataPath}`,
+        "bookcovers",
+        `${book.title}.png`
+      );
+      let coverMetaString = `data:${
+        book.picture[0].format
+      };base64,${book.picture[0].data.toString("base64")}`;
+      baseDataToImageFile(coverMetaString, imgFilePath);
+
+      library.books.push({
+        bookId: book.title,
+        filePath: arg,
+        imageSrc: imgFilePath,
+        title: book.title,
+        author: book.artist,
+        narrator: book.composer,
+        duration: Math.round(metadata.format.duration),
+        bookmark: 0
+      });
+    })
+    .catch(err => {
+      console.error(err.message);
+    });
+});
 
 module.exports = Library;
