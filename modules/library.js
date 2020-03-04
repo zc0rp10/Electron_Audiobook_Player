@@ -3,11 +3,15 @@ const { ipcRenderer } = require("electron");
 class Library {
   constructor(args) {
     this.books = store.get("books");
+    this.filter = "";
+    this.sortOrder = "";
   }
   render() {
     libraryView.innerHTML = "";
+    //Instead do something like, let booksFormated = this.books if filter and filter not equal to what's passed in, then filter,
+    //followed by if this.sortOrder not equal to whats passed in, sort array.
     this.books.forEach(book => {
-      let timeLeft = "Render Successfull!"; //secondsToHms(book.duration - book.bookmark, "x");
+      let timeLeft = secondsToHms(book.duration - book.bookmark);
       libraryView.insertAdjacentHTML(
         "beforeend",
         `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
@@ -51,7 +55,10 @@ class Library {
         });
     });
   }
-  removeBook() {}
+  removeBook(arg) {
+    this.books = this.books.filter(book => book.filePath != arg);
+    this.render();
+  }
 }
 
 module.exports = Library;
