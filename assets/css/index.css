@@ -39,7 +39,7 @@ body {
 }
 
 #lib-header label {
-  margin: auto 1.5% auto auto;
+  margin: auto 1.5% auto  ;
   color: #ffc600;
   font-size: 1.2rem;
 }

@@ -6,7 +6,6 @@ const mm = require("music-metadata");
 const Store = require("../modules/store.js");
 const Library = require("../modules/library.js");
 
-
 $ = document.getElementById.bind(document);
 const userDataPath = electron.remote.app.getPath("userData");
 
@@ -45,4 +44,10 @@ library.render();
 //Eventlisteners for clicks on DOM Elements
 addBookBtn.addEventListener("click", () => {
   library.addBook();
+});
+
+//Listens for app close event from main.js process and saves users library and settings before quiting app
+ipcRenderer.on("app-close", _ => {
+  store.set("books", library.books);
+  ipcRenderer.send("closed");
 });
