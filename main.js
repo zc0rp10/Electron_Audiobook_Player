@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, dialog, ipcMain } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, Menu } = require("electron");
 const path = require("path");
 
 let mainWindow = null;
@@ -7,31 +7,31 @@ let mainWindow = null;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1440,
-    height: 900,
+    width: 1366,
+    height: 768,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true
     }
   });
-
+  console.log(mainWindow.autoHideMenuBar);
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "./src/index.html"));
+  // //Sends a msg to render process when user closes app, to tell it to save current state of library
+  // mainWindow.on("close", e => {
+  //   if (mainWindow) {
+  //     e.preventDefault();
+  //     mainWindow.webContents.send("app-close");
+  //   }
+  // });
 
-  //Sends a msg to render process when user closes app, to tell it to save current state of library
-  mainWindow.on("close", e => {
-    if (mainWindow) {
-      e.preventDefault();
-      mainWindow.webContents.send("app-close");
-    }
-  });
-
-  //Closes app when the response comes back from render process after current state of library has been saved
-  ipcMain.on("closed", _ => {
-    mainWindow = null;
-    if (process.platform !== "darwin") {
-      app.quit();
-    }
-  });
+  // //Closes app when the response comes back from render process after current state of library has been saved
+  // ipcMain.on("closed", _ => {
+  //   mainWindow = null;
+  //   if (process.platform !== "darwin") {
+  //     app.quit();
+  //   }
+  // });
 
   //Add Folder Dialog
   ipcMain.on("add-book-dialog", event => {
