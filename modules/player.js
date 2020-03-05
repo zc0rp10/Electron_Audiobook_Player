@@ -36,6 +36,17 @@ class Player {
     this.audioPlayer.currentTime = this.audioPlayer.currentTime - 30;
   }
 
+  updateBar = () => {
+    barCurrentTime.innerHTML = secondsToHms(this.audioPlayer.currentTime);
+    barTotalTime.innerHTML = secondsToHms(this.audioPlayer.duration);
+
+    progressBarFill.setAttribute("max", this.audioPlayer.duration);
+    seekBar.setAttribute("max", this.audioPlayer.duration);
+
+    progressBarFill.setAttribute("value", this.audioPlayer.currentTime);
+    seekBar.setAttribute("value", this.audioPlayer.currentTime);
+  };
+
   set selectedBook(value) {
     this._selectedBook = value;
   }

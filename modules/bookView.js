@@ -20,7 +20,6 @@ class BookView {
         this._narrator = book.narrator;
         this._cover = book.cover;
         this.render();
-        console.log(book);
       }
     });
   }

@@ -24,6 +24,12 @@ const bookViewTitle = $("book-view-title");
 const bookViewAuthor = $("book-view-author");
 const bookViewNarrator = $("book-view-narrator");
 
+const seekBar = $("seek-bar");
+const progressBar = $("progress-bar");
+const progressBarFill = $("progress-bar-fill");
+const barCurrentTime = $("bar-current-time");
+const barTotalTime = $("bar-total-time");
+
 //Helper function to format seconds to Hours and Minutes
 function secondsToHms(d, x) {
   d = Number(d);
@@ -73,6 +79,10 @@ scrubFwdBtn.addEventListener("click", () => {
 
 scrubBwdBtn.addEventListener("click", () => {
   player.scrubBwd();
+});
+
+player.audioPlayer.addEventListener("timeupdate", () => {
+  player.updateBar();
 });
 
 //Autosaves location is book while playing every 10 secs
