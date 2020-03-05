@@ -20,7 +20,10 @@ const playbackDecreaseBtn = $("decrease-speed-btn");
 const playbackLabel = $("playback-rate");
 
 const addBookBtn = $("add-book-btn");
+
 const libraryView = $("lib-content");
+const libraryFilterSelect = $("filter-select");
+const librarySortSelect = $("sort-select");
 
 const bookViewCover = $("book-view-cover");
 const bookViewTitle = $("book-view-title");
@@ -103,6 +106,14 @@ playbackIncreaseBtn.addEventListener("click", e => {
 
 playbackDecreaseBtn.addEventListener("click", e => {
   player.changePlaybackRate(e);
+});
+
+libraryFilterSelect.addEventListener("change", e => {
+  library.filter = e.target.value;
+});
+
+librarySortSelect.addEventListener("change", e => {
+  library.sortLibrary(e);
 });
 
 //Autosaves location is book while playing every 10 secs

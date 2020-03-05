@@ -63,11 +63,11 @@
           <option value="author">Author</option>
           <option value="length">Length</option>
         </select>
-        <label for="sort-select">Filter</label>
-        <select id="sort-select">
+        <label for="filter-select">Filter</label>
+        <select id="filter-select">
           <option value="all">All</option>
           <option value="not started">Not Started</option>
-          <option value="not finished">Not Finished</option>
+          <option value="started">Started</option>
           <option value="finished">Finished</option>
         </select>
       </div>
@@ -79,17 +79,12 @@
       <div id="book-view-wrapper">
         <div id="book-view-head"></div>
         <div id="book-view-content">
-          <img
-            id="book-view-cover"
-            src="../audiobooks/placeholder.jpg"
-            alt=""
-          />
+          <img id="book-view-cover" src="" alt="" />
           <h2 id="book-view-title">
-            Blackwing: The Raven's Mark
+            Please select or add a book to your library to start listening.
           </h2>
-
-          <p id="book-view-author">By Ed McDonald</p>
-          <p id="book-view-narrator">Narrated by Colin Mace</p>
+          <p id="book-view-author"></p>
+          <p id="book-view-narrator"></p>
         </div>
       </div>
     </div>

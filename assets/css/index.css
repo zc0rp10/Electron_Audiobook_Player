@@ -26,7 +26,8 @@ body {
   cursor: pointer;
 }
 
-.yellow { /* Could use multiple of these to enable theme change, just update classes with add/remove classlist*/
+.yellow {
+  /* Could use multiple of these to enable theme change, just update classes with add/remove classlist*/
   color: #ffc600;
 }
 
@@ -191,7 +192,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* Sort Drop Down*/
 
-#sort-select {
+#sort-select,
+#filter-select {
   height: 28px;
   margin: auto 0;
   padding: 1px 6px;

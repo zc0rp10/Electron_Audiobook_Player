@@ -5,8 +5,16 @@ const path = require("path");
 class Library {
   constructor(args) {
     this.books = store.get("books");
-    this.filter = "";
-    this.sortOrder = "";
+    this._filter = "all";
+  }
+
+  set filter(value) {
+    this._filter = value;
+    this.render();
+  }
+
+  get filter() {
+    return this._filter;
   }
 
   addBook() {
@@ -23,10 +31,11 @@ class Library {
     //Instead do something like, let booksFormated = this.books if filter and filter not equal to what's passed in, then filter,
     //followed by if this.sortOrder not equal to whats passed in, sort array.
     this.books.forEach(book => {
-      let timeLeft = secondsToHms(book.duration - book.bookmark);
-      libraryView.insertAdjacentHTML(
-        "beforeend",
-        `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+      if (this.filter === "all" || book.bookStatus === this.filter) {
+        let timeLeft = secondsToHms(book.duration - book.bookmark);
+        libraryView.insertAdjacentHTML(
+          "beforeend",
+          `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
       <div class="book-image">
         <img class="pointer" src="${book.cover}" />
       </div>
@@ -40,7 +49,8 @@ class Library {
         <button class="btn more-vert-btn right"></button>
       </div>
     </div>`
-      );
+        );
+      }
     });
 
     //Reapply Listeners after library is drawn
@@ -58,6 +68,30 @@ class Library {
         this.removeBook(event.path[2].dataset.src.toString());
       })
     );
+  }
+
+  sortLibrary(e) {
+    let sortBy = e.target.value;
+
+    if (sortBy != "length") {
+      this.books.sort(function(a, b) {
+        var nameA = a[sortBy].toUpperCase();
+        var nameB = b[sortBy].toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+    } else {
+      this.books.sort(function(a, b) {
+        return a.duration - b.duration;
+      });
+    }
+
+    this.render();
   }
 }
 
@@ -98,7 +132,8 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
         author: `${book.artist}`,
         narrator: `${book.composer}`,
         duration: Math.round(metadata.format.duration),
-        bookmark: 0
+        bookmark: 0,
+        bookStatus: "not started"
       });
     })
     .catch(err => {

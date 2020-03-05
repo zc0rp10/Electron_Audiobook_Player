@@ -7,6 +7,7 @@ class Player {
   }
 
   play() {
+    this.audioPlayer.onended = () => this.bookEnded();
     this.audioPlayer.play();
     this.isPlaying = true;
     playPauseBtn.style.webkitMaskImage =
@@ -28,20 +29,6 @@ class Player {
     }
   }
 
-  switchBook(newSrc) {
-    this._selectedBook = newSrc;
-    this.audioPlayer.src = this._selectedBook;
-    bookView.update(this._selectedBook);
-
-    //Checks if there's a bookmark for the book
-    library.books.map(book =>
-      book.filePath === newSrc
-        ? (this.audioPlayer.currentTime = book.bookmark)
-        : this.audioPlayer.currentTime
-    );
-    this.play();
-  }
-
   scrubFwd() {
     this.audioPlayer.currentTime = this.audioPlayer.currentTime + 30;
   }
@@ -54,6 +41,34 @@ class Player {
     this._isSeeking = false;
     this.audioPlayer.currentTime =
       (e.offsetX / progressBar.offsetWidth) * this.audioPlayer.duration;
+  }
+
+  switchBook(newSrc) {
+    console.log(newSrc);
+    this._selectedBook = newSrc;
+    this.audioPlayer.src = this._selectedBook;
+    bookView.update(this._selectedBook);
+
+    //Checks if there's a bookmark for the book
+    library.books.map(book => {
+      book.filePath === newSrc
+        ? (this.audioPlayer.currentTime = book.bookmark)
+        : this.audioPlayer.currentTime;
+
+      if (book.filePath === newSrc && book.bookStatus !== "finished") {
+        book.bookStatus = "started";
+      }
+    });
+    this.play();
+  }
+
+  bookEnded() {
+    console.log("End of book.");
+    library.books.map(book => {
+      if (book.filePath == this.selectedBook) {
+        book.bookStatus = "finished";
+      }
+    });
   }
 
   changePlaybackRate = e => {
