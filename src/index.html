@@ -9,7 +9,13 @@
     <div id="player">
       <div id="controll-bar">
         <div id="controlls">
-          <!-- <div id="playback-controlls">
+          <button class="btn" id="scrub-backward-btn"></button>
+          <button
+            class="btn play-pause-audio-btn"
+            id="play-pause-audio-btn"
+          ></button>
+          <button class="btn" id="scrub-forward-btn"></button>
+          <div id="playback-controlls">
             <button
               class="btn"
               id="decrease-speed-btn"
@@ -21,13 +27,7 @@
               id="increase-speed-btn"
               data-rate="0.25"
             ></button>
-          </div> -->
-          <button class="btn" id="scrub-backward-btn"></button>
-          <button
-            class="btn play-pause-audio-btn"
-            id="play-pause-audio-btn"
-          ></button>
-          <button class="btn" id="scrub-forward-btn"></button>
+          </div>
         </div>
         <div id="times-row">
           <span id="bar-current-time" id="current-time">00:00:00</span>
@@ -73,7 +73,6 @@
       </div>
       <div id="lib-content">
         <!-- JS RENDERED -->
-        
       </div>
     </div>
     <div id="book-view">

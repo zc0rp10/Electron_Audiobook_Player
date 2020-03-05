@@ -15,6 +15,9 @@ const userDataPath = electron.remote.app.getPath("userData");
 const playPauseBtn = $("play-pause-audio-btn");
 const scrubFwdBtn = $("scrub-forward-btn");
 const scrubBwdBtn = $("scrub-backward-btn");
+const playbackIncreaseBtn = $("increase-speed-btn");
+const playbackDecreaseBtn = $("decrease-speed-btn");
+const playbackLabel = $("playback-rate");
 
 const addBookBtn = $("add-book-btn");
 const libraryView = $("lib-content");
@@ -92,6 +95,14 @@ seekBar.addEventListener("mouseup", e => {
 seekBar.addEventListener("input", () => {
   player._isSeeking = true;
   progressBarFill.setAttribute("value", Math.round(seekBar.value));
+});
+
+playbackIncreaseBtn.addEventListener("click", e => {
+  player.changePlaybackRate(e);
+});
+
+playbackDecreaseBtn.addEventListener("click", e => {
+  player.changePlaybackRate(e);
 });
 
 //Autosaves location is book while playing every 10 secs

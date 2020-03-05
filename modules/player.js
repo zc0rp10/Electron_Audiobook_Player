@@ -56,9 +56,22 @@ class Player {
       (e.offsetX / progressBar.offsetWidth) * this.audioPlayer.duration;
   }
 
+  changePlaybackRate = e => {
+    let step = parseFloat(e.target.dataset.rate);
+    let player = this.audioPlayer;
+
+    player.playbackRate = player.playbackRate + step;
+    if (player.playbackRate < 0.5) {
+      player.playbackRate = 0.5;
+    } else if (player.playbackRate > 2.5) {
+      player.playbackRate = 2.5;
+    }
+    playbackLabel.textContent = player.playbackRate.toFixed(2).toString() + "X";
+  };
+
   updateBar = () => {
-    barCurrentTime.innerHTML = secondsToHms(this.audioPlayer.currentTime);
-    barTotalTime.innerHTML = secondsToHms(this.audioPlayer.duration);
+    barCurrentTime.textContent = secondsToHms(this.audioPlayer.currentTime);
+    barTotalTime.textContent = secondsToHms(this.audioPlayer.duration);
 
     progressBarFill.setAttribute("max", this.audioPlayer.duration);
     seekBar.setAttribute("max", this.audioPlayer.duration);
