@@ -3,6 +3,7 @@ class Player {
     this.audioPlayer = new Audio();
     this.isPlaying = false;
     this._selectedBook = false; //TODO: Get last played if there is one, else set to empty
+    this._isSeeking = false;
   }
 
   play() {
@@ -49,6 +50,12 @@ class Player {
     this.audioPlayer.currentTime = this.audioPlayer.currentTime - 30;
   }
 
+  goTo(e) {
+    this._isSeeking = false;
+    this.audioPlayer.currentTime =
+      (e.offsetX / progressBar.offsetWidth) * this.audioPlayer.duration;
+  }
+
   updateBar = () => {
     barCurrentTime.innerHTML = secondsToHms(this.audioPlayer.currentTime);
     barTotalTime.innerHTML = secondsToHms(this.audioPlayer.duration);
@@ -56,8 +63,10 @@ class Player {
     progressBarFill.setAttribute("max", this.audioPlayer.duration);
     seekBar.setAttribute("max", this.audioPlayer.duration);
 
-    progressBarFill.setAttribute("value", this.audioPlayer.currentTime);
-    seekBar.setAttribute("value", this.audioPlayer.currentTime);
+    if (!this._isSeeking) {
+      progressBarFill.setAttribute("value", this.audioPlayer.currentTime);
+      seekBar.setAttribute("value", this.audioPlayer.currentTime);
+    }
   };
 
   set selectedBook(value) {

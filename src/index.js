@@ -85,6 +85,15 @@ player.audioPlayer.addEventListener("timeupdate", () => {
   player.updateBar();
 });
 
+seekBar.addEventListener("mouseup", e => {
+  player.goTo(e);
+});
+
+seekBar.addEventListener("input", () => {
+  player._isSeeking = true;
+  progressBarFill.setAttribute("value", Math.round(seekBar.value));
+});
+
 //Autosaves location is book while playing every 10 secs
 setInterval(() => {
   if (player.isPlaying) {
