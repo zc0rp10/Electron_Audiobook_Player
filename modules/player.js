@@ -2,11 +2,11 @@ class Player {
   constructor() {
     this.audioPlayer = new Audio();
     this.isPlaying = false;
-    this.selectedBook; //TODO: Get last played if there is one, else set to empty
+    this._selectedBook = String; //TODO: Get last played if there is one, else set to empty
   }
 
   play() {
-    this.audioPlayer.src = this.selectedBook;
+    this.audioPlayer.src = this._selectedBook;
     this.audioPlayer.play();
     this.isPlaying = true;
     playPauseBtn.style.webkitMaskImage =
@@ -26,6 +26,22 @@ class Player {
     } else {
       this.play();
     }
+  }
+
+  scrubFwd() {
+    this.audioPlayer.currentTime = this.audioPlayer.currentTime + 30;
+  }
+
+  scrubBwd() {
+    this.audioPlayer.currentTime = this.audioPlayer.currentTime - 30;
+  }
+
+  set selectedBook(value) {
+    this._selectedBook = value;
+  }
+
+  get selectedBook() {
+    return this._selectedBook;
   }
 }
 

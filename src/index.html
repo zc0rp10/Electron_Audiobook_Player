@@ -22,12 +22,12 @@
               data-rate="0.25"
             ></button>
           </div> -->
-          <button class="btn" id="skip-backward-btn"></button>
+          <button class="btn" id="scrub-backward-btn"></button>
           <button
             class="btn play-pause-audio-btn"
             id="play-pause-audio-btn"
           ></button>
-          <button class="btn" id="skip-forward-btn"></button>
+          <button class="btn" id="scrub-forward-btn"></button>
         </div>
         <div id="times-row">
           <span id="bar-current-time" id="current-time">00:00:00</span>
@@ -73,33 +73,24 @@
       </div>
       <div id="lib-content">
         <!-- JS RENDERED -->
-        <div class="book" id="${book.bookId}" data-src="${book.filePath}">
-          <div class="book-image">
-            <img class="pointer" src="../audiobooks/placeholder.jpg" />
-          </div>
-          <div class="book-content">
-            <span class="book-title pointer"
-              >Blackwing: The Raven's Mark, Book 1 (Unabridged)</span
-            >
-            <span class="book-author pointer">By Ed McDonald</span>
-            <span class="book-narrator pointer">Narrated by Colin Mace</span>
-            <span class="book-stats pointer">08h 18m left</span>
-            <!-- <button class="btn more-vert-btn right"></button> -->
-          </div>
-        </div>
+        
       </div>
     </div>
-    <div id="cover">
-      <div id="cover-wrapper">
-        <div id="cover-head"></div>
-        <div id="cover-content">
-          <img id="cover-cover" src="../audiobooks/placeholder.jpg" alt="" />
-          <h2 id="cover-title">
+    <div id="book-view">
+      <div id="book-view-wrapper">
+        <div id="book-view-head"></div>
+        <div id="book-view-content">
+          <img
+            id="book-view-cover"
+            src="../audiobooks/placeholder.jpg"
+            alt=""
+          />
+          <h2 id="book-view-title">
             Blackwing: The Raven's Mark
           </h2>
 
-          <p id="cover-author">By Ed McDonald</p>
-          <p id="cover-narrator">Narrated by Colin Mace</p>
+          <p id="book-view-author">By Ed McDonald</p>
+          <p id="book-view-narrator">Narrated by Colin Mace</p>
         </div>
       </div>
     </div>

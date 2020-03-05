@@ -22,11 +22,15 @@ body {
   margin: 0;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: 72px auto 500px;
   grid-template-rows: auto 87px;
-  grid-template-areas: "menu library cover" "player player player";
+  grid-template-areas: "menu library book-view" "player player player";
 }
 
 #library {
@@ -61,8 +65,8 @@ body {
   box-shadow: -0.3rem -0.125rem 0.25rem rgba(0, 0, 0, 0.3);
 }
 
-#cover {
-  grid-area: cover;
+#book-view {
+  grid-area: book-view;
   display: flex;
   flex-direction: column;
   background: #212121;
@@ -234,7 +238,7 @@ input[type="range"]::-webkit-slider-thumb {
   margin: auto 0;
 }
 
-#skip-forward-btn {
+#scrub-forward-btn {
   -webkit-mask-image: url(../icons/forward_30-24px.svg);
   -webkit-mask-size: cover;
   height: 38px;
@@ -242,7 +246,7 @@ input[type="range"]::-webkit-slider-thumb {
   margin: auto 0;
 }
 
-#skip-backward-btn {
+#scrub-backward-btn {
   -webkit-mask-image: url(../icons/replay_30-24px.svg);
   -webkit-mask-size: cover;
   height: 38px;
@@ -354,34 +358,34 @@ input[type="range"]::-webkit-slider-thumb {
   display: inline-block;
 }
 
-/* Cover */
+/* Book View */
 
-#cover-wrapper {
+#book-view-wrapper {
   margin: 0 auto;
   max-width: 80%;
 }
 
-#cover-content {
+#book-view-content {
   margin-top: 1%;
 }
 
-#cover-cover {
+#book-view-cover {
   width: 100%;
   height: auto;
   margin: 3% auto;
   box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 1);
 }
 
-#cover-title {
+#book-view-title {
   font-weight: bold;
 }
 
-#cover-author {
+#book-view-author {
   color: #fff;
   font-size: 0.9rem;
 }
 
-#cover-narrator {
+#book-view-narrator {
   color: #b3b3b3;
   font-size: 0.8rem;
 }

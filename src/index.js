@@ -6,14 +6,23 @@ const mm = require("music-metadata");
 const Store = require("../modules/store.js");
 const Library = require("../modules/library.js");
 const Player = require("../modules/player.js");
+const BookView = require("../modules/bookView.js");
 
 $ = document.getElementById.bind(document);
 const userDataPath = electron.remote.app.getPath("userData");
 
 //All DOM Elements
 const playPauseBtn = $("play-pause-audio-btn");
+const scrubFwdBtn = $("scrub-forward-btn");
+const scrubBwdBtn = $("scrub-backward-btn");
+
 const addBookBtn = $("add-book-btn");
 const libraryView = $("lib-content");
+
+const bookViewCover = $("book-view-cover");
+const bookViewTitle = $("book-view-title");
+const bookViewAuthor = $("book-view-author");
+const bookViewNarrator = $("book-view-narrator");
 
 //Helper function to format seconds to Hours and Minutes
 function secondsToHms(d, x) {
@@ -46,6 +55,9 @@ library.render();
 //Initiates the Player class module that enable us to play books
 const player = new Player();
 
+//Initiates the BookVIew class module responsible for updating book data on right side
+const bookView = new BookView();
+
 //Eventlisteners for clicks on DOM Elements
 addBookBtn.addEventListener("click", () => {
   library.addBook();
@@ -53,6 +65,14 @@ addBookBtn.addEventListener("click", () => {
 
 playPauseBtn.addEventListener("click", () => {
   player.playPause();
+});
+
+scrubFwdBtn.addEventListener("click", () => {
+  player.scrubFwd();
+});
+
+scrubBwdBtn.addEventListener("click", () => {
+  player.scrubBwd();
 });
 
 //Listens for app close event from main.js process and saves users library and settings before quiting app

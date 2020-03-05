@@ -18,7 +18,7 @@ class Library {
         "beforeend",
         `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
       <div class="book-image">
-        <img class="pointer" src="${book.imageSrc}" />
+        <img class="pointer" src="${book.cover}" />
       </div>
       <div class="book-content">
         <span class="book-title pointer"
@@ -32,6 +32,17 @@ class Library {
     </div>`
       );
     });
+
+    //Reapply Listeners after library is drawn
+    const booksInLibrary = Array.from(document.querySelectorAll(".book"));
+    booksInLibrary.forEach(book =>
+      book.addEventListener("click", () => {
+        player.selectedBook = book.dataset.src.toString();
+        player.play();
+        bookView.update(player.selectedBook);
+        console.log(player.selectedBook);
+      })
+    );
   }
 
   addBook() {
@@ -73,12 +84,12 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
       baseDataToImageFile(coverMetaString, imgFilePath);
 
       library.books.push({
-        bookId: book.title,
+        bookId: `${book.title}`,
         filePath: arg,
-        imageSrc: imgFilePath,
-        title: book.title,
-        author: book.artist,
-        narrator: book.composer,
+        cover: imgFilePath,
+        title: `${book.title}`,
+        author: `${book.artist}`,
+        narrator: `${book.composer}`,
         duration: Math.round(metadata.format.duration),
         bookmark: 0
       });
