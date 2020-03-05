@@ -2,7 +2,7 @@ class Player {
   constructor() {
     this.audioPlayer = new Audio();
     this.isPlaying = false;
-    this._selectedBook = String; //TODO: Get last played if there is one, else set to empty
+    this._selectedBook = false; //TODO: Get last played if there is one, else set to empty
   }
 
   play() {
@@ -21,10 +21,10 @@ class Player {
   }
 
   playPause() {
-    if (this.isPlaying) {
-      this.pause();
-    } else {
+    if (!this.isPlaying && this._selectedBook) {
       this.play();
+    } else {
+      this.pause();
     }
   }
 

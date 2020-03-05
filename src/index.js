@@ -75,6 +75,18 @@ scrubBwdBtn.addEventListener("click", () => {
   player.scrubBwd();
 });
 
+//Autosaves location is book while playing every 10 secs
+setInterval(() => {
+  if (player.isPlaying) {
+    library.books = library.books.map(book =>
+      book.filePath === player._selectedBook
+        ? { ...book, bookmark: Math.round(player.audioPlayer.currentTime) }
+        : book
+    );
+    console.log("Autosave Completed!");
+  }
+}, 10000);
+
 //Listens for app close event from main.js process and saves users library and settings before quiting app
 ipcRenderer.on("app-close", _ => {
   store.set("books", library.books);
