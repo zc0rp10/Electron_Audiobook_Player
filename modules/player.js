@@ -6,7 +6,6 @@ class Player {
   }
 
   play() {
-    this.audioPlayer.src = this._selectedBook;
     this.audioPlayer.play();
     this.isPlaying = true;
     playPauseBtn.style.webkitMaskImage =
@@ -26,6 +25,20 @@ class Player {
     } else {
       this.pause();
     }
+  }
+
+  switchBook(newSrc) {
+    this._selectedBook = newSrc;
+    this.audioPlayer.src = this._selectedBook;
+    bookView.update(this._selectedBook);
+
+    //Checks if there's a bookmark for the book
+    library.books.map(book =>
+      book.filePath === newSrc
+        ? (this.audioPlayer.currentTime = book.bookmark)
+        : this.audioPlayer.currentTime
+    );
+    this.play();
   }
 
   scrubFwd() {

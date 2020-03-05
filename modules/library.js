@@ -37,10 +37,7 @@ class Library {
     const booksInLibrary = Array.from(document.querySelectorAll(".book"));
     booksInLibrary.forEach(book =>
       book.addEventListener("click", () => {
-        player.selectedBook = book.dataset.src.toString();
-        player.play();
-        bookView.update(player.selectedBook);
-        console.log(player.selectedBook);
+        player.switchBook(book.dataset.src.toString());
       })
     );
   }
