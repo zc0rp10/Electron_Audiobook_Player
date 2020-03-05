@@ -8,6 +8,16 @@ class Library {
     this.filter = "";
     this.sortOrder = "";
   }
+
+  addBook() {
+    ipcRenderer.send("add-book-dialog");
+  }
+
+  removeBook(bookFilePath) {
+    this.books = this.books.filter(book => book.filePath != bookFilePath);
+    this.render();
+  }
+
   render() {
     libraryView.innerHTML = "";
     //Instead do something like, let booksFormated = this.books if filter and filter not equal to what's passed in, then filter,
@@ -40,14 +50,14 @@ class Library {
         player.switchBook(book.dataset.src.toString());
       })
     );
-  }
 
-  addBook() {
-    ipcRenderer.send("add-book-dialog");
-  }
-  removeBook(arg) {
-    this.books = this.books.filter(book => book.filePath != arg);
-    this.render();
+    const deleteBtns = Array.from(document.querySelectorAll(".more-vert-btn"));
+    deleteBtns.forEach(dltBtn =>
+      dltBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        this.removeBook(event.path[2].dataset.src.toString());
+      })
+    );
   }
 }
 

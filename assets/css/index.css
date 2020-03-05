@@ -26,6 +26,14 @@ body {
   cursor: pointer;
 }
 
+.yellow { /* Could use multiple of these to enable theme change, just update classes with add/remove classlist*/
+  color: #ffc600;
+}
+
+.right {
+  float: right;
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: 72px auto 500px;
@@ -138,7 +146,7 @@ body {
   position: absolute;
   top: 0;
   width: 100%;
-  cursor: pointer;
+  cursor: ew-resize;
   margin: 0;
 }
 
@@ -147,7 +155,6 @@ input[type="range"] {
   -moz-appearance: none;
   height: 5px;
   background: transparent;
-  cursor: pointer;
 }
 
 input[type="range"]:focus {
@@ -156,7 +163,6 @@ input[type="range"]:focus {
 
 input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
-  cursor: pointer;
   border-radius: 1.3px;
   -webkit-appearance: none;
   transition: all 0.4s ease;
@@ -166,7 +172,6 @@ input[type="range"]::-webkit-slider-thumb {
   height: 5px;
   width: 5px;
   background: #ffc600;
-  cursor: pointer;
   -webkit-appearance: none;
   margin-left: -1px;
 }
@@ -356,6 +361,16 @@ input[type="range"]::-webkit-slider-thumb {
   color: #fff;
   font-size: 0.7rem;
   display: inline-block;
+}
+
+/* Library Book Cards */
+.more-vert-btn {
+  background-image: url(../icons/more_vert-24px.svg);
+  background-size: cover;
+  border: 0;
+  background-color: transparent;
+  height: 22px;
+  width: 22px;
 }
 
 /* Book View */
