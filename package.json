@@ -33,6 +33,7 @@
     "electron-packager": "^14.2.1"
   },
   "dependencies": {
+    "fs-extra": "^8.1.0",
     "music-metadata": "^6.3.4"
   }
 }

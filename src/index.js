@@ -1,5 +1,6 @@
 const electron = require("electron");
 const { ipcRenderer } = require("electron");
+const fsExtra = require("fs-extra");
 
 const mm = require("music-metadata");
 
@@ -54,7 +55,7 @@ function secondsToHms(d, x) {
 
 //Iniates Store and loads save user data for settings and library content
 const store = new Store({
-  configName: "test-user-library",
+  configName: "user-library",
   defaults: {
     books: []
   }

@@ -1,5 +1,4 @@
 const { ipcRenderer } = require("electron");
-const fsExtra = require("fs-extra");
 const path = require("path");
 
 class Library {
