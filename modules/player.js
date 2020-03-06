@@ -6,6 +6,12 @@ class Player {
     this._isSeeking = false;
   }
 
+  adjustVolume(e) {
+    this.audioPlayer.volume = e.target.value;
+    volumeBarFill.setAttribute("value", e.target.value);
+    console.log(e.target.value);
+  }
+
   play() {
     this.audioPlayer.onended = () => this.bookEnded();
     this.audioPlayer.play();

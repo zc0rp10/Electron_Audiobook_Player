@@ -37,6 +37,9 @@ const progressBarFill = $("progress-bar-fill");
 const barCurrentTime = $("bar-current-time");
 const barTotalTime = $("bar-total-time");
 
+const volumeBar = $("volume-seek-bar");
+const volumeBarFill = $("volume-bar-fill");
+
 //Helper function to format seconds to Hours and Minutes
 function secondsToHms(d, x) {
   d = Number(d);
@@ -115,6 +118,10 @@ libraryFilterSelect.addEventListener("change", e => {
 
 librarySortSelect.addEventListener("change", e => {
   library.sortLibrary(e);
+});
+
+volumeBar.addEventListener("input", e => {
+  player.adjustVolume(e);
 });
 
 //Autosaves location is book while playing every 10 secs

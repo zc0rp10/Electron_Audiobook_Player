@@ -91,6 +91,68 @@ body {
   flex-direction: column;
 }
 
+/* Volume Slider*/
+
+#volume-down {
+  -webkit-mask-image: url(../icons/volume_down-24px.svg);
+  background-color: #ffc600;
+  display: block;
+  height: 24px;
+  width: 24px;
+}
+
+#volume-up {
+  -webkit-mask-image: url(../icons/volume_up-24px.svg);
+  background-color: #ffc600;
+  display: block;
+  height: 24px;
+  width: 24px;
+}
+
+#volume-controlls {
+  display: flex;
+  height: 24px;
+  margin: auto 0 auto 5%;
+  width: 200px;
+}
+
+#volume-bar {
+  position: relative;
+  height: 5px;
+  width: 90%;
+  margin: auto;
+  padding: 0 4%;
+}
+
+#volume-bar-fill {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 2px;
+  width: 90%;
+  height: 5px;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+}
+
+#volume-bar-fill::-webkit-progress-value {
+  border: 1px solid #ffc600;
+  background: #ffc600;
+}
+
+#volume-seek-bar {
+  position: absolute;
+  top: 0;
+  width: 90%;
+  cursor: ew-resize;
+  margin: 0;
+}
+
+#volume-bar-fill::-webkit-progress-value {
+  border: 1px solid #ffc600;
+  background: #ffc600;
+}
+
 /* Scrub and Progress Bars */
 
 #controlls {
@@ -122,13 +184,12 @@ body {
 #progress-bar {
   position: relative;
   height: 5px;
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
 
 #progress-bar-fill {
   -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   border-radius: 2px;
   width: 100%;
@@ -174,7 +235,6 @@ input[type="range"]::-webkit-slider-thumb {
   width: 5px;
   background: #ffc600;
   -webkit-appearance: none;
-  margin-left: -1px;
 }
 
 /* Playback Rate Controlls */
@@ -183,7 +243,7 @@ input[type="range"]::-webkit-slider-thumb {
   flex-direction: row;
   width: 100px;
   justify-content: space-between;
-  margin: auto 0;
+  margin: auto 5%;
 }
 
 #playback-rate {
