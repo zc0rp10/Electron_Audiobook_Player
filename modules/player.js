@@ -4,6 +4,8 @@ class Player {
     this.isPlaying = false;
     this._selectedBook = false; //TODO: Get last played if there is one, else set to empty
     this._isSeeking = false;
+    this.activePlaylist = [];
+    this.playlistIndex = Number;
   }
 
   adjustVolume(e) {
@@ -49,22 +51,27 @@ class Player {
       (e.offsetX / progressBar.offsetWidth) * this.audioPlayer.duration;
   }
 
-  switchBook(newSrc) {
-    console.log(newSrc);
-    this._selectedBook = newSrc;
-    this.audioPlayer.src = this._selectedBook;
-    bookView.update(this._selectedBook);
-
-    //Checks if there's a bookmark for the book
+  switchBook(idOfBook) {
     library.books.map(book => {
-      book.filePath === newSrc
-        ? (this.audioPlayer.currentTime = book.bookmark)
-        : this.audioPlayer.currentTime;
-
-      if (book.filePath === newSrc && book.bookStatus !== "finished") {
-        book.bookStatus = "started";
+      if (book.bookId == idOfBook) {
+        this._selectedBook = book.bookId; // used to be file src
+        this.activePlaylist = book.playlist;
+        this.playlistIndex = 0;
+        this.audioPlayer.src = this.activePlaylist[this.playlistIndex].filePath;
       }
     });
+    bookView.update(this._selectedBook);
+
+    //Checks if there's a bookmark for the book // TODO: Regressed with the switch to a playlist driven player
+    // library.books.map(book => {
+    //   book.filePath === newSrc
+    //     ? (this.audioPlayer.currentTime = book.bookmark)
+    //     : this.audioPlayer.currentTime;
+
+    //   if (book.filePath === newSrc && book.bookStatus !== "finished") {
+    //     book.bookStatus = "started";
+    //   }
+    // });
     this.play();
   }
 

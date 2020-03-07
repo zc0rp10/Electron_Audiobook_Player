@@ -58,7 +58,19 @@ ipcMain.on("add-folder-dialog", event => {
     .then(result => {
       //event.reply("add-folder-dialog-reply", result.filePaths.toString());
       fs.readdir(result.filePaths[0], (err, files) => {
-        let filesArray = [];
+        let i = 0;
+        let bookObject = {
+          duration: 0,
+          bookmark: 0,
+          bookStatus: "not started",
+          playlistLength: files.length,
+          playlist: [],
+          bookId: "",
+          cover: "",
+          title: "",
+          author: "",
+          narrator: ""
+        };
         files.forEach(file => {
           if (
             file.endsWith(".mp3") ||
@@ -70,10 +82,16 @@ ipcMain.on("add-folder-dialog", event => {
             file.endsWith(".M4A") ||
             file.endsWith(".M4B")
           ) {
-            filesArray.push(path.join(result.filePaths[0], file));
+            let trackObject = {
+              index: i++,
+              filePath: path.join(result.filePaths[0], file),
+              trackTitle: file,
+              trackDuration: 0
+            };
+            bookObject.playlist.push(trackObject);
           }
         });
-        event.reply("add-folder-dialog-reply", filesArray);
+        event.reply("add-folder-dialog-reply", bookObject);
       });
     })
     .catch(err => {
