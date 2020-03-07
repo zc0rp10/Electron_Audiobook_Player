@@ -20,6 +20,10 @@ class Library {
     ipcRenderer.send("add-book-dialog");
   }
 
+  addFolder() {
+    ipcRenderer.send("add-folder-dialog");
+  }
+
   removeBook(bookFilePath) {
     this.books = this.books.filter(book => book.filePath != bookFilePath);
     this.render();
@@ -107,16 +111,18 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
   }
 }
 
+//Add Book
 //Awaits the response to add book dialog, TODO: Find out why I can't add it inside class. When i had it together with the sending function it adde multiple eventlistners
 ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
   mm.parseFile(arg)
     .then(metadata => {
       console.log(metadata);
+
       let book = metadata.common;
       let imgFilePath = path.join(
         `${userDataPath}`,
         "bookcovers",
-        `${book.title}.png`
+        `${book.titparseFilele}.png`
       );
       let coverMetaString = `data:${
         book.picture[0].format
@@ -134,6 +140,59 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
         bookmark: 0,
         bookStatus: "not started"
       });
+    })
+    .catch(err => {
+      console.error(err.message);
+    });
+});
+
+//Add Folder
+ipcRenderer.on("add-folder-dialog-reply", (event, filepathsArray) => {
+  let bookObject = {
+    duration: 0,
+    bookmark: 0,
+    bookStatus: "not started",
+    playlistLength: filepathsArray.length,
+    playlist: []
+  };
+
+  mm.parseFile(filepathsArray[0])
+    .then(metadata => {
+      let book = metadata.common;
+      let imgFilePath = path.join(
+        `${userDataPath}`,
+        "bookcovers",
+        `${book.title}.png`
+      );
+      let coverMetaString = `data:${
+        book.picture[0].format
+      };base64,${book.picture[0].data.toString("base64")}`;
+      baseDataToImageFile(coverMetaString, imgFilePath);
+
+      bookObject.bookId = `${book.title}`;
+      bookObject.cover = imgFilePath;
+      bookObject.title = `${book.title}`;
+      bookObject.author = `${book.artist}`;
+      bookObject.narrator = `${book.compose}`;
+      bookObject.bookStatus = "not started";
+
+      filepathsArray.forEach(filepath => {
+        mm.parseFile(filepath)
+          .then(metadata => {
+            bookObject.duration =
+              bookObject.duration + metadata.format.duration;
+
+            let trackObject = {};
+            trackObject.filePath = filepath;
+            trackObject.trackTitle = `${book.title}`;
+            trackObject.trackDuration = metadata.format.duration;
+            bookObject.playlist.push(trackObject);
+          })
+          .catch(err => {
+            console.error(err.message);
+          });
+      });
+      library.books.push(bookObject);
     })
     .catch(err => {
       console.error(err.message);

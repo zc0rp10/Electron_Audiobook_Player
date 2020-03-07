@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, dialog, ipcMain, Menu } = require("electron");
 const path = require("path");
+const fs = require("fs");
 
 let mainWindow = null;
 
@@ -33,7 +34,7 @@ function createWindow() {
     }
   });
 
-  //Add Folder Dialog
+  //Add Book (Single File) Dialog
   ipcMain.on("add-book-dialog", event => {
     dialog
       .showOpenDialog(mainWindow, {
@@ -47,6 +48,38 @@ function createWindow() {
       });
   });
 }
+
+//Add Folder Dialog (Multiple Files)
+ipcMain.on("add-folder-dialog", event => {
+  dialog
+    .showOpenDialog(mainWindow, {
+      properties: ["openDirectory"]
+    })
+    .then(result => {
+      //event.reply("add-folder-dialog-reply", result.filePaths.toString());
+      fs.readdir(result.filePaths[0], (err, files) => {
+        let filesArray = [];
+        files.forEach(file => {
+          if (
+            file.endsWith(".mp3") ||
+            file.endsWith(".wav") ||
+            file.endsWith(".m4a") ||
+            file.endsWith(".m4b") ||
+            file.endsWith(".MP3") ||
+            file.endsWith(".WAV") ||
+            file.endsWith(".M4A") ||
+            file.endsWith(".M4B")
+          ) {
+            filesArray.push(path.join(result.filePaths[0], file));
+          }
+        });
+        event.reply("add-folder-dialog-reply", filesArray);
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

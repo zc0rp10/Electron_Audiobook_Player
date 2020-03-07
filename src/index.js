@@ -21,6 +21,7 @@ const playbackDecreaseBtn = $("decrease-speed-btn");
 const playbackLabel = $("playback-rate");
 
 const addBookBtn = $("add-book-btn");
+const addFolderBtn = $("add-folder-btn");
 
 const libraryView = $("lib-content");
 const libraryFilterSelect = $("filter-select");
@@ -77,6 +78,10 @@ const bookView = new BookView();
 //Eventlisteners for clicks on DOM Elements
 addBookBtn.addEventListener("click", () => {
   library.addBook();
+});
+
+addFolderBtn.addEventListener("click", () => {
+  library.addFolder();
 });
 
 playPauseBtn.addEventListener("click", () => {
