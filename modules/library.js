@@ -106,6 +106,7 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
     let buf = new Buffer(data, "base64");
     await fsExtra.outputFile(imgFilePath, buf);
     library.render();
+    store.set("books", library.books);
   } catch (err) {
     console.error(err);
   }

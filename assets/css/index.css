@@ -231,10 +231,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 input[type="range"]::-webkit-slider-thumb {
-  height: 5px;
-  width: 5px;
-  background: #ffc600;
-  -webkit-appearance: none;
+  display: none;
 }
 
 /* Playback Rate Controlls */

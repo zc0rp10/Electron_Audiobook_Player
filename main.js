@@ -63,7 +63,7 @@ ipcMain.on("add-folder-dialog", event => {
           duration: 0,
           bookmark: { index: 0, location: 0 },
           bookStatus: "not started",
-          playlistLength: files.length,
+          playlistLength: 0,
           playlist: [],
           bookId: "",
           cover: "",
@@ -82,6 +82,7 @@ ipcMain.on("add-folder-dialog", event => {
             file.endsWith(".M4A") ||
             file.endsWith(".M4B")
           ) {
+            bookObject.playlistLength++;
             let trackObject = {
               index: i++,
               filePath: path.join(result.filePaths[0], file),
