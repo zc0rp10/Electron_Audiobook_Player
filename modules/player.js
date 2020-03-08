@@ -10,7 +10,6 @@ class Player {
   adjustVolume(e) {
     this.audioPlayer.volume = e.target.value;
     volumeBarFill.setAttribute("value", e.target.value);
-    console.log(e.target.value);
   }
 
   play() {
@@ -41,7 +40,6 @@ class Player {
       this.playlistIndex + 1
     ].filePath;
     this.playlistIndex++;
-    console.log("Next " + this.playlistIndex);
     this.play();
     bookView.update();
   }
@@ -51,7 +49,6 @@ class Player {
       this.playlistIndex - 1
     ].filePath;
     this.playlistIndex--;
-    console.log("Prev. " + this.playlistIndex);
     this.play();
     bookView.update();
   }
@@ -91,7 +88,6 @@ class Player {
 
   trackEnded() {
     if (this.playlistIndex + 1 == this.selectedBook.playlistLength) {
-      console.log("book has ended");
       this.selectedBook.bookStatus = "finished";
     } else {
       this.next();

@@ -117,8 +117,6 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
 ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
   mm.parseFile(arg)
     .then(metadata => {
-      console.log(metadata);
-
       let book = metadata.common;
       let imgFilePath = path.join(
         `${userDataPath}`,
@@ -149,8 +147,6 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
 
 //Add Folder
 ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
-  console.log(bookObject);
-
   for (let i = 0; i < bookObject.playlist.length; i++) {
     const element = bookObject.playlist[i];
 

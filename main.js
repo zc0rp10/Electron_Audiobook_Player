@@ -15,7 +15,7 @@ function createWindow() {
       nodeIntegration: true
     }
   });
-  console.log(mainWindow.autoHideMenuBar);
+
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "./src/index.html"));
   // //Sends a msg to render process when user closes app, to tell it to save current state of library
@@ -41,7 +41,39 @@ function createWindow() {
         properties: ["openFile"]
       })
       .then(result => {
-        event.reply("add-book-dialog-reply", result.filePaths.toString());
+        const file = result.filePaths.toString();
+        if (
+          file.endsWith(".mp3") ||
+          file.endsWith(".wav") ||
+          file.endsWith(".m4a") ||
+          file.endsWith(".m4b") ||
+          file.endsWith(".MP3") ||
+          file.endsWith(".WAV") ||
+          file.endsWith(".M4A") ||
+          file.endsWith(".M4B")
+        ) {
+          let bookObject = {
+            duration: 0,
+            bookmark: { index: 0, location: 0 },
+            bookStatus: "not started",
+            playlistLength: 1,
+            playlist: [
+              {
+                index: 0,
+                filePath: file,
+                trackTitle: file,
+                trackDuration: 0
+              }
+            ],
+            bookId: "",
+            cover: "",
+            title: "",
+            author: "",
+            narrator: ""
+          };
+
+          event.reply("add-folder-dialog-reply", bookObject);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -56,7 +88,6 @@ ipcMain.on("add-folder-dialog", event => {
       properties: ["openDirectory"]
     })
     .then(result => {
-      //event.reply("add-folder-dialog-reply", result.filePaths.toString());
       fs.readdir(result.filePaths[0], (err, files) => {
         let i = 0;
         let bookObject = {
