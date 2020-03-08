@@ -9,7 +9,10 @@ class Player {
 
   adjustVolume(e) {
     this.audioPlayer.volume = e.target.value;
-    volumeBarFill.setAttribute("value", e.target.value);
+  }
+
+  adjustVolumeBarFill() {
+    volumeBarFill.setAttribute("value", player.audioPlayer.volume);
   }
 
   play() {
@@ -95,7 +98,7 @@ class Player {
   }
 
   changePlaybackRate = e => {
-    let step = parseFloat(e.target.dataset.rate);
+    let step = parseFloat(e);
     let player = this.audioPlayer;
 
     player.playbackRate = player.playbackRate + step;

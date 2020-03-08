@@ -12,6 +12,8 @@ const BookView = require("../modules/bookView.js");
 $ = document.getElementById.bind(document);
 const userDataPath = electron.remote.app.getPath("userData");
 
+const modalActive = false; //TODO: Move this in to modules one written
+
 //All DOM Elements
 const playPauseBtn = $("play-pause-audio-btn");
 const scrubFwdBtn = $("scrub-forward-btn");
@@ -123,11 +125,11 @@ seekBar.addEventListener("input", () => {
 });
 
 playbackIncreaseBtn.addEventListener("click", e => {
-  player.changePlaybackRate(e);
+  player.changePlaybackRate(e.target.dataset.rate);
 });
 
 playbackDecreaseBtn.addEventListener("click", e => {
-  player.changePlaybackRate(e);
+  player.changePlaybackRate(e.target.dataset.rate);
 });
 
 libraryFilterSelect.addEventListener("change", e => {
@@ -141,6 +143,50 @@ librarySortSelect.addEventListener("change", e => {
 volumeBar.addEventListener("input", e => {
   player.adjustVolume(e);
 });
+
+player.audioPlayer.addEventListener("volumechange", () => {
+  player.adjustVolumeBarFill();
+});
+
+//Keyboard Shortcuts
+function doc_keyUp(e) {
+  if (modalActive === false) {
+    switch (e.key) {
+      case " ":
+        player.playPause();
+    }
+    switch (e.key) {
+      case "ArrowRight":
+        player.scrubFwd();
+    }
+    switch (e.key) {
+      case "ArrowLeft":
+        player.scrubBwd();
+    }
+    switch (e.key) {
+      case "ArrowUp":
+        player.audioPlayer.volume =
+          Math.round((player.audioPlayer.volume + 0.1) * 10) / 10;
+        volumeBar.setAttribute("value", player.audioPlayer.volume);
+    }
+    switch (e.key) {
+      case "ArrowDown":
+        player.audioPlayer.volume =
+          Math.round((player.audioPlayer.volume - 0.1) * 10) / 10;
+        volumeBar.setAttribute("value", player.audioPlayer.volume);
+    }
+    switch (e.key) {
+      case "+":
+        player.changePlaybackRate(playbackIncreaseBtn.dataset.rate);
+    }
+    switch (e.key) {
+      case "-":
+        player.changePlaybackRate(playbackDecreaseBtn.dataset.rate);
+    }
+  }
+}
+
+window.addEventListener("keyup", doc_keyUp, true);
 
 //Autosaves location is book while playing every 10 secs
 setInterval(() => {
