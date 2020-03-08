@@ -4,7 +4,6 @@ class Player {
     this.isPlaying = false;
     this._selectedBook = false; //TODO: Get last played if there is one, else set to empty
     this._isSeeking = false;
-    this.activePlaylist = [];
     this.playlistIndex = Number;
   }
 
@@ -30,7 +29,7 @@ class Player {
   }
 
   playPause() {
-    if (!this.isPlaying && this._selectedBook) {
+    if (!this.isPlaying && this.selectedBook) {
       this.play();
     } else {
       this.pause();
@@ -38,17 +37,23 @@ class Player {
   }
 
   next() {
-    this.audioPlayer.src = this.activePlaylist[this.playlistIndex + 1].filePath;
+    this.audioPlayer.src = this.selectedBook.playlist[
+      this.playlistIndex + 1
+    ].filePath;
     this.playlistIndex++;
     console.log("Next " + this.playlistIndex);
     this.play();
+    bookView.update();
   }
 
   previous() {
-    this.audioPlayer.src = this.activePlaylist[this.playlistIndex - 1].filePath;
+    this.audioPlayer.src = this.selectedBook.playlist[
+      this.playlistIndex - 1
+    ].filePath;
     this.playlistIndex--;
     console.log("Prev. " + this.playlistIndex);
     this.play();
+    bookView.update();
   }
 
   scrubFwd() {
@@ -68,24 +73,26 @@ class Player {
   switchBook(idOfBook) {
     library.books.map(book => {
       if (book.bookId == idOfBook) {
-        this._selectedBook = book; // used to be file src
-        this.activePlaylist = this._selectedBook.playlist;
-        this.playlistIndex = this._selectedBook.bookmark.index;
-        this.audioPlayer.src = this.activePlaylist[this.playlistIndex].filePath;
-        this.audioPlayer.currentTime = this._selectedBook.bookmark.location;
-        if (this._selectedBook.bookStatus !== "finished") {
-          this._selectedBook.bookStatus = "started";
+        this.selectedBook = book; // used to be file src
+        this.selectedBook.playlist = this.selectedBook.playlist;
+        this.playlistIndex = this.selectedBook.bookmark.index;
+        this.audioPlayer.src = this.selectedBook.playlist[
+          this.playlistIndex
+        ].filePath;
+        this.audioPlayer.currentTime = this.selectedBook.bookmark.location;
+        if (this.selectedBook.bookStatus !== "finished") {
+          this.selectedBook.bookStatus = "started";
         }
+        bookView.update();
+        this.play();
       }
     });
-    bookView.update(this._selectedBook);
-    this.play();
   }
 
   trackEnded() {
-    if (this.playlistIndex + 1 == this._selectedBook.playlistLength) {
+    if (this.playlistIndex + 1 == this.selectedBook.playlistLength) {
       console.log("book has ended");
-      this._selectedBook.bookStatus = "finished";
+      this.selectedBook.bookStatus = "finished";
     } else {
       this.next();
     }
@@ -105,8 +112,8 @@ class Player {
   };
 
   updateBookmark() {
-    this._selectedBook.bookmark.index = this.playlistIndex;
-    this._selectedBook.bookmark.location = Math.round(
+    this.selectedBook.bookmark.index = this.playlistIndex;
+    this.selectedBook.bookmark.location = Math.round(
       this.audioPlayer.currentTime
     );
   }

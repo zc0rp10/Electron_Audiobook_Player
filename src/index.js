@@ -34,6 +34,7 @@ const bookViewCover = $("book-view-cover");
 const bookViewTitle = $("book-view-title");
 const bookViewAuthor = $("book-view-author");
 const bookViewNarrator = $("book-view-narrator");
+const bookViewChapter = $("book-view-chapter");
 
 const seekBar = $("seek-bar");
 const progressBar = $("progress-bar");
@@ -145,8 +146,8 @@ volumeBar.addEventListener("input", e => {
 setInterval(() => {
   if (player.isPlaying) {
     library.books.forEach(book => {
-      if (book.bookId === player._selectedBook.bookId) {
-        book = player._selectedBook;
+      if (book.bookId === player.selectedBook.bookId) {
+        book = player.selectedBook;
       }
     });
     console.log("Autosave Completed!");
