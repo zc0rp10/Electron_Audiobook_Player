@@ -61,7 +61,7 @@ ipcMain.on("add-folder-dialog", event => {
         let i = 0;
         let bookObject = {
           duration: 0,
-          bookmark: 0,
+          bookmark: { index: 0, location: 0 },
           bookStatus: "not started",
           playlistLength: files.length,
           playlist: [],

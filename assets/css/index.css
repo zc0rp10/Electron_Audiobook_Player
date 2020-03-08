@@ -321,6 +321,22 @@ input[type="range"]::-webkit-slider-thumb {
   margin: auto 0;
 }
 
+#skip-forward-btn {
+  -webkit-mask-image: url(../icons/skip_next-24px.svg);
+  -webkit-mask-size: cover;
+  height: 38px;
+  width: 38px;
+  margin: auto 0;
+}
+
+#skip-backward-btn {
+  -webkit-mask-image: url(../icons/skip_previous-24px.svg);
+  -webkit-mask-size: cover;
+  height: 38px;
+  width: 38px;
+  margin: auto 0;
+}
+
 #increase-speed-btn {
   -webkit-mask-image: url(../icons/chevron_right-24px.svg);
 }

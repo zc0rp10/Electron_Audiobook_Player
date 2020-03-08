@@ -16,6 +16,9 @@ const userDataPath = electron.remote.app.getPath("userData");
 const playPauseBtn = $("play-pause-audio-btn");
 const scrubFwdBtn = $("scrub-forward-btn");
 const scrubBwdBtn = $("scrub-backward-btn");
+const skipFwdBtn = $("skip-forward-btn");
+const skipBwdBtn = $("skip-backward-btn");
+
 const playbackIncreaseBtn = $("increase-speed-btn");
 const playbackDecreaseBtn = $("decrease-speed-btn");
 const playbackLabel = $("playback-rate");
@@ -94,6 +97,14 @@ scrubFwdBtn.addEventListener("click", () => {
 
 scrubBwdBtn.addEventListener("click", () => {
   player.scrubBwd();
+});
+
+skipFwdBtn.addEventListener("click", () => {
+  player.next();
+});
+
+skipBwdBtn.addEventListener("click", () => {
+  player.previous();
 });
 
 player.audioPlayer.addEventListener("timeupdate", () => {

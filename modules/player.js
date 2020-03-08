@@ -15,7 +15,7 @@ class Player {
   }
 
   play() {
-    this.audioPlayer.onended = () => this.bookEnded();
+    this.audioPlayer.onended = () => this.trackEnded();
     this.audioPlayer.play();
     this.isPlaying = true;
     playPauseBtn.style.webkitMaskImage =
@@ -37,6 +37,20 @@ class Player {
     }
   }
 
+  next() {
+    this.audioPlayer.src = this.activePlaylist[this.playlistIndex + 1].filePath;
+    this.playlistIndex++;
+    console.log("Next " + this.playlistIndex);
+    this.play();
+  }
+
+  previous() {
+    this.audioPlayer.src = this.activePlaylist[this.playlistIndex - 1].filePath;
+    this.playlistIndex--;
+    console.log("Prev. " + this.playlistIndex);
+    this.play();
+  }
+
   scrubFwd() {
     this.audioPlayer.currentTime = this.audioPlayer.currentTime + 30;
   }
@@ -54,34 +68,27 @@ class Player {
   switchBook(idOfBook) {
     library.books.map(book => {
       if (book.bookId == idOfBook) {
-        this._selectedBook = book.bookId; // used to be file src
-        this.activePlaylist = book.playlist;
-        this.playlistIndex = 0;
+        this._selectedBook = book; // used to be file src
+        this.activePlaylist = this._selectedBook.playlist;
+        this.playlistIndex = this._selectedBook.bookmark.index;
         this.audioPlayer.src = this.activePlaylist[this.playlistIndex].filePath;
+        this.audioPlayer.currentTime = this._selectedBook.bookmark.location;
+        if (this._selectedBook.bookStatus !== "finished") {
+          this._selectedBook.bookStatus = "started";
+        }
       }
     });
     bookView.update(this._selectedBook);
-
-    //Checks if there's a bookmark for the book // TODO: Regressed with the switch to a playlist driven player
-    // library.books.map(book => {
-    //   book.filePath === newSrc
-    //     ? (this.audioPlayer.currentTime = book.bookmark)
-    //     : this.audioPlayer.currentTime;
-
-    //   if (book.filePath === newSrc && book.bookStatus !== "finished") {
-    //     book.bookStatus = "started";
-    //   }
-    // });
     this.play();
   }
 
-  bookEnded() {
-    console.log("End of book.");
-    library.books.map(book => {
-      if (book.filePath == this.selectedBook) {
-        book.bookStatus = "finished";
-      }
-    });
+  trackEnded() {
+    if (this.playlistIndex + 1 == this._selectedBook.playlistLength) {
+      console.log("book has ended");
+      this._selectedBook.bookStatus = "finished";
+    } else {
+      this.next();
+    }
   }
 
   changePlaybackRate = e => {

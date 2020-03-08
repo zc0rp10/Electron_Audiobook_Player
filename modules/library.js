@@ -142,7 +142,7 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
       });
     })
     .catch(err => {
-      console.error(err.message);
+      console.error(err.message); //Todo: Theres an error here when adding books
     });
 });
 
@@ -156,12 +156,18 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
     mm.parseFile(element.filePath)
       .then(metadata => {
         bookObject.duration = bookObject.duration + metadata.format.duration;
-        element.trackDuration = metadata.format.duration;    
-        
+        element.trackDuration = metadata.format.duration;
+
         if (i === 0) {
           let book = metadata.common;
-          let imgFilePath = path.join(`${userDataPath}`, "bookcovers", `${book.title}.png`);
-           let coverMetaString = `data:${book.picture[0].format};base64,${book.picture[0].data.toString("base64")}`;
+          let imgFilePath = path.join(
+            `${userDataPath}`,
+            "bookcovers",
+            `${book.title}.png`
+          );
+          let coverMetaString = `data:${
+            book.picture[0].format
+          };base64,${book.picture[0].data.toString("base64")}`;
           baseDataToImageFile(coverMetaString, imgFilePath);
           bookObject.bookId = `${book.title}`;
           bookObject.cover = `${imgFilePath}`;
@@ -174,55 +180,7 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
         console.error(err.message);
       });
   }
-
-  // let bookObject = {
-  //   duration: 0,
-  //   bookmark: 0,
-  //   bookStatus: "not started",
-  //   playlistLength: filepathsArray.length,
-  //   playlist: []
-  // };
-  // mm.parseFile(filepathsArray[0])
-  //   .then(metadata => {
-  //     let book = metadata.common;
-  //     let imgFilePath = path.join(
-  //       `${userDataPath}`,
-  //       "bookcovers",
-  //       `${book.title}.png`
-  //     );
-  //     let coverMetaString = `data:${
-  //       book.picture[0].format
-  //     };base64,${book.picture[0].data.toString("base64")}`;
-  //     baseDataToImageFile(coverMetaString, imgFilePath);
-  //     bookObject.bookId = `${book.title}`;
-  //     bookObject.cover = imgFilePath;
-  //     bookObject.title = `${book.title}`;
-  //     bookObject.author = `${book.artist}`;
-  //     bookObject.narrator = `${book.compose}`;
-  //     bookObject.bookStatus = "not started";
-  //     let trackIndex = 0;
-  //     filepathsArray.forEach(filepath => {
-  //       let trackObject = {};
-  //       trackObject.index = trackIndex++;
-  //       trackObject.filePath = filepath;
-  //       mm.parseFile(filepath)
-  //         .then(metadata => {
-  //           bookObject.duration =
-  //             bookObject.duration + metadata.format.duration;
-  //           trackObject.trackTitle = `${book.title}`;
-  //           trackObject.trackDuration = metadata.format.duration;
-  //           bookObject.playlist.push(trackObject);
-  //         })
-  //         .catch(err => {
-  //           console.error(err.message);
-  //         });
-  //     });
-  //
-  //   })
-  //   .catch(err => {
-  //     console.error(err.message);
-  //   });
-  // library.books.push(bookObject);
+  library.books.push(bookObject);
 });
 
 module.exports = Library;

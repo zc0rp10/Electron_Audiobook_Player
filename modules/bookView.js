@@ -14,7 +14,7 @@ class BookView {
 
   update(src) {
     library.books.map(book => {
-      if (book.filePath === src) {
+      if (book.bookId === src) {
         this._title = book.title;
         this._author = book.author;
         this._narrator = book.narrator;
