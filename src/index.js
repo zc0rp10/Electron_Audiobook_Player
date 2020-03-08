@@ -149,6 +149,8 @@ player.audioPlayer.addEventListener("volumechange", () => {
   player.adjustVolumeBarFill();
 });
 
+
+
 const toggleSettingsBtns = Array.from(
   document.querySelectorAll(".toggle-settings")
 );

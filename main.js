@@ -88,7 +88,8 @@ ipcMain.on("add-folder-dialog", event => {
       properties: ["openDirectory"]
     })
     .then(result => {
-      fs.readdir(result.filePaths[0], (err, files) => {
+      console.log(result);
+      fs.readdir(result.filePaths[0].toString(), (err, files) => {
         let i = 0;
         let bookObject = {
           duration: 0,

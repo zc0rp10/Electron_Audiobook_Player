@@ -51,7 +51,7 @@ body {
   width: 100%;
   height: 100%;
   background: #181818;
-  z-index: 99;
+  z-index: 10;
 }
 
 #settings-header {
@@ -105,16 +105,19 @@ body {
 #hamburger {
   grid-area: hamburger;
   background: #272727;
+  z-index: 12;
 }
 
 #player {
   grid-area: player;
   background: #272727;
   box-shadow: -0.3rem -0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+  z-index: 13;
 }
 
 #book-view {
   grid-area: book-view;
+  z-index: 12;
   display: flex;
   flex-direction: column;
   background: #212121;
@@ -123,6 +126,7 @@ body {
 
 #menu {
   grid-area: menu;
+  z-index: 12;
   background: #212121;
   box-shadow: 0.125rem -0.3rem 0.25rem rgba(0, 0, 0, 0.3);
   text-align: center;
