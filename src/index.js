@@ -28,6 +28,7 @@ const playbackLabel = $("playback-rate");
 const addBookBtn = $("add-book-btn");
 const addFolderBtn = $("add-folder-btn");
 
+const settingsView = $("settings");
 const libraryView = $("lib-content");
 const libraryFilterSelect = $("filter-select");
 const librarySortSelect = $("sort-select");
@@ -147,6 +148,16 @@ volumeBar.addEventListener("input", e => {
 player.audioPlayer.addEventListener("volumechange", () => {
   player.adjustVolumeBarFill();
 });
+
+const toggleSettingsBtns = Array.from(
+  document.querySelectorAll(".toggle-settings")
+);
+toggleSettingsBtns.forEach(btn =>
+  btn.addEventListener("click", () => {
+    console.log(settingsView);
+    settingsView.classList.toggle("hidden");
+  })
+);
 
 //Keyboard Shortcuts
 function doc_keyUp(e) {

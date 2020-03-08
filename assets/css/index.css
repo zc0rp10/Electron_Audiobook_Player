@@ -22,6 +22,10 @@ body {
   margin: 0;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -42,7 +46,38 @@ body {
   grid-template-areas: "menu library book-view" "player player player";
 }
 
-#library {
+#settings {
+  width: 100%;
+  height: 100%;
+  background: #181818;
+  z-index: 99;
+}
+
+#settings-header {
+  display: flex;
+  padding: 0 5%;
+}
+
+#settings-content {
+  padding: 0 5%;
+}
+
+#keyboard-shortcuts {
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 50% auto;
+  padding: 10px 0;
+}
+
+.command {
+  font-family: "Roboto Mono", monospace;
+}
+
+.library {
   grid-area: library;
 }
 
@@ -383,6 +418,12 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-mask-size: cover;
   border: 0;
   background-color: transparent;
+}
+
+.close-btn {
+  -webkit-mask-image: url(../icons/close-24px.svg);
+  -webkit-mask-size: cover;
+  margin: auto 0 auto auto;
 }
 
 /* Menu Line */
