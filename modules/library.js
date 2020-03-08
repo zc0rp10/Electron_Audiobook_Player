@@ -35,10 +35,22 @@ class Library {
     //followed by if this.sortOrder not equal to whats passed in, sort array.
     this.books.forEach(book => {
       if (this.filter === "all" || book.bookStatus === this.filter) {
-        let timeLeft =
-          book.playlistLength === 1
-            ? secondsToHms(book.duration - book.bookmark.location)
-            : "Unknown";
+        let timeLeft;
+
+        if (book.playlistLength === 1) {
+          timeLeft = secondsToHms(book.duration - book.bookmark.location);
+        } else {
+          let elapsedTime = book.bookmark.location;
+          book.playlist.forEach(track => {
+            if (track.index < book.bookmark.index) {
+              elapsedTime = elapsedTime + track.trackDuration;
+              console.log(track.index);
+              console.log(elapsedTime);
+            }
+            timeLeft = secondsToHms(book.duration - elapsedTime);
+          });
+        }
+
         libraryView.insertAdjacentHTML(
           "beforeend",
           `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
