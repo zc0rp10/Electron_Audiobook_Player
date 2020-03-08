@@ -16,7 +16,10 @@ class BookView {
     this._author = player.selectedBook.author;
     this._narrator = player.selectedBook.narrator;
     this._cover = player.selectedBook.cover;
-    this._chapter = chapterNbr + " - " + chapterName;
+    this._chapter =
+      player.selectedBook.playlistLength !== 1
+        ? chapterNbr + " - " + chapterName
+        : "";
     this.render();
   }
 
