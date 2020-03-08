@@ -24,8 +24,8 @@ class Library {
     ipcRenderer.send("add-folder-dialog");
   }
 
-  removeBook(bookFilePath) {
-    this.books = this.books.filter(book => book.filePath != bookFilePath);
+  removeBook(idOfBook) {
+    this.books = this.books.filter(book => book.bookId != idOfBook);
     this.render();
   }
 
@@ -68,7 +68,7 @@ class Library {
     deleteBtns.forEach(dltBtn =>
       dltBtn.addEventListener("click", e => {
         e.stopPropagation();
-        this.removeBook(event.path[2].dataset.src.toString());
+        this.removeBook(event.path[2].id.toString());
       })
     );
   }
