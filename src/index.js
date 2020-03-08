@@ -108,6 +108,7 @@ skipBwdBtn.addEventListener("click", () => {
 });
 
 player.audioPlayer.addEventListener("timeupdate", () => {
+  player.updateBookmark();
   player.updateBar();
 });
 
@@ -143,11 +144,11 @@ volumeBar.addEventListener("input", e => {
 //Autosaves location is book while playing every 10 secs
 setInterval(() => {
   if (player.isPlaying) {
-    library.books = library.books.map(book =>
-      book.filePath === player._selectedBook
-        ? { ...book, bookmark: Math.round(player.audioPlayer.currentTime) }
-        : book
-    );
+    library.books.forEach(book => {
+      if (book.bookId === player._selectedBook.bookId) {
+        book = player._selectedBook;
+      }
+    });
     console.log("Autosave Completed!");
   }
 }, 10000);

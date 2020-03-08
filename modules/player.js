@@ -104,6 +104,13 @@ class Player {
     playbackLabel.textContent = player.playbackRate.toFixed(2).toString() + "X";
   };
 
+  updateBookmark() {
+    this._selectedBook.bookmark.index = this.playlistIndex;
+    this._selectedBook.bookmark.location = Math.round(
+      this.audioPlayer.currentTime
+    );
+  }
+
   updateBar = () => {
     barCurrentTime.textContent = secondsToHms(this.audioPlayer.currentTime);
     barTotalTime.textContent = secondsToHms(this.audioPlayer.duration);
