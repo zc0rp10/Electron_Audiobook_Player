@@ -340,8 +340,8 @@ input[type="range"]::-webkit-slider-thumb {
 .btn {
   border: 0;
   background-color: #ffc600;
-  height: 24px;
-  width: 24px;
+  min-height: 24px;
+  min-width: 24px;
   cursor: pointer;
   padding: 0;
 }
@@ -451,7 +451,7 @@ input[type="range"]::-webkit-slider-thumb {
 .close-btn {
   -webkit-mask-image: url(../icons/close-24px.svg);
   -webkit-mask-size: cover;
-  margin: auto 0 auto auto;
+  margin: 22px 0 auto 30px;
 }
 
 /* Menu Line */
@@ -543,7 +543,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 #book-view-wrapper {
   margin: 0 auto;
-  max-width: 80%;
+  padding: 0 10%;
 }
 
 #book-view-content {
@@ -575,9 +575,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* Edit Book View*/
 .edit-view-wrapper {
-  padding: 0 5%;
+  padding: 0 10%;
 }
 
 .edit-header {
   display: flex;
+  justify-content: space-between;
 }

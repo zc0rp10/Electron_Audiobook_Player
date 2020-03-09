@@ -6,6 +6,7 @@ class BookView {
     this._cover = String;
     this._chapter = String;
     this.editBookOpen = false;
+    this.summaryBookOpen = false;
   }
 
   toggleSettings() {
@@ -46,13 +47,43 @@ class BookView {
     editBookView.classList.toggle("hidden");
   }
 
+  toggleBookSummary(idOfBook) {
+    //If it's a string user is asking to see the summary. Otherwise they've pressed the close btn of the summary view, or opening edit.
+    if (typeof idOfBook == "string") {
+      library.books.forEach(book => {
+        //Pulls the summary details from the library of books
+        if (book.bookId === idOfBook) {
+          summaryTitle.textContent = book.title;
+          summaryDescription.textContent = book.description;
+          //Checks if summary view is already opened from viewing other summary, if so it will prevent it from being closed.
+          if (!this.summaryBookOpen) {
+            summaryBookView.classList.toggle("hidden");
+            bookView.summaryBookOpen = bookView.summaryBookOpen ? false : true;
+            //Closes Edit View if open.
+            if (this.editBookOpen) {
+              this.toggleEdit();
+            }
+          }
+        }
+      });
+    } else {
+      //Only triggers if user has pressed the close btn in the summary view
+      summaryBookView.classList.toggle("hidden");
+      bookView.summaryBookOpen = bookView.summaryBookOpen ? false : true;
+    }
+  }
+
   editBookDetails(idOfBook) {
+    if (this.summaryBookOpen) {
+      this.toggleBookSummary();
+    }
     library.books.forEach(book => {
       if (book.bookId === idOfBook) {
         inputEditId.value = book.bookId;
         inputEditTitle.value = book.title;
         inputEditAuthor.value = book.author;
         inputEditNarrator.value = book.narrator;
+        //Closes Summary View if open.
         if (!this.editBookOpen) {
           this.toggleEdit();
         }

@@ -30,6 +30,9 @@ const addFolderBtn = $("add-folder-btn");
 const hamburgerBtn = $("hamburger-btn");
 
 const menu = $("menu");
+const summaryBookView = $("book-view-summary");
+const summaryTitle = $("summary-title");
+const summaryDescription = $("summary-description");
 const editBookView = $("book-view-edit");
 const settingsView = $("settings");
 const libraryView = $("lib-content");
@@ -175,6 +178,9 @@ toggleEditBtn.addEventListener("click", bookView.toggleEdit);
 editBookSubmit.addEventListener("click", () => {
   bookView.submitBookDetails(inputEditId.value);
 });
+
+const toggleSummaryBtn = document.querySelector(".toggle-summary-view");
+toggleSummaryBtn.addEventListener("click", bookView.toggleBookSummary);
 
 //Keyboard Shortcuts
 function doc_keyUp(e) {

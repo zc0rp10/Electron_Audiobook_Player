@@ -125,6 +125,18 @@ class Library {
         bookView.editBookDetails(e.path[2].id);
       })
     );
+
+    //View Book Summary
+    const summaryBtns = Array.from(
+      document.querySelectorAll(".summary-book-btn")
+    );
+    summaryBtns.forEach(summaryBtn =>
+      summaryBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        bookView.toggleMoreMenu(e.path[2].lastElementChild);
+        bookView.toggleBookSummary(e.path[2].id);
+      })
+    );
   }
 
   sortLibrary(e) {
@@ -183,6 +195,9 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
       };base64,${book.picture[0].data.toString("base64")}`;
       baseDataToImageFile(coverMetaString, imgFilePath);
 
+      const metaDescription = book.description
+        ? `${book.description}`
+        : "Unfortunately no summary was included with the audio file.";
       library.books.push({
         bookId: `${book.title}`,
         filePath: arg,
@@ -192,7 +207,8 @@ ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
         narrator: `${book.composer}`,
         duration: Math.round(metadata.format.duration),
         bookmark: 0,
-        bookStatus: "not started"
+        bookStatus: "not started",
+        description: metaDescription
       });
     })
     .catch(err => {
@@ -221,12 +237,18 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
           let coverMetaString = `data:${
             book.picture[0].format
           };base64,${book.picture[0].data.toString("base64")}`;
+
+          const metaDescription = book.description
+            ? `${book.description}`
+            : "Unfortunately no summary was included with the audio file.";
+
           baseDataToImageFile(coverMetaString, imgFilePath);
           bookObject.bookId = `${book.title}`;
           bookObject.cover = `${imgFilePath}`;
           bookObject.title = `${book.title}`;
           bookObject.author = `${book.artist}`;
           bookObject.narrator = `${book.composer}`;
+          bookObject.description = metaDescription;
         }
       })
       .catch(err => {

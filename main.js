@@ -69,7 +69,8 @@ function createWindow() {
             cover: "",
             title: "",
             author: "",
-            narrator: ""
+            narrator: "",
+            description: ""
           };
 
           event.reply("add-folder-dialog-reply", bookObject);
@@ -100,7 +101,8 @@ ipcMain.on("add-folder-dialog", event => {
           cover: "",
           title: "",
           author: "",
-          narrator: ""
+          narrator: "",
+          description: ""
         };
         files.forEach(file => {
           if (
