@@ -178,84 +178,65 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
   }
 }
 
-//Add Book
-//Awaits the response to add book dialog, TODO: Find out why I can't add it inside class. When i had it together with the sending function it adde multiple eventlistners
-ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
-  mm.parseFile(arg)
+//Add Folder
+ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
+  let isDuplicate = false;
+  mm.parseFile(bookObject.playlist[0].filePath)
     .then(metadata => {
-      console.log(metadata);
       let book = metadata.common;
+
       let imgFilePath = path.join(
         `${userDataPath}`,
         "bookcovers",
-        `${book.titparseFilele}.png`
+        `${book.title}.png`
       );
       let coverMetaString = `data:${
         book.picture[0].format
       };base64,${book.picture[0].data.toString("base64")}`;
-      baseDataToImageFile(coverMetaString, imgFilePath);
 
       const metaDescription = book.description
         ? `${book.description}`
         : "Unfortunately no summary was included with the audio file.";
-      library.books.push({
-        bookId: `${book.title}`,
-        filePath: arg,
-        cover: imgFilePath,
-        title: `${book.title}`,
-        author: `${book.artist}`,
-        narrator: `${book.composer}`,
-        duration: Math.round(metadata.format.duration),
-        bookmark: 0,
-        bookStatus: "not started",
-        description: metaDescription
-      });
+
+      bookObject.bookId = `${book.title}`;
+      bookObject.cover = `${imgFilePath}`;
+      bookObject.title = `${book.title}`;
+      bookObject.author = `${book.artist}`;
+      bookObject.narrator = `${book.composer}`;
+      bookObject.description = metaDescription;
+      baseDataToImageFile(coverMetaString, imgFilePath);
+      return bookObject;
     })
-    .catch(err => {
-      console.error(err.message); //Todo: Theres an error here when adding books
-    });
-});
-
-//Add Folder
-ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
-  for (let i = 0; i < bookObject.playlist.length; i++) {
-    const element = bookObject.playlist[i];
-
-    mm.parseFile(element.filePath)
-      .then(metadata => {
-        console.log(metadata);
-        bookObject.duration = bookObject.duration + metadata.format.duration;
-        element.trackDuration = metadata.format.duration;
-
-        if (i === 0) {
-          let book = metadata.common;
-          let imgFilePath = path.join(
-            `${userDataPath}`,
-            "bookcovers",
-            `${book.title}.png`
-          );
-          let coverMetaString = `data:${
-            book.picture[0].format
-          };base64,${book.picture[0].data.toString("base64")}`;
-
-          const metaDescription = book.description
-            ? `${book.description}`
-            : "Unfortunately no summary was included with the audio file.";
-
-          baseDataToImageFile(coverMetaString, imgFilePath);
-          bookObject.bookId = `${book.title}`;
-          bookObject.cover = `${imgFilePath}`;
-          bookObject.title = `${book.title}`;
-          bookObject.author = `${book.artist}`;
-          bookObject.narrator = `${book.composer}`;
-          bookObject.description = metaDescription;
+    .then(bookObject => {
+      library.books.forEach(book => {
+        if (book.title === bookObject.bookId) {
+          isDuplicate = true;
         }
-      })
-      .catch(err => {
-        console.error(err.message);
       });
-  }
-  library.books.push(bookObject);
+      return bookObject;
+    })
+    .then(bookObject => {
+      for (let i = 0; i < bookObject.playlist.length; i++) {
+        const element = bookObject.playlist[i];
+        mm.parseFile(element.filePath)
+          .then(metadata => {
+            bookObject.duration =
+              bookObject.duration + metadata.format.duration;
+            element.trackDuration = metadata.format.duration;
+          })
+          .catch(err => {
+            console.error(err.message);
+          });
+      }
+      console.log(isDuplicate);
+      if (isDuplicate === false) {
+        library.books.push(bookObject);
+      } else {
+        alert(
+          "A book with this name already exist in your library. If you still want to add it, please remove the old version and then try again."
+        );
+      }
+    });
 });
 
 module.exports = Library;

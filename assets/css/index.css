@@ -412,16 +412,15 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-mask-size: cover;
 }
 
+
 #settings-btn {
   -webkit-mask-image: url(../icons/settings-24px.svg);
   -webkit-mask-size: cover;
-  margin: 0 auto 24px 24px;
 }
 
 #add-book-btn {
   -webkit-mask-image: url(../icons/book-24px.svg);
   -webkit-mask-size: cover;
-  margin-top: 10px;
 }
 
 #library-btn {
