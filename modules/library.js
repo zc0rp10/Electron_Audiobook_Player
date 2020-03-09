@@ -44,8 +44,6 @@ class Library {
           book.playlist.forEach(track => {
             if (track.index < book.bookmark.index) {
               elapsedTime = elapsedTime + track.trackDuration;
-              console.log(track.index);
-              console.log(elapsedTime);
             }
             timeLeft = secondsToHms(book.duration - elapsedTime);
           });
@@ -69,7 +67,7 @@ class Library {
       </div>
       </div>
       <div class="book-reveal">
-      <span class="menu.titel">Menu</span>
+      <span class="menu-title">Menu</span>
       <button class="btn book-menu-close-btn right"></button>
       <p class="pointer dlt-book-btn">Remove Book</p>
       <p class="pointer edit-book-btn">Edit Book Details</p>
@@ -94,7 +92,7 @@ class Library {
     moreBtns.forEach(more =>
       more.addEventListener("click", e => {
         e.stopPropagation();
-        e.path[3].lastElementChild.style = "transform: translateY(-100%)";
+        bookView.toggleMoreMenu(e.path[3].lastElementChild);
       })
     );
 
@@ -105,7 +103,7 @@ class Library {
     lessBtns.forEach(less =>
       less.addEventListener("click", e => {
         e.stopPropagation();
-        e.path[2].lastElementChild.style = "transform: translateY(0%)";
+        bookView.toggleMoreMenu(e.path[2].lastElementChild);
       })
     );
 
@@ -123,6 +121,7 @@ class Library {
     editBtns.forEach(editBtn =>
       editBtn.addEventListener("click", e => {
         e.stopPropagation();
+        bookView.toggleMoreMenu(e.path[2].lastElementChild);
         bookView.editBookDetails(e.path[2].id);
       })
     );
@@ -172,6 +171,7 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
 ipcRenderer.on("add-book-dialog-reply", (event, arg) => {
   mm.parseFile(arg)
     .then(metadata => {
+      console.log(metadata);
       let book = metadata.common;
       let imgFilePath = path.join(
         `${userDataPath}`,
@@ -207,6 +207,7 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
 
     mm.parseFile(element.filePath)
       .then(metadata => {
+        console.log(metadata);
         bookObject.duration = bookObject.duration + metadata.format.duration;
         element.trackDuration = metadata.format.duration;
 

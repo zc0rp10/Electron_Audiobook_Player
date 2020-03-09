@@ -5,6 +5,15 @@ class BookView {
     this._narrator = String;
     this._cover = String;
     this._chapter = String;
+    this.editBookOpen = false;
+  }
+
+  toggleSettings() {
+    settingsView.classList.toggle("hidden");
+  }
+
+  toggleMoreMenu(element) {
+    element.classList.toggle("book-reveal-open");
   }
 
   update() {
@@ -31,6 +40,12 @@ class BookView {
     bookViewChapter.textContent = this._chapter;
   }
 
+  //Access directly by close btn in the Edit View. The book cards access it via editBookDetails() (so it only opens if not alreay)
+  toggleEdit() {
+    bookView.editBookOpen = bookView.editBookOpen ? false : true;
+    editBookView.classList.toggle("hidden");
+  }
+
   editBookDetails(idOfBook) {
     library.books.forEach(book => {
       if (book.bookId === idOfBook) {
@@ -38,7 +53,9 @@ class BookView {
         inputEditTitle.value = book.title;
         inputEditAuthor.value = book.author;
         inputEditNarrator.value = book.narrator;
-        editBookView.classList.toggle("hidden");
+        if (!this.editBookOpen) {
+          this.toggleEdit();
+        }
       }
     });
   }
@@ -52,7 +69,6 @@ class BookView {
         editBookView.classList.toggle("hidden");
 
         if (player.selectedBook.bookId === idOfBook) {
-          console.log("Match");
           player.selectedBook.title = inputEditTitle.value.toString();
           player.selectedBook.author = inputEditAuthor.value.toString();
           player.selectedBook.narrator = inputEditNarrator.value.toString();

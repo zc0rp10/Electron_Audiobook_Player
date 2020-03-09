@@ -166,16 +166,11 @@ const toggleSettingsBtns = Array.from(
   document.querySelectorAll(".toggle-settings")
 );
 toggleSettingsBtns.forEach(btn =>
-  btn.addEventListener("click", () => {
-    console.log(settingsView);
-    settingsView.classList.toggle("hidden");
-  })
+  btn.addEventListener("click", bookView.toggleSettings)
 );
 
 const toggleEditBtn = document.querySelector(".toggle-edit-view");
-toggleEditBtn.addEventListener("click", () => {
-  editBookView.classList.toggle("hidden");
-});
+toggleEditBtn.addEventListener("click", bookView.toggleEdit);
 
 editBookSubmit.addEventListener("click", () => {
   bookView.submitBookDetails(inputEditId.value);

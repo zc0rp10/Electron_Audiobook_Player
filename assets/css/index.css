@@ -491,13 +491,18 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 5%;
 }
 
+.book-reveal-open {
+  transform: translateY(-100%);
+}
+
+.book-reveal .menu-title {
+  font-weight: bold;
+}
+
 .book-image img {
   height: 200px;
   width: 200px;
   object-fit: cover;
-}
-
-.book-reveal {
 }
 
 .book-title {
