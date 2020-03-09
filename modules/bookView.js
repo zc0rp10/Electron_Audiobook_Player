@@ -30,6 +30,39 @@ class BookView {
     bookViewCover.src = this._cover;
     bookViewChapter.textContent = this._chapter;
   }
+
+  editBookDetails(idOfBook) {
+    library.books.forEach(book => {
+      if (book.bookId === idOfBook) {
+        inputEditId.value = book.bookId;
+        inputEditTitle.value = book.title;
+        inputEditAuthor.value = book.author;
+        inputEditNarrator.value = book.narrator;
+        editBookView.classList.toggle("hidden");
+      }
+    });
+  }
+
+  submitBookDetails(idOfBook) {
+    library.books.forEach(book => {
+      if (book.bookId === idOfBook) {
+        book.title = inputEditTitle.value.toString();
+        book.author = inputEditAuthor.value.toString();
+        book.narrator = inputEditNarrator.value.toString();
+        editBookView.classList.toggle("hidden");
+
+        if (player.selectedBook.bookId === idOfBook) {
+          console.log("Match");
+          player.selectedBook.title = inputEditTitle.value.toString();
+          player.selectedBook.author = inputEditAuthor.value.toString();
+          player.selectedBook.narrator = inputEditNarrator.value.toString();
+          this.update();
+          this.render();
+        }
+        library.render();
+      }
+    });
+  }
 }
 
 module.exports = BookView;

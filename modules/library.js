@@ -54,6 +54,7 @@ class Library {
         libraryView.insertAdjacentHTML(
           "beforeend",
           `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+          <div class="book-inner">
       <div class="book-image">
         <img class="pointer" src="${book.cover}" />
       </div>
@@ -66,12 +67,21 @@ class Library {
         <span class="book-stats pointer">${timeLeft} left</span>
         <button class="btn more-vert-btn right"></button>
       </div>
+      </div>
+      <div class="book-reveal">
+      <span class="menu.titel">Menu</span>
+      <button class="btn book-menu-close-btn right"></button>
+      <p class="pointer dlt-book-btn">Remove Book</p>
+      <p class="pointer edit-book-btn">Edit Book Details</p>
+      <p class="pointer summary-book-btn">View Book Summary</p>
+      </div>
     </div>`
         );
       }
     });
 
     //Reapply Listeners after library is drawn
+    //Click to switch and play book
     const booksInLibrary = Array.from(document.querySelectorAll(".book"));
     booksInLibrary.forEach(book =>
       book.addEventListener("click", () => {
@@ -79,11 +89,41 @@ class Library {
       })
     );
 
-    const deleteBtns = Array.from(document.querySelectorAll(".more-vert-btn"));
-    deleteBtns.forEach(dltBtn =>
+    //Reveal More Menu
+    const moreBtns = Array.from(document.querySelectorAll(".more-vert-btn"));
+    moreBtns.forEach(more =>
+      more.addEventListener("click", e => {
+        e.stopPropagation();
+        e.path[3].lastElementChild.style = "transform: translateY(-100%)";
+      })
+    );
+
+    //Hide More Menu
+    const lessBtns = Array.from(
+      document.querySelectorAll(".book-menu-close-btn")
+    );
+    lessBtns.forEach(less =>
+      less.addEventListener("click", e => {
+        e.stopPropagation();
+        e.path[2].lastElementChild.style = "transform: translateY(0%)";
+      })
+    );
+
+    //Remove Book
+    const dltBtns = Array.from(document.querySelectorAll(".dlt-book-btn"));
+    dltBtns.forEach(dltBtn =>
       dltBtn.addEventListener("click", e => {
         e.stopPropagation();
-        this.removeBook(event.path[2].id.toString());
+        this.removeBook(e.path[2].id);
+      })
+    );
+
+    //Edit Book Details
+    const editBtns = Array.from(document.querySelectorAll(".edit-book-btn"));
+    editBtns.forEach(editBtn =>
+      editBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        bookView.editBookDetails(e.path[2].id);
       })
     );
   }

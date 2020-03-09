@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div id="menu">
+    <div id="menu" class="menu-closed">
       <button class="btn btn-menu" id="hamburger-btn"></button>
       <span
         class="btn menu-line-top"
@@ -92,7 +92,7 @@
         <!-- JS RENDERED -->
       </div>
     </div>
-    <div id="book-view">
+    <div class="book-view">
       <div id="book-view-wrapper">
         <div id="book-view-head"></div>
         <div id="book-view-content">
@@ -115,33 +115,60 @@
       <div id="settings-content">
         <div id="keyboard-shortcuts">
           <h3>Keyboard Shortcuts</h3>
-          <div class="line">
+          <div class="line50">
             <div class="description">Toggle Play/Pause</div>
             <div class="command">Space-Bar</div>
           </div>
-          <div class="line">
+          <div class="line50">
             <div class="description">Fast Forward 30 Seconds</div>
             <div class="command">Right Arrow</div>
           </div>
-          <div class="line">
+          <div class="line50">
             <div class="description">Rewind 30 Seconds</div>
             <div class="command">Left Arrow</div>
           </div>
-          <div class="line">
+          <div class="line50">
             <div class="description">Volume Up</div>
             <div class="command">Arrow Up</div>
           </div>
-          <div class="line">
+          <div class="line50">
             <div class="description">Volume Down</div>
             <div class="command">Arrow Down</div>
           </div>
-          <div class="line">
+          <div class="line50">
             <div class="description">Increase Playback Rate</div>
             <div class="command">+</div>
           </div>
-          <div class="line">
+          <div class="line50">
             <div class="description">Decrease Playback Rate</div>
             <div class="command">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="book-view-edit" class="book-view hidden">
+      <div class="edit-view-wrapper">
+        <div class="edit-header">
+          <h2>Edit Book Details</h2>
+          <button class="btn close-btn toggle-edit-view"></button>
+          <input type="text" id="editId" class="none" disabled />
+        </div>
+        <div class="edit-content book-view-wrapper">
+          <div class="line30">
+            <label for="editTitle">Book Title</label>
+            <input type="text" class="" id="editTitle" />
+          </div>
+          <div class="line30">
+            <label for="editAuthor">Author</label>
+            <input type="text" class="" id="editAuthor" />
+          </div>
+          <div class="line30">
+            <label for="editNarrator">Narrator</label>
+            <input type="text" class="" id="editNarrator" />
+          </div>
+          <div>
+            <br />
+            <button id="edit-book-submit">Submit</button>
           </div>
         </div>
       </div>

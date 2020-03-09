@@ -27,7 +27,10 @@ const playbackLabel = $("playback-rate");
 
 const addBookBtn = $("add-book-btn");
 const addFolderBtn = $("add-folder-btn");
+const hamburgerBtn = $("hamburger-btn");
 
+const menu = $("menu");
+const editBookView = $("book-view-edit");
 const settingsView = $("settings");
 const libraryView = $("lib-content");
 const libraryFilterSelect = $("filter-select");
@@ -38,6 +41,12 @@ const bookViewTitle = $("book-view-title");
 const bookViewAuthor = $("book-view-author");
 const bookViewNarrator = $("book-view-narrator");
 const bookViewChapter = $("book-view-chapter");
+
+const editBookSubmit = $("edit-book-submit");
+const inputEditId = $("editId");
+const inputEditTitle = $("editTitle");
+const inputEditAuthor = $("editAuthor");
+const inputEditNarrator = $("editNarrator");
 
 const seekBar = $("seek-bar");
 const progressBar = $("progress-bar");
@@ -149,7 +158,9 @@ player.audioPlayer.addEventListener("volumechange", () => {
   player.adjustVolumeBarFill();
 });
 
-
+hamburgerBtn.addEventListener("click", () => {
+  menu.classList.toggle("menu-open");
+});
 
 const toggleSettingsBtns = Array.from(
   document.querySelectorAll(".toggle-settings")
@@ -160,6 +171,15 @@ toggleSettingsBtns.forEach(btn =>
     settingsView.classList.toggle("hidden");
   })
 );
+
+const toggleEditBtn = document.querySelector(".toggle-edit-view");
+toggleEditBtn.addEventListener("click", () => {
+  editBookView.classList.toggle("hidden");
+});
+
+editBookSubmit.addEventListener("click", () => {
+  bookView.submitBookDetails(inputEditId.value);
+});
 
 //Keyboard Shortcuts
 function doc_keyUp(e) {
