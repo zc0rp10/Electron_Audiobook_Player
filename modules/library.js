@@ -36,7 +36,7 @@ class Library {
     this.books.forEach(book => {
       if (this.filter === "all" || book.bookStatus === this.filter) {
         let timeLeft;
-
+        console.log(book);
         if (book.playlistLength === 1) {
           timeLeft = secondsToHms(book.duration - book.bookmark.location);
         } else {
@@ -171,8 +171,10 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
     let data = coverMetaString.replace(/^data:image\/\w+;base64,/, "");
     let buf = new Buffer(data, "base64");
     await fsExtra.outputFile(imgFilePath, buf);
-    library.render();
-    store.set("books", library.books);
+    setTimeout(() => {
+      store.set("books", library.books);
+      library.render();
+    }, 150);
   } catch (err) {
     console.error(err);
   }
@@ -218,24 +220,25 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
     .then(bookObject => {
       for (let i = 0; i < bookObject.playlist.length; i++) {
         const element = bookObject.playlist[i];
-        mm.parseFile(element.filePath)
-          .then(metadata => {
-            bookObject.duration =
-              bookObject.duration + metadata.format.duration;
-            element.trackDuration = metadata.format.duration;
-          })
-          .catch(err => {
-            console.error(err.message);
-          });
+        mm.parseFile(element.filePath).then(metadata => {
+          bookObject.duration = bookObject.duration + metadata.format.duration;
+          element.trackDuration = metadata.format.duration;
+        });
       }
-      console.log(isDuplicate);
+      return bookObject;
+    })
+    .then(bookObject => {
       if (isDuplicate === false) {
+        console.log(isDuplicate);
         library.books.push(bookObject);
       } else {
         alert(
           "A book with this name already exist in your library. If you still want to add it, please remove the old version and then try again."
         );
       }
+    })
+    .catch(err => {
+      console.error(err.message);
     });
 });
 

@@ -80,7 +80,10 @@ function secondsToHms(d, x) {
 const store = new Store({
   configName: "user-library",
   defaults: {
-    books: []
+    books: [],
+    settings: {
+      uiPrimaryColor: "#ffc600"
+    }
   }
 });
 
