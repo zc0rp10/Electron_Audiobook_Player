@@ -128,7 +128,7 @@ class BookView {
         book.title = inputEditTitle.value.toString();
         book.author = inputEditAuthor.value.toString();
         book.narrator = inputEditNarrator.value.toString();
-        editBookView.classList.toggle("hidden");
+        this.toggleEdit();
 
         if (player.selectedBook.bookId === idOfBook) {
           player.selectedBook.title = inputEditTitle.value.toString();

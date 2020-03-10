@@ -379,9 +379,9 @@ input[type="range"]::-webkit-slider-thumb {
 
 #chapter-select {
   height: 28px;
-  background-color: #212121;
+  background-color: #272727;
   color: var(--ui-highlight-color);
-  border: 0px solid #212121;
+  border: 0px solid #272727;
   font-size: 1rem;
   font-family: "Montserrat-Regular";
 }
