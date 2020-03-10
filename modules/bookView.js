@@ -4,7 +4,7 @@ class BookView {
     this._author = String;
     this._narrator = String;
     this._cover = String;
-    this._chapter = String;
+    this._chapterList = [];
     this.editBookOpen = false;
     this.summaryBookOpen = false;
     this.menuOpen = false;
@@ -35,18 +35,11 @@ class BookView {
   }
 
   update() {
-    const chapterName =
-      player.selectedBook.playlist[player.playlistIndex].trackTitle;
-    const chapterNbr =
-      player.playlistIndex + 1 + " / " + player.selectedBook.playlistLength;
+    this._chapterList = player.selectedBook.playlist;
     this._title = player.selectedBook.title;
     this._author = player.selectedBook.author;
     this._narrator = player.selectedBook.narrator;
     this._cover = player.selectedBook.cover;
-    this._chapter =
-      player.selectedBook.playlistLength !== 1
-        ? chapterNbr + " - " + chapterName
-        : "";
     this.render();
   }
 
@@ -55,7 +48,28 @@ class BookView {
     bookViewAuthor.textContent = `By ${this._author}`;
     bookViewNarrator.textContent = `Narrated by ${this._narrator}`;
     bookViewCover.src = this._cover;
-    bookViewChapter.textContent = this._chapter;
+
+    if (this._chapterList.length > 1) {
+      bookViewChapter.textContent = "You're currently listening to chapter:";
+      chapterSelect.classList.remove("none");
+      this.renderChapterOptions();
+    } else {
+      bookViewChapter.textContent = "";
+      chapterSelect.classList.add("none");
+    }
+  }
+
+  renderChapterOptions() {
+    chapterSelect.textContent = "";
+    this._chapterList.forEach(chapter => {
+      chapterSelect.insertAdjacentHTML(
+        "beforeend",
+        `<option value="${chapter.index}">${chapter.index + 1} / ${
+          this._chapterList.length
+        } - ${chapter.trackTitle}</option>`
+      );
+    });
+    chapterSelect.value = player.playlistIndex;
   }
 
   //Access directly by close btn in the Edit View. The book cards access it via editBookDetails() (so it only opens if not alreay)

@@ -143,6 +143,7 @@ body {
 
 .library {
   grid-area: library;
+  overflow: auto;
 }
 
 .library-open {
@@ -368,16 +369,26 @@ input[type="range"]::-webkit-slider-thumb {
 #filter-select {
   height: 28px;
   margin: auto 0;
-  padding: 1px 6px;
+  padding: 1px 6px 3px 6px;
   background-color: #212121;
   color: #fff;
   border: 0px solid #212121;
   font-size: 1rem;
   font-family: "Montserrat-Regular";
-  padding-bottom: 3px;
 }
 
-#sort-select:focus {
+#chapter-select {
+  height: 28px;
+  background-color: #212121;
+  color: var(--ui-highlight-color);
+  border: 0px solid #212121;
+  font-size: 1rem;
+  font-family: "Montserrat-Regular";
+}
+
+#sort-select:focus,
+#filter-select,
+#chapter-select {
   outline: none;
 }
 
@@ -472,7 +483,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .settings-div {
-  margin: 24px auto 24px 24px;
+  margin: 0 auto 24px 24px;
 }
 
 #add-book-btn {
@@ -595,7 +606,7 @@ input[type="range"]::-webkit-slider-thumb {
 #book-view-cover {
   width: 100%;
   height: auto;
-  max-height: 450px; /* TODO: Increase cover size on larger resolution */
+  max-height: 440px; /* TODO: Increase cover size on larger resolution */
   object-fit: cover;
   margin: 3% auto;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.35);
@@ -608,11 +619,17 @@ input[type="range"]::-webkit-slider-thumb {
 #book-view-author {
   color: #fff;
   font-size: 0.9rem;
+  margin-bottom: 0.5em;
 }
 
 #book-view-narrator {
   color: #b3b3b3;
   font-size: 0.8rem;
+  margin-top: 0.5em;
+}
+
+#book-view-chapter {
+  margin: 0.5em 0;
 }
 
 /* Edit Book View*/

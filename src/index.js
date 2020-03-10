@@ -38,6 +38,7 @@ const settingsView = $("settings");
 const libraryView = $("lib-content");
 const libraryFilterSelect = $("filter-select");
 const librarySortSelect = $("sort-select");
+const chapterSelect = $("chapter-select");
 
 const bookViewCover = $("book-view-cover");
 const bookViewTitle = $("book-view-title");
@@ -154,6 +155,10 @@ libraryFilterSelect.addEventListener("change", e => {
 
 librarySortSelect.addEventListener("change", e => {
   library.sortLibrary(e);
+});
+
+chapterSelect.addEventListener("change", e => {
+  player.goToTrack(e.target.value);
 });
 
 volumeBar.addEventListener("input", e => {

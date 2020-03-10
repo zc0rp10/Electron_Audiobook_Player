@@ -56,6 +56,12 @@ class Player {
     bookView.update();
   }
 
+  goToTrack(value) {
+    this.audioPlayer.src = this.selectedBook.playlist[value].filePath;
+    this.playlistIndex = value;
+    this.play();
+  }
+
   scrubFwd() {
     this.audioPlayer.currentTime = this.audioPlayer.currentTime + 30;
   }
