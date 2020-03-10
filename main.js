@@ -50,7 +50,23 @@ function createWindow() {
           file.endsWith(".MP3") ||
           file.endsWith(".WAV") ||
           file.endsWith(".M4A") ||
-          file.endsWith(".M4B")
+          file.endsWith(".M4B") ||
+          file.endsWith(".mp4") ||
+          file.endsWith(".MP4") ||
+          file.endsWith(".mkv") ||
+          file.endsWith(".MKV") ||
+          file.endsWith(".ogg") ||
+          file.endsWith(".OGG") ||
+          file.endsWith(".webm") ||
+          file.endsWith(".WEBM") ||
+          file.endsWith(".wma") ||
+          file.endsWith(".WMA") ||
+          file.endsWith(".mp2") ||
+          file.endsWith(".MP2") ||
+          file.endsWith(".aac") ||
+          file.endsWith(".AAC") ||
+          file.endsWith(".flac") ||
+          file.endsWith(".FLAC")
         ) {
           let bookObject = {
             duration: 0,
@@ -70,7 +86,8 @@ function createWindow() {
             title: "",
             author: "",
             narrator: "",
-            description: ""
+            description: "",
+            userNotes: []
           };
 
           event.reply("add-folder-dialog-reply", bookObject);
@@ -102,7 +119,8 @@ ipcMain.on("add-folder-dialog", event => {
           title: "",
           author: "",
           narrator: "",
-          description: ""
+          description: "",
+          userNotes: []
         };
         files.forEach(file => {
           if (
@@ -113,7 +131,23 @@ ipcMain.on("add-folder-dialog", event => {
             file.endsWith(".MP3") ||
             file.endsWith(".WAV") ||
             file.endsWith(".M4A") ||
-            file.endsWith(".M4B")
+            file.endsWith(".M4B") ||
+            file.endsWith(".mp4") ||
+            file.endsWith(".MP4") ||
+            file.endsWith(".mkv") ||
+            file.endsWith(".MKV") ||
+            file.endsWith(".ogg") ||
+            file.endsWith(".OGG") ||
+            file.endsWith(".webm") ||
+            file.endsWith(".WEBM") ||
+            file.endsWith(".wma") ||
+            file.endsWith(".WMA") ||
+            file.endsWith(".mp2") ||
+            file.endsWith(".MP2") ||
+            file.endsWith(".aac") ||
+            file.endsWith(".AAC") ||
+            file.endsWith(".flac") ||
+            file.endsWith(".FLAC")
           ) {
             bookObject.playlistLength++;
             let trackObject = {
