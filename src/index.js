@@ -164,9 +164,18 @@ player.audioPlayer.addEventListener("volumechange", () => {
   player.adjustVolumeBarFill();
 });
 
-hamburgerBtn.addEventListener("click", () => {
-  menu.classList.toggle("menu-open");
-});
+hamburgerBtn.addEventListener("click", bookView.toggleMenuOpen);
+
+const menuBtnLabels = Array.from(document.querySelectorAll(".btn-menu-label"));
+const menuBtns = Array.from(document.querySelectorAll(".btn-menu-btn"));
+
+menuBtns.forEach(btn =>
+  btn.addEventListener("click", () => {
+    if (bookView.menuOpen) {
+      bookView.toggleMenuOpen();
+    }
+  })
+);
 
 const toggleSettingsBtns = Array.from(
   document.querySelectorAll(".toggle-settings")

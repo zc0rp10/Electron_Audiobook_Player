@@ -7,6 +7,7 @@ class BookView {
     this._chapter = String;
     this.editBookOpen = false;
     this.summaryBookOpen = false;
+    this.menuOpen = false;
     this.settings = store.get("settings");
     this.changeUIColor();
   }
@@ -17,6 +18,20 @@ class BookView {
 
   toggleMoreMenu(element) {
     element.classList.toggle("book-reveal-open");
+  }
+
+  toggleMenuOpen() {
+    menu.classList.toggle("menu-open");
+    menuBtnLabels.forEach(btn => {
+      if (!bookView.menuOpen) {
+        setTimeout(() => {
+          btn.classList.toggle("none");
+        }, 200);
+      } else {
+        btn.classList.toggle("none");
+      }
+    });
+    bookView.menuOpen = !bookView.menuOpen;
   }
 
   update() {

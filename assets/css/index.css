@@ -203,7 +203,7 @@ body {
   width: 72px;
 }
 .menu-open {
-  width: 216px;
+  width: 230px;
 }
 
 /* Volume Slider*/
@@ -394,6 +394,14 @@ input[type="range"]::-webkit-slider-thumb {
 
 .btn-menu {
   margin: 24px auto 0 24px;
+  display: flex;
+}
+
+.btn-menu-btn {
+}
+
+.btn-menu-label {
+  margin: auto auto auto 12px;
 }
 
 .btn:focus {
@@ -461,7 +469,10 @@ input[type="range"]::-webkit-slider-thumb {
 #settings-btn {
   -webkit-mask-image: url(../icons/settings-24px.svg);
   -webkit-mask-size: cover;
-  margin: 0 auto 24px 24px;
+}
+
+.settings-div {
+  margin: 24px auto 24px 24px;
 }
 
 #add-book-btn {

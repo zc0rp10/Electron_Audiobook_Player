@@ -62,14 +62,25 @@
         class="btn menu-line-top"
         src="../assets/icons/line-24px.svg"
       ></span>
-      <button class="btn btn-menu" id="add-book-btn"></button>
-      <button class="btn btn-menu" id="add-folder-btn"></button>
-
+      <div class="btn-menu">
+        <button class="btn btn-menu-btn" id="add-book-btn"></button>
+        <p class="btn-menu-label none">Add Book (File)</p>
+      </div>
+      <div class="btn-menu">
+        <button class="btn btn-menu-btn" id="add-folder-btn"></button>
+        <p class="btn-menu-label none">Add Book (Folder)</p>
+      </div>
       <span
         class="btn menu-line-bottom"
         src="../assets/icons/line-24px.svg"
       ></span>
-      <button class="btn btn-menu toggle-settings" id="settings-btn"></button>
+      <div class="btn-menu settings-div">
+        <button
+          class="btn btn-menu-btn toggle-settings"
+          id="settings-btn"
+        ></button>
+        <p class="btn-menu-label none">Settings</p>
+      </div>
     </div>
     <div class="library">
       <div id="lib-header">
