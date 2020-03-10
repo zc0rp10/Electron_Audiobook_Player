@@ -7,6 +7,8 @@ class BookView {
     this._chapter = String;
     this.editBookOpen = false;
     this.summaryBookOpen = false;
+    this.settings = store.get("settings");
+    this.changeUIColor();
   }
 
   toggleSettings() {
@@ -109,6 +111,27 @@ class BookView {
         library.render();
       }
     });
+  }
+
+  changeUIColor(e) {
+    const root = document.documentElement;
+    //If e is true it means user picked color by clicking on box in settings.
+    if (e) {
+      const color = window
+        .getComputedStyle(e.target)
+        .getPropertyValue("background-color");
+      bookView.settings.uiPrimaryColor = color;
+      root.style.setProperty(
+        "--ui-highlight-color",
+        bookView.settings.uiPrimaryColor
+      );
+      //Otherwise it was iniated by the new BookView being initiated when app starts, and last used color is loaded
+    } else {
+      root.style.setProperty(
+        "--ui-highlight-color",
+        this.settings.uiPrimaryColor
+      );
+    }
   }
 }
 

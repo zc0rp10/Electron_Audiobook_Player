@@ -3,6 +3,10 @@
   src: url(../fonts/Montserrat-Regular.ttf);
 }
 
+:root {
+  --ui-highlight-color: #ffc600;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -37,7 +41,7 @@ body {
 
 .yellow {
   /* Could use multiple of these to enable theme change, just update classes with add/remove classlist*/
-  color: #ffc600;
+  color: var(--ui-highlight-color);
 }
 
 .right {
@@ -51,6 +55,7 @@ body {
   grid-template-areas: "menu library book-view" "player player player";
 }
 
+/* Settings View*/
 #settings {
   width: 100%;
   height: 100%;
@@ -66,6 +71,8 @@ body {
 #settings-content {
   padding: 0 5%;
 }
+
+/* Settings View - Keyboard Shortcut Section */
 
 #keyboard-shortcuts {
   display: flex;
@@ -91,6 +98,49 @@ body {
   font-family: "Roboto Mono", monospace;
 }
 
+/* Settings View - UI Color Section */
+.color-box {
+  height: 24px;
+  width: 24px;
+  margin-right: 3px;
+  display: inline-block;
+}
+
+#red-box {
+  background-color: #c1292e;
+}
+
+#yellow-box {
+  background-color: #ffc600;
+}
+
+#blue-box {
+  background-color: #235789;
+}
+
+#green-box {
+  background-color: #8ea604;
+}
+
+#mahogany-box {
+  background-color: #bf3100;
+}
+#carolinablue-box {
+  background-color: #4d9de0;
+}
+#mediumseagreen-box {
+  background-color: #3bb273;
+}
+#toolbox-box {
+  background-color: #7768ae;
+}
+#raspberry-box {
+  background-color: #ec0868;
+}
+#electricpurple-box {
+  background-color: #c200fb;
+}
+
 .library {
   grid-area: library;
 }
@@ -106,7 +156,7 @@ body {
 
 #lib-header label {
   margin: auto 1.5% auto auto;
-  color: #ffc600;
+  color: var(--ui-highlight-color);
   font-size: 1.2rem;
 }
 
@@ -160,7 +210,7 @@ body {
 
 #volume-down {
   -webkit-mask-image: url(../icons/volume_down-24px.svg);
-  background-color: #ffc600;
+  background-color: var(--ui-highlight-color);
   display: block;
   height: 24px;
   width: 24px;
@@ -168,7 +218,7 @@ body {
 
 #volume-up {
   -webkit-mask-image: url(../icons/volume_up-24px.svg);
-  background-color: #ffc600;
+  background-color: var(--ui-highlight-color);
   display: block;
   height: 24px;
   width: 24px;
@@ -201,8 +251,8 @@ body {
 }
 
 #volume-bar-fill::-webkit-progress-value {
-  border: 1px solid #ffc600;
-  background: #ffc600;
+  border: 1px solid var(--ui-highlight-color);
+  background: var(--ui-highlight-color);
 }
 
 #volume-seek-bar {
@@ -214,8 +264,8 @@ body {
 }
 
 #volume-bar-fill::-webkit-progress-value {
-  border: 1px solid #ffc600;
-  background: #ffc600;
+  border: 1px solid var(--ui-highlight-color);
+  background: var(--ui-highlight-color);
 }
 
 /* Scrub and Progress Bars */
@@ -265,8 +315,8 @@ body {
 }
 
 #progress-bar-fill::-webkit-progress-value {
-  border: 1px solid #ffc600;
-  background: #ffc600;
+  border: 1px solid var(--ui-highlight-color);
+  background: var(--ui-highlight-color);
 }
 
 #seek-bar {
@@ -319,16 +369,12 @@ input[type="range"]::-webkit-slider-thumb {
   height: 28px;
   margin: auto 0;
   padding: 1px 6px;
-  background-color: #1e212a;
+  background-color: #212121;
   color: #fff;
-  border: 0px solid #1e212a;
+  border: 0px solid #212121;
   font-size: 1rem;
   font-family: "Montserrat-Regular";
   padding-bottom: 3px;
-}
-
-#sort-select option {
-  border-color: red;
 }
 
 #sort-select:focus {
@@ -339,7 +385,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .btn {
   border: 0;
-  background-color: #ffc600;
+  background-color: var(--ui-highlight-color);
   min-height: 24px;
   min-width: 24px;
   cursor: pointer;
@@ -412,10 +458,10 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-mask-size: cover;
 }
 
-
 #settings-btn {
   -webkit-mask-image: url(../icons/settings-24px.svg);
   -webkit-mask-size: cover;
+  margin: 0 auto 24px 24px;
 }
 
 #add-book-btn {
@@ -431,15 +477,11 @@ input[type="range"]::-webkit-slider-thumb {
 .delete-btn {
   -webkit-mask-image: url(../icons/delete-24px.svg);
   -webkit-mask-size: cover;
-  border: 0;
-  background-color: transparent;
 }
 
 .more-vert-btn {
   -webkit-mask-image: url(../icons/more_vert-24px.svg);
   -webkit-mask-size: cover;
-  border: 0;
-  background-color: transparent;
 }
 
 .book-menu-close-btn {
@@ -528,16 +570,6 @@ input[type="range"]::-webkit-slider-thumb {
   display: inline-block;
 }
 
-/* Library Book Cards */
-.more-vert-btn {
-  background-image: url(../icons/more_vert-24px.svg);
-  background-size: cover;
-  border: 0;
-  background-color: transparent;
-  height: 22px;
-  width: 22px;
-}
-
 /* Book View */
 
 #book-view-wrapper {
@@ -555,7 +587,7 @@ input[type="range"]::-webkit-slider-thumb {
   max-height: 450px; /* TODO: Increase cover size on larger resolution */
   object-fit: cover;
   margin: 3% auto;
-  box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 1);
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.35);
 }
 
 #book-view-title {

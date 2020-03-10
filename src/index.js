@@ -182,6 +182,11 @@ editBookSubmit.addEventListener("click", () => {
 const toggleSummaryBtn = document.querySelector(".toggle-summary-view");
 toggleSummaryBtn.addEventListener("click", bookView.toggleBookSummary);
 
+colorSelectBtns = Array.from(document.querySelectorAll(".color-box"));
+colorSelectBtns.forEach(btn =>
+  btn.addEventListener("click", bookView.changeUIColor)
+);
+
 //Keyboard Shortcuts
 function doc_keyUp(e) {
   if (modalActive === false) {
@@ -237,5 +242,6 @@ setInterval(() => {
 //Listens for app close event from main.js process and saves users library and settings before quiting app
 ipcRenderer.on("app-close", _ => {
   store.set("books", library.books);
+  store.set("settings", bookView.settings);
   ipcRenderer.send("closed");
 });
