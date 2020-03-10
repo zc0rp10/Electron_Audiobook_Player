@@ -8,11 +8,10 @@ const Store = require("../modules/store.js");
 const Library = require("../modules/library.js");
 const Player = require("../modules/player.js");
 const BookView = require("../modules/bookView.js");
+require("../modules/kbshortcuts.js");
 
 $ = document.getElementById.bind(document);
 const userDataPath = electron.remote.app.getPath("userData");
-
-const modalActive = false; //TODO: Move this in to modules one written
 
 //All DOM Elements
 const playPauseBtn = $("play-pause-audio-btn");
@@ -60,6 +59,16 @@ const barTotalTime = $("bar-total-time");
 
 const volumeBar = $("volume-seek-bar");
 const volumeBarFill = $("volume-bar-fill");
+
+const toggleSummaryBtn = document.querySelector(".toggle-summary-view");
+const toggleEditBtn = document.querySelector(".toggle-edit-view");
+
+const menuBtnLabels = Array.from(document.querySelectorAll(".btn-menu-label"));
+const menuBtns = Array.from(document.querySelectorAll(".btn-menu-btn"));
+const colorSelectBtns = Array.from(document.querySelectorAll(".color-box"));
+const toggleSettingsBtns = Array.from(
+  document.querySelectorAll(".toggle-settings")
+);
 
 //Helper function to format seconds to Hours and Minutes
 function secondsToHms(d, x) {
@@ -170,10 +179,6 @@ player.audioPlayer.addEventListener("volumechange", () => {
 });
 
 hamburgerBtn.addEventListener("click", bookView.toggleMenuOpen);
-
-const menuBtnLabels = Array.from(document.querySelectorAll(".btn-menu-label"));
-const menuBtns = Array.from(document.querySelectorAll(".btn-menu-btn"));
-
 menuBtns.forEach(btn =>
   btn.addEventListener("click", () => {
     if (bookView.menuOpen) {
@@ -182,67 +187,21 @@ menuBtns.forEach(btn =>
   })
 );
 
-const toggleSettingsBtns = Array.from(
-  document.querySelectorAll(".toggle-settings")
-);
 toggleSettingsBtns.forEach(btn =>
   btn.addEventListener("click", bookView.toggleSettings)
 );
 
-const toggleEditBtn = document.querySelector(".toggle-edit-view");
 toggleEditBtn.addEventListener("click", bookView.toggleEdit);
 
 editBookSubmit.addEventListener("click", () => {
   bookView.submitBookDetails(inputEditId.value);
 });
 
-const toggleSummaryBtn = document.querySelector(".toggle-summary-view");
 toggleSummaryBtn.addEventListener("click", bookView.toggleBookSummary);
 
-colorSelectBtns = Array.from(document.querySelectorAll(".color-box"));
 colorSelectBtns.forEach(btn =>
   btn.addEventListener("click", bookView.changeUIColor)
 );
-
-//Keyboard Shortcuts
-function doc_keyUp(e) {
-  if (modalActive === false) {
-    switch (e.key) {
-      case " ":
-        player.playPause();
-    }
-    switch (e.key) {
-      case "ArrowRight":
-        player.scrubFwd();
-    }
-    switch (e.key) {
-      case "ArrowLeft":
-        player.scrubBwd();
-    }
-    switch (e.key) {
-      case "ArrowUp":
-        player.audioPlayer.volume =
-          Math.round((player.audioPlayer.volume + 0.1) * 10) / 10;
-        volumeBar.setAttribute("value", player.audioPlayer.volume);
-    }
-    switch (e.key) {
-      case "ArrowDown":
-        player.audioPlayer.volume =
-          Math.round((player.audioPlayer.volume - 0.1) * 10) / 10;
-        volumeBar.setAttribute("value", player.audioPlayer.volume);
-    }
-    switch (e.key) {
-      case "+":
-        player.changePlaybackRate(playbackIncreaseBtn.dataset.rate);
-    }
-    switch (e.key) {
-      case "-":
-        player.changePlaybackRate(playbackDecreaseBtn.dataset.rate);
-    }
-  }
-}
-
-window.addEventListener("keyup", doc_keyUp, true);
 
 //Autosaves location is book while playing every 10 secs
 setInterval(() => {
