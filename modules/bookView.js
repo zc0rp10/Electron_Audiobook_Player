@@ -8,7 +8,7 @@ class BookView {
     this.editBookOpen = false;
     this.summaryBookOpen = false;
     this.menuOpen = false;
-    this.settings = store.get("settings");
+    this.uiSettings = store.get("uiSettings");
     this.changeUIColor();
   }
 
@@ -149,16 +149,16 @@ class BookView {
       const color = window
         .getComputedStyle(e.target)
         .getPropertyValue("background-color");
-      bookView.settings.uiPrimaryColor = color;
+      bookView.uiSettings.uiPrimaryColor = color;
       root.style.setProperty(
         "--ui-highlight-color",
-        bookView.settings.uiPrimaryColor
+        bookView.uiSettings.uiPrimaryColor
       );
       //Otherwise it was iniated by the new BookView being initiated when app starts, and last used color is loaded
     } else {
       root.style.setProperty(
         "--ui-highlight-color",
-        this.settings.uiPrimaryColor
+        this.uiSettings.uiPrimaryColor
       );
     }
   }

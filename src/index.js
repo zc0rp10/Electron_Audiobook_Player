@@ -91,8 +91,11 @@ const store = new Store({
   configName: "user-library",
   defaults: {
     books: [],
-    settings: {
+    uiSettings: {
       uiPrimaryColor: "#ffc600"
+    },
+    playerSettings: {
+      volumeLevel: 1
     }
   }
 });
@@ -218,6 +221,7 @@ setInterval(() => {
 //Listens for app close event from main.js process and saves users library and settings before quiting app
 ipcRenderer.on("app-close", _ => {
   store.set("books", library.books);
-  store.set("settings", bookView.settings);
+  store.set("uiSettings", bookView.uiSettings);
+  store.set("playerSettings", player.playerSettings);
   ipcRenderer.send("closed");
 });

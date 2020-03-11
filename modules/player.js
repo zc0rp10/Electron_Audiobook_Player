@@ -5,10 +5,17 @@ class Player {
     this._selectedBook = false; //TODO: Get last played if there is one, else set to empty
     this._isSeeking = false;
     this.playlistIndex = Number;
+    this.playerSettings = store.get("playerSettings");
+    this.adjustVolume();
   }
 
   adjustVolume(e) {
-    this.audioPlayer.volume = e.target.value;
+    if (e) {
+      this.audioPlayer.volume = e.target.value;
+      this.playerSettings = e.target.value;
+    } else {
+      this.audioPlayer.volume = this.playerSettings;
+    }
   }
 
   adjustVolumeBarFill() {

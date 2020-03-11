@@ -36,7 +36,6 @@ class Library {
     this.books.forEach(book => {
       if (this.filter === "all" || book.bookStatus === this.filter) {
         let timeLeft;
-        console.log(book);
         if (book.playlistLength === 1) {
           timeLeft = secondsToHms(book.duration - book.bookmark.location);
         } else {
@@ -229,7 +228,6 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
     })
     .then(bookObject => {
       if (isDuplicate === false) {
-        console.log(isDuplicate);
         library.books.push(bookObject);
       } else {
         alert(
