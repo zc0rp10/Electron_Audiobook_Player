@@ -8,6 +8,7 @@ const Store = require("../modules/store.js");
 const Library = require("../modules/library.js");
 const Player = require("../modules/player.js");
 const BookView = require("../modules/bookView.js");
+const SleepTimer = require("../modules/sleepTimer.js");
 require("../modules/kbshortcuts.js");
 
 $ = document.getElementById.bind(document);
@@ -23,6 +24,9 @@ const skipBwdBtn = $("skip-backward-btn");
 const playbackIncreaseBtn = $("increase-speed-btn");
 const playbackDecreaseBtn = $("decrease-speed-btn");
 const playbackLabel = $("playback-rate");
+
+const sleepTimerBtn = $("sleep-timer-btn");
+const sleepTimerView = $("sleep-timer-module");
 
 const addBookBtn = $("add-book-btn");
 const addFolderBtn = $("add-folder-btn");
@@ -69,6 +73,7 @@ const colorSelectBtns = Array.from(document.querySelectorAll(".color-box"));
 const toggleSettingsBtns = Array.from(
   document.querySelectorAll(".toggle-settings")
 );
+const sleepForBtns = Array.from(document.querySelectorAll(".sleep-time"));
 
 //Helper function to format seconds to Hours and Minutes
 function secondsToHms(d, x) {
@@ -109,6 +114,7 @@ const player = new Player();
 
 //Initiates the BookVIew class module responsible for updating book data on right side
 const bookView = new BookView();
+const sleepTimer = new SleepTimer();
 
 //Eventlisteners for clicks on DOM Elements
 addBookBtn.addEventListener("click", () => {
@@ -204,6 +210,22 @@ toggleSummaryBtn.addEventListener("click", bookView.toggleBookSummary);
 
 colorSelectBtns.forEach(btn =>
   btn.addEventListener("click", bookView.changeUIColor)
+);
+
+sleepTimerBtn.addEventListener("click", e => {
+  bookView.toggleSleepTimerView();
+  const adjustTop = sleepTimerView.getBoundingClientRect().height + 20;
+  const adjustLeft = sleepTimerView.getBoundingClientRect().width / 2;
+  sleepTimerView.style.left = `${e.target.offsetLeft - adjustLeft + 28}px`;
+  sleepTimerView.style.top = `${e.target.offsetTop - adjustTop}px`;
+  sleepForBtns.forEach(btn => {
+    btn.dataset.time === sleepTimer.countdownActive
+      ? btn.classList.add("btn-active")
+      : btn.classList.remove("btn-active");
+  });
+});
+sleepForBtns.forEach(btn =>
+  btn.addEventListener("click", sleepTimer.handleSleep)
 );
 
 //Autosaves location is book while playing every 10 secs

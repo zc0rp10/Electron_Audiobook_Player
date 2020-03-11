@@ -11,9 +11,13 @@ class BookView {
     this.uiSettings = store.get("uiSettings");
     this.changeUIColor();
   }
-
+  
   toggleSettings() {
     settingsView.classList.toggle("hidden");
+  }
+
+  toggleSleepTimerView() {
+    sleepTimerView.classList.toggle("none");
   }
 
   toggleMoreMenu(element) {

@@ -5,6 +5,7 @@
 
 :root {
   --ui-highlight-color: #ffc600;
+  --ui-disabled-color: #808080;
 }
 
 * {
@@ -356,7 +357,7 @@ input[type="range"]::-webkit-slider-thumb {
   flex-direction: row;
   width: 100px;
   justify-content: space-between;
-  margin: auto 5%;
+  margin: auto 0 auto 5%;
 }
 
 #playback-rate {
@@ -403,12 +404,17 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 0;
 }
 
+.btn-disabled {
+  background-color: var(--ui-disabled-color);
+}
+
+.btn-active {
+  color: var(--ui-highlight-color);
+}
+
 .btn-menu {
   margin: 24px auto 0 24px;
   display: flex;
-}
-
-.btn-menu-btn {
 }
 
 .btn-menu-label {
@@ -467,7 +473,6 @@ input[type="range"]::-webkit-slider-thumb {
 #increase-speed-btn {
   -webkit-mask-image: url(../icons/chevron_right-24px.svg);
 }
-
 #decrease-speed-btn {
   -webkit-mask-image: url(../icons/chevron_left-24px.svg);
 }
@@ -476,45 +481,45 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-mask-image: url(../icons/create_new_folder-24px.svg);
   -webkit-mask-size: cover;
 }
-
 #settings-btn {
   -webkit-mask-image: url(../icons/settings-24px.svg);
   -webkit-mask-size: cover;
 }
-
 .settings-div {
   margin: 0 auto 24px 24px;
 }
-
 #add-book-btn {
   -webkit-mask-image: url(../icons/book-24px.svg);
   -webkit-mask-size: cover;
 }
-
 #library-btn {
   -webkit-mask-image: url(../icons/library_books-24px.svg);
   -webkit-mask-size: cover;
 }
-
 .delete-btn {
   -webkit-mask-image: url(../icons/delete-24px.svg);
   -webkit-mask-size: cover;
 }
-
 .more-vert-btn {
   -webkit-mask-image: url(../icons/more_vert-24px.svg);
   -webkit-mask-size: cover;
 }
-
 .book-menu-close-btn {
   -webkit-mask-image: url(../icons/close-24px.svg);
   -webkit-mask-size: cover;
 }
-
 .close-btn {
   -webkit-mask-image: url(../icons/close-24px.svg);
   -webkit-mask-size: cover;
   margin: 22px 0 auto auto;
+}
+
+#sleep-timer-btn {
+  -webkit-mask-image: url(../icons/timer-24px.svg);
+  -webkit-mask-size: cover;
+  height: 38px;
+  width: 38px;
+  margin: auto 2.5%;
 }
 
 /* Menu Line */
@@ -531,7 +536,6 @@ input[type="range"]::-webkit-slider-thumb {
   margin: auto auto 6px 24px;
   background-color: rgba(255, 255, 255, 0.25);
 }
-
 /* Library Book Styling */
 .book {
   width: 200px;
@@ -544,7 +548,6 @@ input[type="range"]::-webkit-slider-thumb {
   height: 300px;
   width: 200px;
 }
-
 .book-reveal {
   background: #212121;
   height: 300px;
@@ -553,11 +556,9 @@ input[type="range"]::-webkit-slider-thumb {
   transform: translateY(0%);
   padding: 5%;
 }
-
 .book-reveal-open {
   transform: translateY(-100%);
 }
-
 .book-reveal .menu-title {
   font-weight: bold;
 }
@@ -567,42 +568,34 @@ input[type="range"]::-webkit-slider-thumb {
   width: 200px;
   object-fit: cover;
 }
-
 .book-title {
   font-weight: bold;
   font-size: 0.8rem;
   display: inline-block;
 }
-
 .book-author {
   color: #fff;
   font-size: 0.7rem;
   display: inline-block;
 }
-
 .book-narrator {
   color: #b3b3b3;
   font-size: 0.7rem;
   display: block;
 }
-
 .book-stats {
   color: #fff;
   font-size: 0.7rem;
   display: inline-block;
 }
-
 /* Book View */
-
 #book-view-wrapper {
   margin: 0 auto;
   padding: 0 10%;
 }
-
 #book-view-content {
   margin-top: 1%;
 }
-
 #book-view-cover {
   width: 100%;
   height: auto;
@@ -611,33 +604,51 @@ input[type="range"]::-webkit-slider-thumb {
   margin: 3% auto;
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.35);
 }
-
 #book-view-title {
   font-weight: bold;
 }
-
 #book-view-author {
   color: #fff;
   font-size: 0.9rem;
   margin-bottom: 0.5em;
 }
-
 #book-view-narrator {
   color: #b3b3b3;
   font-size: 0.8rem;
   margin-top: 0.5em;
 }
-
 #book-view-chapter {
   margin: 0.5em 0;
 }
-
 /* Edit Book View*/
 .edit-view-wrapper {
   padding: 0 10%;
 }
-
 .edit-header {
   display: flex;
   justify-content: space-between;
+}
+
+/* Sleep Timer Module */
+#sleep-timer-module {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  background-color: #212121;
+  padding: 1%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.sleep-time {
+  display: inline-block;
+  margin: 5px 0;
+}
+
+#sleep-popup-title {
+  margin: 0;
 }

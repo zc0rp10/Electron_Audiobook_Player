@@ -22,6 +22,7 @@
               data-rate="0.25"
             ></button>
           </div>
+          <button class="btn btn-disabled" id="sleep-timer-btn"></button>
           <button class="btn" id="skip-backward-btn"></button>
           <button class="btn" id="scrub-backward-btn"></button>
           <button
@@ -207,6 +208,18 @@
         <div class="edit-content book-view-wrapper">
           <div id="summary-description">description</div>
         </div>
+      </div>
+    </div>
+    <div id="sleep-timer-module" class="none">
+      <div class="wrapper">
+        <h3 id="sleep-popup-title">Sleep Timer</h3>
+        <span class="sleep-time" data-time="5">15 Minutes</span>
+        <span class="sleep-time" data-time="10">30 Minutes</span>
+        <span class="sleep-time" data-time="2700">45 Minutes</span>
+        <span class="sleep-time" data-time="3600">1 Hour</span>
+        <span class="sleep-time" data-time="7200">2 Hours</span>
+        <span class="sleep-time" data-time="end">End of Chapter</span>
+        <span class="sleep-time" data-time="off">Turn Off</span>
       </div>
     </div>
     <!-- You can also require other files to run in this process -->

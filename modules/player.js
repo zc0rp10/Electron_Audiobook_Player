@@ -12,9 +12,9 @@ class Player {
   adjustVolume(e) {
     if (e) {
       this.audioPlayer.volume = e.target.value;
-      this.playerSettings = e.target.value;
+      this.playerSettings.volumeLevel = e.target.value;
     } else {
-      this.audioPlayer.volume = this.playerSettings;
+      this.audioPlayer.volume = this.playerSettings.volumeLevel;
     }
   }
 
@@ -106,7 +106,12 @@ class Player {
     if (this.playlistIndex + 1 == this.selectedBook.playlistLength) {
       this.selectedBook.bookStatus = "finished";
     } else {
-      this.next();
+      if (!sleepTimer.pauseAtChapterEnd) {
+        this.next();
+      } else {
+        sleepTimer.pauseAtChapterEnd = false;
+        sleepTimerBtn.classList.toggle("btn-disabled");
+      }
     }
   }
 
