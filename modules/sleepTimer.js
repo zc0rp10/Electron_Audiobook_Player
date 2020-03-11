@@ -7,28 +7,21 @@ class SleepTimer {
 
   handleSleep(e) {
     const input = e.target.dataset.time;
+    bookView.toggleSleepTimerView();
+    clearInterval(sleepTimer.countdown);
+    sleepTimer.countdownActive = false;
     if (input == "off") {
-      clearInterval(sleepTimer.countdown);
-      sleepTimer.countdownActive = false;
       sleepTimer.pauseAtChapterEnd = false;
       sleepTimerBtn.classList.add("btn-disabled");
     } else if (input == "end") {
-      clearInterval(sleepTimer.countdown);
       sleepTimer.pauseAtChapterEnd = true;
       sleepTimerBtn.classList.remove("btn-disabled");
       sleepTimer.countdownActive = input;
     } else {
-      if (
-        sleepTimer.countdownActive == false ||
-        sleepTimer.countdownActive == "end"
-      ) {
-        sleepTimer.timer(input);
-        sleepTimer.countdownActive = input;
-        sleepTimer.pauseAtChapterEnd = false;
-        sleepTimerBtn.classList.remove("btn-disabled");
-      }
+      sleepTimer.timer(input);
+      sleepTimer.countdownActive = input;
+      sleepTimerBtn.classList.remove("btn-disabled");
     }
-    bookView.toggleSleepTimerView();
   }
 
   timer(seconds) {
