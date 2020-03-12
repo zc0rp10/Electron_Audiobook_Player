@@ -5,6 +5,7 @@ class Library {
   constructor(args) {
     this.books = store.get("books");
     this._filter = "all";
+    this.render();
   }
 
   set filter(value) {
@@ -29,6 +30,14 @@ class Library {
     this.render();
   }
 
+  removeFinishTag(idOfBook) {
+    this.books.forEach(book => {
+      if (book.bookId === idOfBook) {
+        book.bookStatus = "not started";
+      }
+    });
+  }
+
   render() {
     libraryView.innerHTML = "";
     //Instead do something like, let booksFormated = this.books if filter and filter not equal to what's passed in, then filter,
@@ -48,9 +57,38 @@ class Library {
           });
         }
 
-        libraryView.insertAdjacentHTML(
-          "beforeend",
-          `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+        if (book.bookStatus === "finished") {
+          libraryView.insertAdjacentHTML(
+            "beforeend",
+            `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+            <div class="book-inner">
+        <div class="book-image">
+          <img class="pointer" src="${book.cover}" />
+        </div>
+        <div class="book-content">
+          <span class="book-title pointer"
+            >${book.title}</span
+          >
+          <span class="book-author pointer">By ${book.author}</span>
+          <span class="book-narrator pointer">Narrated by ${book.narrator}</span>
+          <span class="book-stats pointer">${timeLeft} left</span>
+          <button class="btn more-vert-btn right"></button>
+        </div>
+        </div>
+        <div class="book-reveal">
+        <span class="menu-title">Menu</span>
+        <button class="btn book-menu-close-btn right"></button>
+        <p class="pointer dlt-book-btn">Remove Book</p>
+        <p class="pointer edit-book-btn">Edit Book Details</p>
+        <p class="pointer summary-book-btn">View Book Summary</p>
+        <p class="pointer remove-ftag-btn">Remove Finished Tag</p>
+        </div>
+      </div>`
+          );
+        } else {
+          libraryView.insertAdjacentHTML(
+            "beforeend",
+            `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
           <div class="book-inner">
       <div class="book-image">
         <img class="pointer" src="${book.cover}" />
@@ -73,7 +111,8 @@ class Library {
       <p class="pointer summary-book-btn">View Book Summary</p>
       </div>
     </div>`
-        );
+          );
+        }
       }
     });
 
@@ -112,6 +151,16 @@ class Library {
       dltBtn.addEventListener("click", e => {
         e.stopPropagation();
         this.removeBook(e.path[2].id);
+      })
+    );
+
+    //Remove Finish Tag
+    const rmTagBtns = Array.from(document.querySelectorAll(".remove-ftag-btn"));
+    rmTagBtns.forEach(rmTagBtn =>
+      rmTagBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        this.removeFinishTag(e.path[2].id);
+        bookView.toggleMoreMenu(e.path[2].lastElementChild);
       })
     );
 

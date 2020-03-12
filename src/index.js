@@ -107,7 +107,6 @@ const store = new Store({
 
 //Initiates the library class module that holds all the books and lets us manipulate that content
 const library = new Library();
-library.render();
 
 //Initiates the Player class module that enable us to play books
 const player = new Player();
