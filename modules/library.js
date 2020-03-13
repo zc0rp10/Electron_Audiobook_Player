@@ -1,4 +1,4 @@
-const { ipcRenderer } = require("electron")
+const { ipcRenderer } = require("electron");
 const path = require("path");
 
 class Library {
@@ -229,13 +229,12 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
 //Add Folder
 ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
   let isDuplicate = false;
-  console.log(bookObject);
+
   mm.parseFile(bookObject.playlist[0].filePath)
     .then(metadata => {
       let book = metadata.common;
 
       if (book.picture) {
-        console.log("Something");
         let imgFilePath = path.join(
           `${userDataPath}`,
           "bookcovers",
@@ -252,7 +251,7 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
         ? `${book.description}`
         : "Unfortunately no summary was included with the audio file.";
 
-      bookObject.bookId = `${book.title}`;
+      bookObject.bookId = bookObject.playlist[0].filePath;
       bookObject.title = `${book.title}`;
       bookObject.author = `${book.artist}`;
       bookObject.narrator = `${book.composer}`;
@@ -261,7 +260,7 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
     })
     .then(bookObject => {
       library.books.forEach(book => {
-        if (book.title === bookObject.bookId) {
+        if (book.bookId == bookObject.bookId) {
           isDuplicate = true;
         }
       });
