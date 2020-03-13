@@ -34,6 +34,8 @@ class Library {
     this.books.forEach(book => {
       if (book.bookId === idOfBook) {
         book.bookStatus = "not started";
+        book.bookmark.index = 0;
+        book.bookmark.location = 0;
       }
     });
   }
@@ -60,55 +62,55 @@ class Library {
         if (book.bookStatus === "finished") {
           libraryView.insertAdjacentHTML(
             "beforeend",
-            `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+            `<div class="book pointer" id="${book.bookId}" data-src="${book.filePath}">
             <div class="book-inner">
         <div class="book-image">
-          <img class="pointer" src="${book.cover}" />
+          <img src="${book.cover}" />
         </div>
         <div class="book-content">
-          <span class="book-title pointer"
+          <span class="book-title "
             >${book.title}</span
           >
-          <span class="book-author pointer">By ${book.author}</span>
-          <span class="book-narrator pointer">Narrated by ${book.narrator}</span>
-          <span class="book-stats pointer">${timeLeft} left</span>
+          <span class="book-author">By ${book.author}</span>
+          <span class="book-narrator ">Narrated by ${book.narrator}</span>
+          <span class="book-stats">${timeLeft} left</span>
           <button class="btn more-vert-btn right"></button>
         </div>
         </div>
         <div class="book-reveal">
         <span class="menu-title">Menu</span>
         <button class="btn book-menu-close-btn right"></button>
-        <p class="pointer dlt-book-btn">Remove Book</p>
-        <p class="pointer edit-book-btn">Edit Book Details</p>
-        <p class="pointer summary-book-btn">View Book Summary</p>
-        <p class="pointer remove-ftag-btn">Remove Finished Tag</p>
+        <p class="dlt-book-btn">Remove Book</p>
+        <p class="edit-book-btn">Edit Book Details</p>
+        <p class="summary-book-btn">View Book Summary</p>
+        <p class="remove-ftag-btn">Remove Finished Tag</p>
         </div>
       </div>`
           );
         } else {
           libraryView.insertAdjacentHTML(
             "beforeend",
-            `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+            `<div class="book pointer" id="${book.bookId}" data-src="${book.filePath}">
           <div class="book-inner">
       <div class="book-image">
-        <img class="pointer" src="${book.cover}" />
+        <img src="${book.cover}" />
       </div>
       <div class="book-content">
-        <span class="book-title pointer"
+        <span class="book-title "
           >${book.title}</span
         >
-        <span class="book-author pointer">By ${book.author}</span>
-        <span class="book-narrator pointer">Narrated by ${book.narrator}</span>
-        <span class="book-stats pointer">${timeLeft} left</span>
+        <span class="book-author">By ${book.author}</span>
+        <span class="book-narrator ">Narrated by ${book.narrator}</span>
+        <span class="book-stats">${timeLeft} left</span>
         <button class="btn more-vert-btn right"></button>
       </div>
       </div>
       <div class="book-reveal">
       <span class="menu-title">Menu</span>
       <button class="btn book-menu-close-btn right"></button>
-      <p class="pointer dlt-book-btn">Remove Book</p>
-      <p class="pointer edit-book-btn">Edit Book Details</p>
-      <p class="pointer summary-book-btn">View Book Summary</p>
+      <p class="dlt-book-btn">Remove Book</p>
+      <p class="edit-book-btn">Edit Book Details</p>
+      <p class="summary-book-btn">View Book Summary</p>
       </div>
     </div>`
           );
@@ -219,10 +221,6 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
     let data = coverMetaString.replace(/^data:image\/\w+;base64,/, "");
     let buf = new Buffer(data, "base64");
     await fsExtra.outputFile(imgFilePath, buf);
-    setTimeout(() => {
-      store.set("books", library.books);
-      library.render();
-    }, 150);
   } catch (err) {
     console.error(err);
   }
@@ -231,30 +229,34 @@ async function baseDataToImageFile(coverMetaString, imgFilePath) {
 //Add Folder
 ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
   let isDuplicate = false;
+  console.log(bookObject);
   mm.parseFile(bookObject.playlist[0].filePath)
     .then(metadata => {
       let book = metadata.common;
 
-      let imgFilePath = path.join(
-        `${userDataPath}`,
-        "bookcovers",
-        `${book.title}.png`
-      );
-      let coverMetaString = `data:${
-        book.picture[0].format
-      };base64,${book.picture[0].data.toString("base64")}`;
+      if (book.picture) {
+        console.log("Something");
+        let imgFilePath = path.join(
+          `${userDataPath}`,
+          "bookcovers",
+          `${book.title}.png`
+        );
+        let coverMetaString = `data:${
+          book.picture[0].format
+        };base64,${book.picture[0].data.toString("base64")}`;
+        bookObject.cover = `${imgFilePath}`;
+        baseDataToImageFile(coverMetaString, imgFilePath);
+      }
 
       const metaDescription = book.description
         ? `${book.description}`
         : "Unfortunately no summary was included with the audio file.";
 
       bookObject.bookId = `${book.title}`;
-      bookObject.cover = `${imgFilePath}`;
       bookObject.title = `${book.title}`;
       bookObject.author = `${book.artist}`;
       bookObject.narrator = `${book.composer}`;
       bookObject.description = metaDescription;
-      baseDataToImageFile(coverMetaString, imgFilePath);
       return bookObject;
     })
     .then(bookObject => {
@@ -277,7 +279,11 @@ ipcRenderer.on("add-folder-dialog-reply", (event, bookObject) => {
     })
     .then(bookObject => {
       if (isDuplicate === false) {
-        library.books.push(bookObject);
+        setTimeout(() => {
+          library.books.push(bookObject);
+          store.set("books", library.books);
+          library.render();
+        }, 150);
       } else {
         alert(
           "A book with this name already exist in your library. If you still want to add it, please remove the old version and then try again."

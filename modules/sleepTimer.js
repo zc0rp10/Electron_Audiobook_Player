@@ -43,7 +43,7 @@ class SleepTimer {
   }
 
   displayTimeLeft(seconds) {
-    console.log({ seconds });
+    console.log(seconds);
   }
 
   set pauseAtChapterEnd(value) {
