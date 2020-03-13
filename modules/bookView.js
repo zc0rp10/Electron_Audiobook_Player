@@ -11,7 +11,7 @@ class BookView {
     this.uiSettings = store.get("uiSettings");
     this.changeUIColor();
   }
-  
+
   toggleSettings() {
     settingsView.classList.toggle("hidden");
   }
@@ -61,6 +61,16 @@ class BookView {
       bookViewChapter.textContent = "";
       chapterSelect.classList.add("none");
     }
+  }
+
+  changeBookCover(idOfBook, filePath) {
+    library.books.forEach(book => {
+      if (book.bookId === idOfBook) {
+        book.cover = filePath;
+      }
+      this.toggleEdit();
+      library.render();
+    });
   }
 
   renderChapterOptions() {

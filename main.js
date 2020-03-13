@@ -34,6 +34,17 @@ function createWindow() {
     }
   });
 
+  //Change Cover Id
+  ipcMain.on("change-cover-dialog", event => {
+    dialog
+      .showOpenDialog(mainWindow, {
+        properties: ["openFile"]
+      })
+      .then(result => {
+        event.reply("change-cover-dialog-reply", result.filePaths[0]);
+      });
+  });
+
   //Add Book (Single File) Dialog
   ipcMain.on("add-book-dialog", event => {
     dialog

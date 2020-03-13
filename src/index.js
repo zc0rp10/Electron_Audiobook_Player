@@ -50,6 +50,7 @@ const bookViewNarrator = $("book-view-narrator");
 const bookViewChapter = $("book-view-chapter");
 
 const editBookSubmit = $("edit-book-submit");
+const changeCoverBtn = $("change-cover-submit");
 const inputEditId = $("editId");
 const inputEditTitle = $("editTitle");
 const inputEditAuthor = $("editAuthor");
@@ -211,7 +212,16 @@ colorSelectBtns.forEach(btn =>
   btn.addEventListener("click", bookView.changeUIColor)
 );
 
+changeCoverBtn.addEventListener("click", () => {
+  ipcRenderer.send("change-cover-dialog");
+});
+
+ipcRenderer.on("change-cover-dialog-reply", (event, result) => {
+  bookView.changeBookCover(inputEditId.value, result);
+});
+
 sleepTimerBtn.addEventListener("click", e => {
+  //TODO: Move this into Book View/Sleeper
   bookView.toggleSleepTimerView();
   const adjustTop = sleepTimerView.getBoundingClientRect().height + 20;
   const adjustLeft = sleepTimerView.getBoundingClientRect().width / 2;

@@ -629,7 +629,8 @@ input[type="range"]::-webkit-slider-thumb {
   justify-content: space-between;
 }
 
-#edit-book-submit {
+#edit-book-submit,
+#change-cover-submit {
   background-color: var(--ui-highlight-color);
   border-color: var(--ui-highlight-color);
 }
