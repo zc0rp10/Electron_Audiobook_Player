@@ -205,7 +205,7 @@ body {
   width: 72px;
 }
 .menu-open {
-  width: 230px;
+  width: 260px;
 }
 
 /* Volume Slider*/
@@ -571,12 +571,13 @@ input[type="range"]::-webkit-slider-thumb {
 .book-title {
   font-weight: bold;
   font-size: 0.8rem;
-  display: inline-block;
+  display: block;
+  padding: 5px 0;
 }
 .book-author {
   color: #fff;
   font-size: 0.7rem;
-  display: inline-block;
+  display: block;
 }
 .book-narrator {
   color: #b3b3b3;
@@ -587,6 +588,7 @@ input[type="range"]::-webkit-slider-thumb {
   color: #fff;
   font-size: 0.7rem;
   display: inline-block;
+  padding-top: 5px;
 }
 /* Book View */
 #book-view-wrapper {
@@ -635,6 +637,11 @@ input[type="range"]::-webkit-slider-thumb {
   border-color: var(--ui-highlight-color);
 }
 
+#edit-book-submit:focus,
+#change-cover-submit:focus {
+  outline: none;
+}
+
 /* Sleep Timer Module */
 #sleep-timer-module {
   position: absolute;
@@ -658,4 +665,19 @@ input[type="range"]::-webkit-slider-thumb {
 
 #sleep-popup-title {
   margin: 0;
+}
+
+/* Scroll Bar*/
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #272727;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #808080;
 }
