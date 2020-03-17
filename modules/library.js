@@ -62,8 +62,8 @@ class Library {
         if (book.bookStatus === "finished") {
           libraryView.insertAdjacentHTML(
             "beforeend",
-            `<div class="book pointer" id="${book.bookId}" data-src="${book.filePath}">
-            <div class="book-inner">
+            `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+            <div class="book-inner pointer">
         <div class="book-image">
           <img src="${book.cover}" />
         </div>
@@ -80,18 +80,18 @@ class Library {
         <div class="book-reveal">
         <span class="menu-title">Menu</span>
         <button class="btn book-menu-close-btn right"></button>
-        <p class="dlt-book-btn">Remove Book</p>
-        <p class="edit-book-btn">Edit Book Details</p>
-        <p class="summary-book-btn">View Book Summary</p>
-        <p class="remove-ftag-btn">Remove Finished Tag</p>
+        <p class="dlt-book-btn pointer">Remove Book</p>
+        <p class="edit-book-btn pointer">Edit Book Details</p>
+        <p class="summary-book-btn pointer">View Book Summary</p>
+        <p class="remove-ftag-btn pointer">Remove Finished Tag</p>
         </div>
       </div>`
           );
         } else {
           libraryView.insertAdjacentHTML(
             "beforeend",
-            `<div class="book pointer" id="${book.bookId}" data-src="${book.filePath}">
-          <div class="book-inner">
+            `<div class="book" id="${book.bookId}" data-src="${book.filePath}">
+          <div class="book-inner pointer">
       <div class="book-image">
         <img src="${book.cover}" />
       </div>
@@ -100,17 +100,17 @@ class Library {
           >${book.title}</span
         >
         <span class="book-author">By ${book.author}</span>
-        <span class="book-narrator ">Narrated by ${book.narrator}</span>
+        <span class="book-narrator">Narrated by ${book.narrator}</span>
         <span class="book-stats">${timeLeft} left</span>
         <button class="btn more-vert-btn right"></button>
       </div>
       </div>
       <div class="book-reveal">
       <span class="menu-title">Menu</span>
-      <button class="btn book-menu-close-btn right"></button>
-      <p class="dlt-book-btn">Remove Book</p>
-      <p class="edit-book-btn">Edit Book Details</p>
-      <p class="summary-book-btn">View Book Summary</p>
+      <button class="btn book-menu-close-btn right pointer"></button>
+      <p class="dlt-book-btn pointer">Remove Book</p>
+      <p class="edit-book-btn pointer">Edit Book Details</p>
+      <p class="summary-book-btn pointer">View Book Summary</p>
       </div>
     </div>`
           );

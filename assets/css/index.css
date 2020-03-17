@@ -105,6 +105,7 @@ body {
   width: 24px;
   margin-right: 3px;
   display: inline-block;
+  cursor: pointer;
 }
 
 #red-box {
@@ -590,6 +591,13 @@ input[type="range"]::-webkit-slider-thumb {
   display: inline-block;
   padding-top: 5px;
 }
+
+.dlt-book-btn:hover,
+.edit-book-btn:hover,
+.summary-book-btn:hover {
+  color: var(--ui-highlight-color);
+}
+
 /* Book View */
 #book-view-wrapper {
   margin: 0 auto;
@@ -663,6 +671,10 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
 }
 
+.sleep-time:hover {
+  color: var(--ui-highlight-color);
+}
+
 #sleep-popup-title {
   margin: 0;
 }
@@ -672,12 +684,10 @@ input[type="range"]::-webkit-slider-thumb {
   width: 8px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #272727;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #808080;
 }
