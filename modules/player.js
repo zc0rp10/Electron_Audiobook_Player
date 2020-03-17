@@ -7,6 +7,7 @@ class Player {
     this.playlistIndex = Number;
     this.playerSettings = store.get("playerSettings");
     this.adjustVolume();
+    this._playbackRate = 1;
   }
 
   adjustVolume(e) {
@@ -26,6 +27,7 @@ class Player {
     this.audioPlayer.onended = () => this.trackEnded();
     this.audioPlayer.play();
     this.isPlaying = true;
+    this.audioPlayer.playbackRate = this.playbackRate;
     playPauseBtn.style.webkitMaskImage =
       "url(../assets/icons/pause_circle_outline-24px.svg)";
   }
@@ -97,6 +99,7 @@ class Player {
           this.selectedBook.bookStatus = "started";
         }
         bookView.update();
+        this.changePlaybackRate(1);
         this.play();
       }
     });
@@ -119,13 +122,18 @@ class Player {
     let step = parseFloat(e);
     let player = this.audioPlayer;
 
-    player.playbackRate = player.playbackRate + step;
-    if (player.playbackRate < 0.5) {
-      player.playbackRate = 0.5;
-    } else if (player.playbackRate > 2.5) {
-      player.playbackRate = 2.5;
+    if (e === 1) {
+      player.playbackRate = 1;
+    } else {
+      player.playbackRate = player.playbackRate + step;
+      if (player.playbackRate < 0.5) {
+        player.playbackRate = 0.5;
+      } else if (player.playbackRate > 2.5) {
+        player.playbackRate = 2.5;
+      }
     }
     playbackLabel.textContent = player.playbackRate.toFixed(2).toString() + "X";
+    this._playbackRate = player.playbackRate;
   };
 
   updateBookmark() {
@@ -154,6 +162,14 @@ class Player {
 
   get selectedBook() {
     return this._selectedBook;
+  }
+
+  set playbackRate(value) {
+    this._playbackRate = value;
+  }
+
+  get playbackRate() {
+    return this._playbackRate;
   }
 }
 
